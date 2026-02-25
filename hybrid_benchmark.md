@@ -367,6 +367,7 @@ Benchmarks pure sparse vector search against Endee using the [NeurIPS 2023](http
 ```bash
 cd sparse-vectors-benchmark
 python main.py \
+  [--vector-db endee] \
   --endee-token <TOKEN> \
   [--endee-base-url http://51.89.231.115:8080/api/v1] \
   [--skip-creation true] \
@@ -386,6 +387,7 @@ python main.py \
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
+| `--vector-db` | No | `endee` | Target vector DB; omit or pass `endee` explicitly to use this benchmark |
 | `--endee-token` | No | — | Endee API token |
 | `--endee-base-url` | No | `https://dev.endee.io/api/v1` | Endee base URL |
 | `--skip-creation` | No | `true` | Skip index creation and data upload; set `false` to create index and upload data |
@@ -417,26 +419,125 @@ python main.py \
 **Examples**
 ```bash
 # First run: create index and upload small dataset
-python main.py \
+python main.py --vector-db endee \
   --endee-token mytoken \
   --skip-creation false \
   --dataset small
 
 # Subsequent runs: skip creation, query only
-python main.py \
+python main.py --vector-db endee \
   --endee-token mytoken \
   --dataset small \
   --concurrency 4 \
   --async-concurrency 10
 
 # 1M dataset with ground truth check and fixed y-axis for comparison
-python main.py \
+python main.py --vector-db endee \
   --endee-token mytoken \
   --dataset 1M \
   --check-ground-truth true \
   --graph-y-range "0 500" \
   --concurrency 4
 ```
+
+---
+
+## Qdrant Sparse-Only Benchmark (`sparse-vectors-benchmark/`)
+
+> **Environment: index-env**
+
+Benchmarks pure sparse vector search against **Qdrant** using the same NeurIPS 2023 MSMARCO sparse dataset as the Endee sparse benchmark. Select it by passing `--vector-db qdrant` to `main.py`.
+
+> **URL format difference:** Qdrant takes only the **IP address or hostname** via `--base-url`. The client connects on port `6333` (gRPC) and `6333` (REST for telemetry) automatically. Do **not** include a port or path — contrast this with Endee's `--endee-base-url` which takes a full URL including port and path.
+
+**Command**
+```bash
+cd sparse-vectors-benchmark
+python main.py --vector-db qdrant \
+  [--base-url 51.89.231.115] \
+  [--skip-creation true] \
+  [--dataset small] \
+  [--slow-ms 500] \
+  [--search-limit 10] \
+  [--data-path ./data] \
+  [--results-path ./results] \
+  [--segment-number 8] \
+  [--analyze-data false] \
+  [--check-ground-truth false] \
+  [--graph-y-range "0 500"] \
+  [--upsert-batch-size 1000] \
+  [--parallel-batch-upsert 1] \
+  [--on-disk-index false] \
+  [--concurrency 1] \
+  [--async-concurrency 10]
+```
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--vector-db` | **Yes** | `endee` | Must be `qdrant` to route to this benchmark |
+| `--base-url` | No | `localhost` | IP address or hostname of the Qdrant server — **no port, no path** (e.g. `51.89.231.115`) |
+| `--skip-creation` | No | `true` | Skip collection creation and data upload; set `false` to create collection and upload data |
+| `--dataset` | No | `small` | Dataset size: `small` (100k), `1M` (1M), `full` (8.8M) |
+| `--slow-ms` | No | `500` | Print a warning for any query exceeding this latency (ms) |
+| `--search-limit` | No | `10` | Top-k results to retrieve per query |
+| `--data-path` | No | `./data` | Directory where dataset files are downloaded and cached |
+| `--results-path` | No | `./results` | Directory where result plots are saved |
+| `--segment-number` | No | `8` | Number of Qdrant collection segments (Qdrant-specific, no Endee equivalent) |
+| `--analyze-data` | No | `false` | Print dataset stats and posting list distribution |
+| `--check-ground-truth` | No | `false` | Compare results against ground-truth file and compute recall |
+| `--graph-y-range` | No | auto | Fix the y-axis range of the output plot, e.g. `"0 500"` |
+| `--upsert-batch-size` | No | `1000` | Vectors per upsert batch during collection creation |
+| `--parallel-batch-upsert` | No | `1` | Number of parallel batch upsert workers (Qdrant-specific, no Endee equivalent) |
+| `--on-disk-index` | No | `false` | Store the sparse index on disk instead of RAM (Qdrant-specific, no Endee equivalent) |
+| `--concurrency` | No | `1` | Number of parallel worker processes for querying |
+| `--async-concurrency` | No | `10` | Concurrent async queries per worker |
+
+**Datasets** (same as Endee sparse benchmark — auto-downloaded from Google Storage if not present)
+
+| `--dataset` | Vectors | Download size |
+|---|---|---|
+| `small` | 100,000 | 64 MB |
+| `1M` | 1,000,000 | 636 MB |
+| `full` | 8,841,823 | 5.5 GB |
+
+**Output**
+- Console: latency percentiles (min, p50, p95, p99, p99.9, max), total time, recall (if `--check-ground-truth true`)
+- Plot saved to `<results-path>/sparse_bench_<dataset>_<timestamp>.png` — 2D histogram of query dimension count vs latency
+
+**Examples**
+```bash
+# First run: create collection and upload small dataset
+python main.py --vector-db qdrant \
+  --base-url 51.89.231.115 \
+  --skip-creation false \
+  --dataset small
+
+# Subsequent runs: skip creation, query only
+python main.py --vector-db qdrant \
+  --base-url 51.89.231.115 \
+  --dataset small \
+  --concurrency 4 \
+  --async-concurrency 10
+
+# 1M dataset with ground truth check and fixed y-axis
+python main.py --vector-db qdrant \
+  --base-url 51.89.231.115 \
+  --dataset 1M \
+  --check-ground-truth true \
+  --graph-y-range "0 500" \
+  --concurrency 4
+```
+
+**Endee vs Qdrant flag comparison**
+
+| Concern | Endee flag | Qdrant flag |
+|---|---|---|
+| Server address | `--endee-base-url http://IP:PORT/api/v1` | `--base-url IP` (host only) |
+| Auth token | `--endee-token <TOKEN>` | *(not required)* |
+| Index segments | *(not available)* | `--segment-number 8` |
+| Parallel upsert workers | *(not available)* | `--parallel-batch-upsert 1` |
+| On-disk index | *(not available)* | `--on-disk-index false` |
+| Failed upsert retries | `--max-retries 5` | *(not available)* |
 
 ---
 

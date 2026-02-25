@@ -7,3 +7,4 @@ click==8.1.7
 matplotlib==3.9.2
 requests==2.32.3
 scipy==1.14.1
+qdrant-client==1.12.0
