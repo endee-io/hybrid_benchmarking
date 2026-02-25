@@ -1,0 +1,7 @@
+.idea
+*.iml
+.python-version
+/venv
+/data
+/results
+**/__pycache__
