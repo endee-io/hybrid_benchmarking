@@ -450,6 +450,35 @@ Benchmarks pure sparse vector search against **Qdrant** using the same NeurIPS 2
 
 > **URL format difference:** Qdrant takes only the **IP address or hostname** via `--base-url`. The client connects on port `6333` (gRPC) and `6333` (REST for telemetry) automatically. Do **not** include a port or path — contrast this with Endee's `--endee-base-url` which takes a full URL including port and path.
 
+### Starting the Qdrant Server (Docker)
+
+**Step 1 — Pull the Qdrant image**
+```bash
+docker pull qdrant/qdrant
+```
+
+**Step 2 — Create a local storage directory**
+```bash
+mkdir -p ~/qdrant_storage
+```
+
+**Step 3 — Run the container**
+```bash
+docker run -d \
+  --name qdrant \
+  -p 6333:6333 \
+  -p 6334:6334 \
+  -v /home/debian/qdrant_storage:/qdrant/storage \
+  qdrant/qdrant
+```
+
+> **Note:** Replace `/home/debian/qdrant_storage` in the `-v` mount with the **absolute path to your local storage directory** (e.g. `~/qdrant_storage` expands to `/home/<your-user>/qdrant_storage`). This is where Qdrant persists collection data between container restarts.
+
+| Port | Protocol | Usage |
+|---|---|---|
+| `6333` | REST / gRPC | Client queries and upserts (used by the benchmark) |
+| `6334` | gRPC | Internal gRPC (exposed for completeness) |
+
 **Command**
 ```bash
 cd sparse-vectors-benchmark
