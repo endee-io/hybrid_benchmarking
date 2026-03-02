@@ -378,13 +378,13 @@ def sparse_vector_benchmark(
                 result = results[j]
                 result_score = result["similarity"]
                 expected_score = float(expected_scores[j])
-                if not compare_floats_percentage(result_score, expected_score, 1):
-                    print(f"GT score mismatch vector:{query_idx} result:{j}/{search_limit}: {result_score} != {expected_score}")
+                # if not compare_floats_percentage(result_score, expected_score, 1):
+                #     print(f"GT score mismatch vector:{query_idx} result:{j}/{search_limit}: {result_score} != {expected_score}")
                 result_id = int(result["id"])
                 result_ids.add(result_id)
                 expected_id = expected_ids[j]
-                if result_id != expected_id:
-                    print(f"GT id mismatch vector:{query_idx} result:{j}/{search_limit}: {result_id} != {expected_id}")
+                # if result_id != expected_id:
+                #     print(f"GT id mismatch vector:{query_idx} result:{j}/{search_limit}: {result_id} != {expected_id}")
             expected_id_set = set(expected_ids[:search_limit])
             hits = len(result_ids & expected_id_set)
             recall = hits / len(expected_id_set) if expected_id_set else 0.0
