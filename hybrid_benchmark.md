@@ -188,9 +188,13 @@ python endee_indexing.py \
 ### 3. `endee_delete_insert.py`
 > **Environment: index-env**
 
-Deletes a subset of vectors from an Endee index and reinserts them from the JSONL file. Supports ground-truth filtering before applying the selection mode.
+Deletes a subset of vectors from an Endee index and reinserts them. Supports two data source modes:
+- **Hybrid / dense mode** (default): reads vectors from a JSONL embeddings file
+- **Sparse-only mode** (`--sparse-only`): reads vectors from a `.csr` binary file (NeurIPS sparse benchmark format); uses a dummy dense vector `[0.1] * 10` for API compatibility, same as the sparse benchmark
 
-**Command**
+Supports ground-truth filtering before applying the selection mode in both modes.
+
+**Command — hybrid/dense (JSONL)**
 ```bash
 python endee_delete_insert.py \
   --index_name <INDEX_NAME> \
@@ -206,10 +210,27 @@ python endee_delete_insert.py \
   [--verify-delete]
 ```
 
+**Command — sparse-only (CSR)**
+```bash
+python endee_delete_insert.py \
+  --index_name <INDEX_NAME> \
+  --sparse-only \
+  --csr-path <PATH.csr> \
+  [--token 12345678] \
+  [--base-url https://dev.endee.io/api/v1] \
+  [--delete-percentage 10] \
+  [--mode random] \
+  [--batch-size 1000] \
+  [--skip-reinsert false] \
+  [--verify-delete]
+```
+
 | Flag | Required | Default | Description |
 |---|---|---|---|
 | `--index_name` | **Yes** | — | Name of the Endee index |
-| `--jsonl_path` | **Yes** | — | Path to the corpus JSONL embeddings file  created during embeddin_creation.py|
+| `--jsonl_path` | Yes (hybrid mode) | — | Path to the corpus JSONL embeddings file created during `embedding_creation.py`; required unless `--sparse-only` is set |
+| `--sparse-only` | No | `false` | Switch to sparse-only mode: load IDs and vectors from a `.csr` file instead of JSONL |
+| `--csr-path` | Yes (sparse mode) | — | Path to the `.csr` data file; required when `--sparse-only` is set |
 | `--token` | No | `12345678` | Endee API token |
 | `--base-url` | No | `https://dev.endee.io/api/v1` | Endee base URL |
 | `--delete-percentage` | No | `10` | Percentage of vectors to delete from the candidate pool |
@@ -221,18 +242,18 @@ python endee_delete_insert.py \
 | `--verify-delete` | No | `false` | After deletion, verify each deleted ID is gone from the index |
 
 **Selection flow**
-1. Load all record IDs from JSONL
+1. Load all record IDs — from JSONL (hybrid) or CSR row count (sparse-only)
 2. *(Optional)* Narrow pool with `--gt-filter` using `--ground-truth-file`
 3. Apply `--mode` + `--delete-percentage` to the pool
 
 **Examples**
 ```bash
-# Delete random 10% of all vectors and reinsert
+# Hybrid: delete random 10% of all vectors and reinsert
 python endee_delete_insert.py \
   --index_name quora_index \
   --jsonl_path quora_embeddings.jsonl
 
-# Delete last 30% of non-ground-truth vectors
+# Hybrid: delete last 30% of non-ground-truth vectors
 python endee_delete_insert.py \
   --index_name quora_index \
   --jsonl_path quora_embeddings.jsonl \
@@ -240,10 +261,24 @@ python endee_delete_insert.py \
   --ground-truth-file quora/unique_doc_ids.txt \
   --mode last-n-percent --delete-percentage 30
 
-# Delete only, skip reinsert
+# Hybrid: delete only, skip reinsert
 python endee_delete_insert.py \
   --index_name quora_index \
   --jsonl_path quora_embeddings.jsonl \
+  --skip-reinsert true
+
+# Sparse-only: delete random 10% and reinsert from CSR
+python endee_delete_insert.py \
+  --index_name neurIPS_sparse_bench \
+  --sparse-only \
+  --csr-path sparse-vectors-benchmark/data/base_small.csr
+
+# Sparse-only: delete last 20%, skip reinsert
+python endee_delete_insert.py \
+  --index_name neurIPS_sparse_bench \
+  --sparse-only \
+  --csr-path sparse-vectors-benchmark/data/base_small.csr \
+  --mode last-n-percent --delete-percentage 20 \
   --skip-reinsert true
 ```
 

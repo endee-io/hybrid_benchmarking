@@ -5,8 +5,25 @@ import random
 import time
 from typing import List, Set
 
+import numpy as np
+from scipy.sparse import csr_matrix
+
 from endee import Endee
 from tqdm import tqdm
+
+DUMMY_DENSE_DIM = 10
+DUMMY_DENSE_VECTOR = [0.1] * DUMMY_DENSE_DIM
+
+
+def _read_csr_matrix(path: str) -> csr_matrix:
+    """Read a .csr file in spmat format (NeurIPS sparse benchmark format)."""
+    with open(path, "rb") as f:
+        sizes = np.fromfile(f, dtype="int64", count=3)
+        nrow, ncol, nnz = sizes
+        indptr = np.fromfile(f, dtype="int64", count=nrow + 1)
+        indices = np.fromfile(f, dtype="int32", count=nnz)
+        data = np.fromfile(f, dtype="float32", count=nnz)
+    return csr_matrix((data, indices, indptr), shape=(int(nrow), int(ncol)))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -129,16 +146,30 @@ class EndeeDeleteInsert:
             "delete_accuracy_pct": round(accuracy, 2),
         }
 
+    def load_ids_from_csr(self, csr_path: str) -> List[str]:
+        """Return all record IDs for a sparse-only index.
+
+        IDs are the string row-indices (0, 1, 2, …) of the CSR matrix.
+        Only the header is read so this is fast even for large files.
+        """
+        with open(csr_path, "rb") as f:
+            nrow = int(np.fromfile(f, dtype="int64", count=1)[0])
+        all_ids = [str(i) for i in range(nrow)]
+        logger.info("Sparse CSR '%s' has %d rows → %d IDs", csr_path, nrow, len(all_ids))
+        return all_ids
+
     def reinsert_vectors(
         self,
-        jsonl_path: str,
         ids_to_delete: List[str],
+        jsonl_path: str = None,
+        csr_path: str = None,
         batch_size: int = 1000,
         max_retries: int = 5,
     ) -> dict:
-        """Scan JSONL and reinsert all vectors whose IDs appear in ids_to_delete."""
-        target_ids: Set[str] = set(str(i) for i in ids_to_delete)
-        found_ids: Set[str] = set()
+        """Reinsert vectors whose IDs appear in ids_to_delete.
+
+        Pass jsonl_path for hybrid/dense indexes or csr_path for sparse-only indexes.
+        """
         batch = []
         upsert_times = []
         reinsert_count = 0
@@ -162,48 +193,70 @@ class EndeeDeleteInsert:
             batch.clear()
 
         start = time.perf_counter()
-        with open(jsonl_path, "r") as f:
-            for line in tqdm(f, desc="Scanning JSONL"):
-                record = json.loads(line)
-                if str(record["id"]) not in target_ids:
-                    del record
-                    continue
-                found_ids.add(str(record["id"]))
-                sv = record.get("sparse_vector", {})
-                batch.append({
-                    "id": record["id"],
-                    "vector": record["dense_vector"],
-                    "sparse_indices": sv.get("indices", []),
-                    "sparse_values": sv.get("values", []),
-                    "meta": {
-                        "text": record["meta"]["text"],
-                        "id": record["id"],
-                    },
-                })
-                del record, sv
 
+        if csr_path:
+            # Sparse-only mode: IDs are row indices; load matrix and index directly
+            logger.info("Loading CSR matrix from '%s' …", csr_path)
+            data = _read_csr_matrix(csr_path)
+            for row_idx in tqdm(sorted(int(i) for i in ids_to_delete), desc="Reinserting sparse vectors"):
+                row = data[row_idx]
+                batch.append({
+                    "id": str(row_idx),
+                    "vector": DUMMY_DENSE_VECTOR,
+                    "sparse_indices": row.indices.tolist(),
+                    "sparse_values": row.data.tolist(),
+                    "meta": {"point_id": row_idx},
+                })
                 if len(batch) >= batch_size:
                     flush_batch(batch)
-
-                if len(found_ids) == len(target_ids):
-                    break
+            not_found = 0
+            scan_time = 0.0
+        else:
+            # JSONL mode: scan file and match by ID
+            target_ids: Set[str] = set(str(i) for i in ids_to_delete)
+            found_ids: Set[str] = set()
+            with open(jsonl_path, "r") as f:
+                for line in tqdm(f, desc="Scanning JSONL"):
+                    record = json.loads(line)
+                    if str(record["id"]) not in target_ids:
+                        del record
+                        continue
+                    found_ids.add(str(record["id"]))
+                    sv = record.get("sparse_vector", {})
+                    batch.append({
+                        "id": record["id"],
+                        "vector": record["dense_vector"],
+                        "sparse_indices": sv.get("indices", []),
+                        "sparse_values": sv.get("values", []),
+                        "meta": {
+                            "text": record["meta"]["text"],
+                            "id": record["id"],
+                        },
+                    })
+                    del record, sv
+                    if len(batch) >= batch_size:
+                        flush_batch(batch)
+                    if len(found_ids) == len(target_ids):
+                        break
+            not_found = len(target_ids - found_ids)
+            scan_time = None  # computed below
 
         if batch:
             flush_batch(batch)
 
         elapsed = time.perf_counter() - start
         total_upsert = sum(upsert_times)
-        scan_time = elapsed - total_upsert
 
         summary = {
             "reinserted": reinsert_count,
             "failed": reinsert_fail,
-            "not_found_in_jsonl": len(target_ids - found_ids),
             "total_elapsed_sec": round(elapsed, 2),
-            "scan_time_sec": round(scan_time, 2),
             "upsert_time_sec": round(total_upsert, 2),
             "num_batches": len(upsert_times),
         }
+        if not csr_path:
+            summary["not_found_in_jsonl"] = not_found
+            summary["scan_time_sec"] = round(elapsed - total_upsert, 2)
         if upsert_times:
             summary["upsert_per_batch"] = {
                 "min_sec": round(min(upsert_times), 2),
@@ -212,15 +265,19 @@ class EndeeDeleteInsert:
             }
 
         logger.info(
-            "Reinsert complete — reinserted: %d  failed: %d  not found: %d  time: %.2fs",
-            reinsert_count, reinsert_fail, summary["not_found_in_jsonl"], elapsed,
+            "Reinsert complete — reinserted: %d  failed: %d  time: %.2fs",
+            reinsert_count, reinsert_fail, elapsed,
         )
         return summary
 
 def main():
-    parser = argparse.ArgumentParser(description="Delete and reinsert Endee vectors from a JSONL file.")
+    parser = argparse.ArgumentParser(description="Delete and reinsert Endee vectors from a JSONL or CSR file.")
     parser.add_argument("--index_name",    help="Name of the Endee index")
-    parser.add_argument("--jsonl_path",    help="Path to the JSONL embeddings file")
+    parser.add_argument("--jsonl_path",    help="Path to the JSONL embeddings file (hybrid/dense indexes)")
+    parser.add_argument("--sparse-only",   action="store_true", default=False,
+                        help="Use sparse-only mode: load IDs and vectors from a .csr file")
+    parser.add_argument("--csr-path",      default=None,
+                        help="Path to the .csr data file (required when --sparse-only is set)")
     parser.add_argument("--token",       default="12345678",  help="Endee API token (default: 12345678)")
     parser.add_argument("--base-url",    default=DEV_PATH,    help=f"Endee base URL (default: {DEV_PATH})")
     parser.add_argument("--delete-percentage", type=int, default=10,
@@ -234,10 +291,14 @@ def main():
     parser.add_argument("--batch-size",  type=int, default=1000, help="Reinsert batch size (default: 1000)")
     parser.add_argument("--skip-reinsert", type=lambda x: x.lower() != "false", default=False,
                         help="Skip reinsertion after deletion (default: false)")
-    parser.add_argument("--verify-delete", action="store_true", default=False,
+    parser.add_argument("--verify-delete", type=lambda x: x.lower() == "true", default=False,
                         help="Verify deletions after delete step (default: false)")
     args = parser.parse_args()
 
+    if args.sparse_only and not args.csr_path:
+        parser.error("--sparse-only requires --csr-path")
+    if not args.sparse_only and not args.jsonl_path:
+        parser.error("--jsonl_path is required unless --sparse-only is set")
     if args.gt_filter and not args.ground_truth_file:
         parser.error("--gt-filter requires --ground-truth-file")
 
@@ -247,7 +308,11 @@ def main():
         index_name=args.index_name,
     )
 
-    all_record_ids = edi.load_all_record_ids(args.jsonl_path)
+    # Load IDs from the appropriate source
+    if args.sparse_only:
+        all_record_ids = edi.load_ids_from_csr(args.csr_path)
+    else:
+        all_record_ids = edi.load_all_record_ids(args.jsonl_path)
 
     # Optionally narrow the candidate pool using ground-truth filter
     if args.gt_filter:
@@ -274,8 +339,9 @@ def main():
 
     if not args.skip_reinsert:
         edi.reinsert_vectors(
-            jsonl_path=args.jsonl_path,
             ids_to_delete=ids_to_delete,
+            jsonl_path=args.jsonl_path if not args.sparse_only else None,
+            csr_path=args.csr_path if args.sparse_only else None,
             batch_size=args.batch_size,
         )
 
