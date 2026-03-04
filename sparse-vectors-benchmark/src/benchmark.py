@@ -400,6 +400,7 @@ def sparse_vector_benchmark(
     print(f"999p:  {round(quantiles[4], 2)} millis")
     print(f"max:   {round(quantiles[5], 2)} millis")
     print(f"total: {round(total_query_time_sec, 2)} seconds ({query_count} queries)")
+    print(f"QPS: {round(query_count/total_query_time_sec, 2)}")
     print("")
 
     if check_ground_truth and recall_scores:
