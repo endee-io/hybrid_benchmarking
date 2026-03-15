@@ -30,6 +30,7 @@ class EndeeIndexing:
         dimension: int,
         space_type: str = "cosine",
         sparse_dim: int = 30522,
+        sparse_scoring_model: str = "default",
         precision: str = "float32",
     ):
         result = self.vx.create_index(
@@ -37,6 +38,7 @@ class EndeeIndexing:
             dimension=dimension,
             space_type=space_type,
             sparse_dim=sparse_dim,
+            sparse_scoring_model=sparse_scoring_model,
             precision=precision,
         )
         logger.info("Index '%s' created", name)
@@ -101,6 +103,8 @@ class EndeeIndexing:
             ):
                 logger.warning("Skipping %s: invalid sparse indices/values", pid_raw)
                 continue
+            if len(sv["indices"]) == 0:
+                logger.warning("Record %s has empty sparse vector, inserting dense only", pid_raw)
             batch.append(rec)
             if len(batch) >= batch_size:
                 yield batch
@@ -204,6 +208,11 @@ def main():
     parser.add_argument("--dimension", type=int, default=384, help="Dense vector dimension (default: 384)")
     parser.add_argument("--space-type", default="cosine", help="Distance metric: cosine, dot, euclidean (default: cosine)")
     parser.add_argument("--sparse-dim", type=int, default=30522, help="Sparse vector dimension (default: 30522)")
+    parser.add_argument(
+        "--sparse-scoring-model",
+        default="default",
+        help="Sparse scoring model to use, e.g. default or endee_bm25_server_idf (default: default)",
+    )
     parser.add_argument("--precision", default="float32", help="Vector precision: float32, float16 (default: float32)")
     parser.add_argument("--cache-dir", default=None, help="Local cache directory for HuggingFace datasets (default: HF default cache)")
     args = parser.parse_args()
@@ -215,6 +224,7 @@ def main():
             dimension=args.dimension,
             space_type=args.space_type,
             sparse_dim=args.sparse_dim,
+            sparse_scoring_model=args.sparse_scoring_model,
             precision=args.precision,
         )
     ei.index_from_jsonl(
