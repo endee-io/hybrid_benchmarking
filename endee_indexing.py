@@ -29,14 +29,14 @@ class EndeeIndexing:
         name: str,
         dimension: int,
         space_type: str = "cosine",
-        sparse_dim: int = 30522,
+        sparse_model: str = "default",
         precision: str = "float32",
     ):
         result = self.vx.create_index(
             name=name,
             dimension=dimension,
             space_type=space_type,
-            sparse_dim=sparse_dim,
+            sparse_model=sparse_model,
             precision=precision,
         )
         logger.info("Index '%s' created", name)
@@ -101,6 +101,8 @@ class EndeeIndexing:
             ):
                 logger.warning("Skipping %s: invalid sparse indices/values", pid_raw)
                 continue
+            if len(sv["indices"]) == 0:
+                logger.warning("Record %s has empty sparse vector, inserting dense only", pid_raw)
             batch.append(rec)
             if len(batch) >= batch_size:
                 yield batch
@@ -115,48 +117,51 @@ class EndeeIndexing:
         batch_size: int = 1000,
         max_retries: int = 15,
         cache_dir: str = None,
-    ):
-        index = self.get_index(index_name)
-        dataset = load_dataset(
-            "json", data_files=jsonl_path, split="train", streaming=False, cache_dir=cache_dir
-        )
-        batches = self._streaming_batches(dataset, batch_size)
-        upsert_times: List[float] = []
-        total_inserted = 0
-        start_time = time.perf_counter()
+    ): 
+        try:
+            index = self.get_index(index_name)
+            dataset = load_dataset(
+                "json", data_files=jsonl_path, split="train", streaming=False, cache_dir=cache_dir
+            )
+            batches = self._streaming_batches(dataset, batch_size)
+            upsert_times: List[float] = []
+            total_inserted = 0
+            start_time = time.perf_counter()
 
-        for _, batch in enumerate(tqdm.tqdm(batches, unit="batch"), start=1):
-            points = []
-            for rec in batch:
-                pid_raw = rec["meta"].get("id") or rec.get("id")
-                points.append({
-                    "id": str(pid_raw),
-                    "vector": rec["dense_vector"],
-                    "sparse_indices": rec["sparse_vector"]["indices"],
-                    "sparse_values": rec["sparse_vector"]["values"],
-                    "meta": {
-                        "text": rec["meta"]["text"],
-                        "id": pid_raw,
-                    },
-                })
-            t0 = time.perf_counter()
-            for attempt in range(max_retries):
-                try:
-                    index.upsert(points)
-                    break
-                except Exception as e:
-                    print(f"⚠️ Server busy (attempt {attempt+1}/{max_retries}): {e}")
-                    if attempt < max_retries - 1:
-                        time.sleep(1.5)
-                    else:
-                        raise
-            upsert_times.append((time.perf_counter() - t0) * 1000)
-            total_inserted += len(points)
+            for _, batch in enumerate(tqdm.tqdm(batches, unit="batch"), start=1):
+                points = []
+                for rec in batch:
+                    pid_raw = rec["meta"].get("id") or rec.get("id")
+                    points.append({
+                        "id": str(pid_raw),
+                        "vector": rec["dense_vector"],
+                        "sparse_indices": rec["sparse_vector"]["indices"],
+                        "sparse_values": rec["sparse_vector"]["values"],
+                        "meta": {
+                            "text": rec["meta"]["text"],
+                            "id": pid_raw,
+                        },
+                    })
+                t0 = time.perf_counter()
+                for attempt in range(max_retries):
+                    try:
+                        index.upsert(points)
+                        break
+                    except Exception as e:
+                        print(f"⚠️ Server busy (attempt {attempt+1}/{max_retries}): {e}")
+                        if attempt < max_retries - 1:
+                            time.sleep(1.5)
+                        else:
+                            raise
+                upsert_times.append((time.perf_counter() - t0) * 1000)
+                total_inserted += len(points)
 
-        total_time_sec = time.perf_counter() - start_time
-        logger.info("Indexing complete in %.2f seconds", total_time_sec)
+            total_time_sec = time.perf_counter() - start_time
+            logger.info("Indexing complete in %.2f seconds", total_time_sec)
 
-        self._save_index_performance(index_name, upsert_times, total_inserted, total_time_sec, batch_size)
+            self._save_index_performance(index_name, upsert_times, total_inserted, total_time_sec, batch_size)
+        except Exception as e:
+            print("The error is,",{e})
 
     def _save_index_performance(
         self,
@@ -204,6 +209,11 @@ def main():
     parser.add_argument("--dimension", type=int, default=384, help="Dense vector dimension (default: 384)")
     parser.add_argument("--space-type", default="cosine", help="Distance metric: cosine, dot, euclidean (default: cosine)")
     parser.add_argument("--sparse-dim", type=int, default=30522, help="Sparse vector dimension (default: 30522)")
+    parser.add_argument(
+        "--sparse-scoring-model",
+        default="default",
+        help="Sparse scoring model to use, e.g. default or endee_bm25_server_idf (default: default)",
+    )
     parser.add_argument("--precision", default="float32", help="Vector precision: float32, float16 (default: float32)")
     parser.add_argument("--cache-dir", default=None, help="Local cache directory for HuggingFace datasets (default: HF default cache)")
     args = parser.parse_args()
@@ -214,7 +224,7 @@ def main():
             name=args.index_name,
             dimension=args.dimension,
             space_type=args.space_type,
-            sparse_dim=args.sparse_dim,
+            sparse_model=args.sparse_scoring_model,
             precision=args.precision,
         )
     ei.index_from_jsonl(
