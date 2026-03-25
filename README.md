@@ -213,139 +213,60 @@ python main.py \
 
 ---
 
-## Qdrant
-
-### Starting the Qdrant server (Docker)
-
-```bash
-# Pull image
-docker pull qdrant/qdrant
-
-# Create storage directory
-mkdir -p ~/qdrant_storage
-
-# Run container
-docker run -d \
-  --name qdrant \
-  -p 6333:6333 \
-  -p 6334:6334 \
-  -v ~/qdrant_storage:/qdrant/storage \
-  qdrant/qdrant
-```
-
-> Replace `~/qdrant_storage` with an absolute path (e.g. `/home/debian/qdrant_storage`).
-
-Verify Qdrant is running and accessible:
-```bash
-curl http://<host>:6333/collections
-```
-
-```
-
-### Qdrant-specific flags
-
-**Connection**
-
-| Flag | Default | Description |
-|---|---|---|
-| `--host` | `localhost` | Qdrant server hostname or IP address |
-| `--port` | `6333` | REST port |
-
-**Query**
-
-| Flag | Default | Description |
-|---|---|---|
-| `--query-mode` | `hybrid` | `hybrid` — dense + sparse with RRF fusion · `sparse` — sparse-only |
-| `--modifier` | `none` | Sparse scoring modifier: `none` or `idf` (BM25 IDF weighting) |
-
-**Advanced** *(rarely need to change)*
-
-| Flag | Default | Description |
-|---|---|---|
-| `--sparse-vector-name` | `sparse` | Sparse vector field name in the collection |
-| `--dense-vector-name` | `dense` | Dense vector field name in the collection |
-| `--on-disk-index` | `true` | Store sparse index on disk instead of RAM |
-| `--segment-number` | `8` | Number of collection segments |
-
-### Full run — hybrid mode (index + query + validation)
-
-```bash
-python main.py \
-  --db qdrant \
-  --index-name quora_bench \
-  --dataset-name quora \
-  --testcycle testcycle1 \
-  --concurrency 16 \
-  --async-concurrency 5 \
-  --top-k 10 \
-  --host 139.99.218.208 \
-  --port 6333 \
-  --query-mode hybrid \
-  --modifier idf \
-  --validation-env ~/validation-env
-```
-
-### Full run — sparse-only mode
-
-```bash
-python main.py \
-  --db qdrant \
-  --index-name quora_bench \
-  --dataset-name quora \
-  --testcycle testcycle1 \
-  --concurrency 16 \
-  --async-concurrency 5 \
-  --top-k 10 \
-  --host 139.99.218.208 \
-  --port 6333 \
-  --query-mode sparse \
-  --modifier idf \
-  --validation-env ~/validation-env
-```
-
-### Skip indexing (query + validate only)
-
-```bash
-python main.py \
-  --db qdrant \
-  --index-name quora_bench \
-  --dataset-name quora \
-  --testcycle testcycle1 \
-  --concurrency 16 \
-  --host 139.99.218.208 \
-  --skip-indexing \
-  --validation-env ~/validation-env
-```
-
-### Query only (no validation)
-
-```bash
-python main.py \
-  --db qdrant \
-  --index-name quora_bench \
-  --dataset-name quora \
-  --testcycle testcycle1 \
-  --concurrency 16 \
-  --host 139.99.218.208 \
-  --skip-indexing \
-  --skip-validation
-```
-
----
-
 ## Typical end-to-end workflow
 
 ```
-[index-env]
-1. embedding_creation.py  →  data/<dataset>/*.npy
+[validation-env]
+1. embedding_creation_v2.py   →  data/<dataset>/*.npy
 
 [index-env]
 2. python main.py --db <endee|qdrant> ...   →  indexing + querying + validation in one command
    Output: dbs/<db>/test/<testcycle>/concurrency<N>/
-             ├── indexing_performance.json
-             ├── merged_results.json
-             ├── summary.json
-             └── detailed_logs.json
 ```
 
+To sweep concurrency levels across a single indexed collection:
+```bash
+for c in 4 8 16 32; do
+  python main.py \
+    --db qdrant \
+    --index-name quora_bench \
+    --dataset-name quora \
+    --testcycle testcycle1 \
+    --concurrency $c \
+    --host 139.99.218.208 \
+    --skip-indexing \
+    --validation-env ~/validation-env
+done
+```
+
+---
+
+## Adding a new DB
+
+1. **Create `dbs/<dbname>/__init__.py`** — empty file
+
+2. **Create `dbs/<dbname>/db.py`** — implement `HybridDB` from `interface.py`:
+
+   | Method | What to implement |
+   |---|---|
+   | `init(index_name, dimension, space_type, create)` | Connect to DB; create collection/index if `create=True` |
+   | `index_batch(points)` | Upsert a list of `{id, vector, sparse_indices, sparse_values, meta}` dicts; include retry logic |
+   | `search(dense_vector, sparse_indices, sparse_values, top_k)` | Run query; return `[{"id": str, "score": float}]` |
+   | `list_indices()` | Return list of existing index/collection names |
+   | `add_args(parser)` *(static)* | Register all DB-specific argparse flags |
+   | `build_config(args)` *(static)* | Return a dict of kwargs to pass to `__init__` |
+
+   > For a complete reference implementation of all methods and static helpers, see [`dbs/qdrant/db.py`](dbs/qdrant/db.py).
+
+3. **Register in `utils.py`** — add one line to `DB_REGISTRY`:
+   ```python
+   from dbs.<dbname>.db import <NewDB>
+   DB_REGISTRY = {
+       "endee":  EndeeDB,
+       "qdrant": QdrantDB,
+       "<dbname>": <NewDB>,   # add this
+   }
+   ```
+
+No changes needed in `main.py`, `indexing.py`, or `query.py`.
 

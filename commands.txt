@@ -1,0 +1,153 @@
+# ============================================================
+# Hybrid Vector Benchmark — Example Commands
+# Environment: source ~/index-env/bin/activate
+# ============================================================
+
+
+# ============================================================
+# ENDEE
+# ============================================================
+
+# Full run — index + query + validate
+python main.py \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://51.89.231.115:8080/api/v1 \
+  --validation-env ~/validation-env
+
+# Skip indexing — query + validate only
+python main.py \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://51.89.231.115:8080/api/v1 \
+  --skip-indexing \
+  --validation-env ~/validation-env
+
+# Query only — no validation
+python main.py \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://51.89.231.115:8080/api/v1 \
+  --skip-indexing \
+  --skip-validation
+
+# Ingest into existing index — skip creation
+python main.py \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --vector-token mytoken \
+  --base-url http://51.89.231.115:8080/api/v1 \
+  --create-index false \
+  --skip-query \
+  --skip-validation
+
+# Scifact dataset (5k)
+python main.py \
+  --db endee \
+  --index-name scifact_bench \
+  --dataset-name scifact \
+  --testcycle testcycle1 \
+  --concurrency 8 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://51.89.231.115:8080/api/v1 \
+  --validation-env ~/validation-env
+
+
+# ============================================================
+# QDRANT
+# ============================================================
+
+# Full run — hybrid mode (index + query + validate)
+python main.py \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --host 139.99.218.208 \
+  --query-mode hybrid \
+  --modifier idf \
+  --validation-env ~/validation-env
+
+# Full run — sparse-only mode (index + query + validate)
+python main.py \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --host 139.99.218.208 \
+  --query-mode sparse \
+  --modifier idf \
+  --validation-env ~/validation-env
+
+# Skip indexing — query + validate only
+python main.py \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --host 139.99.218.208 \
+  --query-mode hybrid \
+  --modifier idf \
+  --skip-indexing \
+  --validation-env ~/validation-env
+
+# Query only — no validation
+python main.py \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name quora \
+  --testcycle testcycle1 \
+  --concurrency 16 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --host 139.99.218.208 \
+  --query-mode hybrid \
+  --modifier idf \
+  --skip-indexing \
+  --skip-validation
+
+# Scifact dataset (5k)
+python main.py \
+  --db qdrant \
+  --index-name scifact_bench \
+  --dataset-name scifact \
+  --testcycle testcycle1 \
+  --concurrency 8 \
+  --async-concurrency 5 \
+  --top-k 10 \
+  --host 139.99.218.208 \
+  --query-mode hybrid \
+  --modifier idf \
+  --validation-env ~/validation-env
