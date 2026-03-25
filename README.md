@@ -1,4 +1,4 @@
-# Hybrid Vector Benchmark — `main.py` Reference
+# Hybrid Vector Benchmark 
 
 End-to-end hybrid vector benchmark framework. A single command runs **indexing → querying → validation** for any supported DB.
 
@@ -69,16 +69,16 @@ data/
 └── quora/
     ├── quora_dense_corpus.npy
     ├── quora_dense_corpus_ids.npy
-    ├── quora_sparse_corpus_bm25_values.npy
-    ├── quora_sparse_corpus_bm25_col_indices.npy
-    ├── quora_sparse_corpus_bm25_indptr.npy
-    ├── quora_sparse_corpus_bm25_ids.npy
+    ├── quora_sparse_corpus_splade_values.npy
+    ├── quora_sparse_corpus_splade_col_indices.npy
+    ├── quora_sparse_corpus_splade_indptr.npy
+    ├── quora_sparse_corpus_splade_ids.npy
     ├── quora_dense_queries.npy
     ├── quora_dense_queries_ids.npy
-    ├── quora_sparse_queries_bm25_values.npy
-    ├── quora_sparse_queries_bm25_col_indices.npy
-    ├── quora_sparse_queries_bm25_indptr.npy
-    └── quora_sparse_queries_bm25_ids.npy
+    ├── quora_sparse_queries_splade_values.npy
+    ├── quora_sparse_queries_splade_col_indices.npy
+    ├── quora_sparse_queries_splade_indptr.npy
+    └── quora_sparse_queries_splade_ids.npy
 ```
 
 Same structure applies for `scifact`. Use `embedding_creation_v2.py` (index-env) to generate these files.
@@ -118,12 +118,12 @@ These flags apply to all DBs.
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
-| `--db` | **Yes** | — | DB to benchmark: `endee` or `qdrant` |
+| `--db` | **Yes** | — | DB to benchmark: `endee` or `qdrant`  |
 | `--index-name` | **Yes** | — | Index / collection name |
 | `--dataset-name` | **Yes** | — | Dataset: `scifact` (5k) or `quora` (500k) |
 | `--testcycle` | **Yes** | — | Test cycle label used as output folder name (e.g. `testcycle1`) |
 | `--concurrency` | **Yes** | — | Number of parallel worker processes for querying |
-| `--sparse-mode` | No | `bm25` | Sparse embedding type: `bm25` or `splade` |
+| `--sparse-mode` | No | `splade` | Sparse embedding type: `bm25` or `splade`. Use `splade` for cross-DB benchmarking — `bm25` is Endee-specific |
 | `--data-dir` | No | `data` | Root directory containing dataset `.npy` files |
 | `--async-concurrency` | No | `1` | Concurrent async queries per worker process |
 | `--top-k` | No | `10` | Number of top results to retrieve per query |
@@ -162,7 +162,7 @@ python main.py \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
-  --validation-env ~/validation-env
+  --validation-env validation-env
 ```
 
 ### Skip indexing (query + validate only)
@@ -177,7 +177,7 @@ python main.py \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
   --skip-indexing \
-  --validation-env ~/validation-env
+  --validation-env validation-env
 ```
 
 ### Query only (no index creation, no validation)
@@ -224,20 +224,6 @@ python main.py \
    Output: dbs/<db>/test/<testcycle>/concurrency<N>/
 ```
 
-To sweep concurrency levels across a single indexed collection:
-```bash
-for c in 4 8 16 32; do
-  python main.py \
-    --db qdrant \
-    --index-name quora_bench \
-    --dataset-name quora \
-    --testcycle testcycle1 \
-    --concurrency $c \
-    --host 139.99.218.208 \
-    --skip-indexing \
-    --validation-env ~/validation-env
-done
-```
 
 ---
 

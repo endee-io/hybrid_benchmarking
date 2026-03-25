@@ -5,6 +5,59 @@
 
 
 # ============================================================
+# EMBEDDING CREATION
+# Environment: source ~/index-env/bin/activate
+# Output: data/<dataset>/*.npy
+# ============================================================
+
+# Scifact (5k) — dense + bm25 sparse
+python embedding_creation_v2.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode bm25
+
+# Scifact (5k) — bm25 sparse only
+python embedding_creation_v2.py \
+  --dataset-id BeIR/scifact \
+  --sparse-mode bm25
+
+# Scifact (5k) — dense + splade sparse
+python embedding_creation_v2.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode splade
+
+# Scifact (5k) — dense + bm25 + splade
+python embedding_creation_v2.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode bm25 splade
+
+# Quora (500k) — dense + bm25 sparse
+python embedding_creation_v2.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode bm25
+
+# Quora (500k) — bm25 sparse only
+python embedding_creation_v2.py \
+  --dataset-id BeIR/quora \
+  --sparse-mode bm25
+
+# Quora (500k) — dense + splade sparse
+python embedding_creation_v2.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode splade
+
+# Quora (500k) — dense + bm25 + splade
+python embedding_creation_v2.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode bm25 splade
+
+
+# ============================================================
 # ENDEE
 # ============================================================
 
@@ -19,7 +72,9 @@ python main.py \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
-  --validation-env ~/validation-env
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-env validation-env
 
 # Skip indexing — query + validate only
 python main.py \
@@ -32,8 +87,10 @@ python main.py \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
   --skip-indexing \
-  --validation-env ~/validation-env
+  --validation-env validation-env
 
 # Query only — no validation
 python main.py \
@@ -46,6 +103,8 @@ python main.py \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
   --skip-indexing \
   --skip-validation
 
@@ -58,6 +117,8 @@ python main.py \
   --concurrency 16 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
   --create-index false \
   --skip-query \
   --skip-validation
@@ -73,7 +134,9 @@ python main.py \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://51.89.231.115:8080/api/v1 \
-  --validation-env ~/validation-env
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-env validation-env
 
 
 # ============================================================
@@ -92,7 +155,8 @@ python main.py \
   --host 139.99.218.208 \
   --query-mode hybrid \
   --modifier idf \
-  --validation-env ~/validation-env
+  --validation-env validation-env
+  --sparse-mode bm25 \
 
 # Full run — sparse-only mode (index + query + validate)
 python main.py \
@@ -106,7 +170,7 @@ python main.py \
   --host 139.99.218.208 \
   --query-mode sparse \
   --modifier idf \
-  --validation-env ~/validation-env
+  --validation-env validation-env
 
 # Skip indexing — query + validate only
 python main.py \
@@ -121,7 +185,7 @@ python main.py \
   --query-mode hybrid \
   --modifier idf \
   --skip-indexing \
-  --validation-env ~/validation-env
+  --validation-env validation-env
 
 # Query only — no validation
 python main.py \
@@ -150,4 +214,4 @@ python main.py \
   --host 139.99.218.208 \
   --query-mode hybrid \
   --modifier idf \
-  --validation-env ~/validation-env
+  --validation-env validation-env

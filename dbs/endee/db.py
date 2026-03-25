@@ -103,7 +103,7 @@ class EndeeDB(HybridDB):
         g.add_argument("--base-url",             default=DEV_PATH,
                        help=f"[Endee] Base URL (default: {DEV_PATH})")
         g.add_argument("--sparse-scoring-model", default="default",
-                       help="[Endee] Sparse scoring model (default: default)")
+                       help="[Endee] Sparse scoring model (default: default) or for bm25 use endee_bm25")
         g.add_argument("--precision",            default="float32",
                        help="[Endee] Vector precision (default: float32)")
 
