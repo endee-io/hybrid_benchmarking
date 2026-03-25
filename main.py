@@ -101,7 +101,7 @@ def main():
     parser.add_argument("--skip-indexing",   action="store_true", help="Skip the indexing step")
     parser.add_argument("--skip-query",      action="store_true", help="Skip the query step")
     parser.add_argument("--skip-validation", action="store_true", help="Skip the validation step")
-    parser.add_argument("--validation-env",  default=None,
+    parser.add_argument("--validation-env",  default="validation-env",
                         help="Path to virtual environment to use for validation (e.g. validation-env)")
 
     add_all_db_args(parser)
