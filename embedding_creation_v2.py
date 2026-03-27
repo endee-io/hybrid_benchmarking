@@ -18,6 +18,11 @@ SPLADE_MODEL_ID = "prithivida/Splade_PP_en_v1"
 BM25_MODEL_ID   = "endee/bm25"
 DATA_DIR        = Path("data")
 
+DATASET_CONFIG = {
+    "scifact": {"hf_name": "BeIR/scifact-qrels", "split": "train"},
+    "quora":   {"hf_name": "BeIR/quora-qrels",   "split": "test"},
+}
+
 
 def extract_dataset_name(dataset_id: str) -> str:
     """'BeIR/scifact' → 'scifact'"""
@@ -257,6 +262,27 @@ def create_sparse_embeddings_splade(
     model.stop_multi_process_pool(pool)
     return n_docs
 
+def generate_ground_truth(dataset_name: str, cache_dir: str = None):
+    """
+    Load HF qrels for the dataset, extract unique relevant corpus IDs,
+    and save as <dataset_name>_ground_truth_ids.npy in the dataset folder.
+    """
+    cfg = DATASET_CONFIG.get(dataset_name)
+    if cfg is None:
+        raise ValueError(
+            f"No DATASET_CONFIG entry for '{dataset_name}'. "
+            f"Add it to DATASET_CONFIG. Known: {list(DATASET_CONFIG)}"
+        )
+    logger.info("Loading qrels: %s  split=%s", cfg["hf_name"], cfg["split"])
+    qrels = load_dataset(cfg["hf_name"], split=cfg["split"], cache_dir=cache_dir, trust_remote_code=True)
+    unique_ids = sorted(set(str(entry["corpus-id"]) for entry in qrels))
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{dataset_name}_ground_truth_ids.npy"
+    np.save(str(out_path), np.array(unique_ids))
+    logger.info("Saved %d ground-truth corpus IDs → %s", len(unique_ids), out_path)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=(
@@ -286,13 +312,22 @@ def main():
                         help="Parallel CPU workers for dense + SPLADE encoding (default: 4)")
     parser.add_argument("--cache-dir",    default=None,
                         help="Local cache directory for HuggingFace datasets and models")
+    parser.add_argument("--ground-truth", action="store_true", default=False,
+                        help="Fetch qrels from HF and save ground-truth corpus IDs as "
+                             "data/<dataset>/<dataset>_ground_truth_ids.npy")
     args = parser.parse_args()
 
-    if not args.dense and args.sparse_mode is None:
-        parser.error("Specify at least one of --dense or --sparse-mode {bm25,splade}")
+    if not args.dense and args.sparse_mode is None and not args.ground_truth:
+        parser.error("Specify at least one of --dense, --sparse-mode {bm25,splade}, or --ground-truth")
 
     sparse_modes = set(args.sparse_mode) if args.sparse_mode else set()
     dataset_name = extract_dataset_name(args.dataset_id)
+
+    if args.ground_truth:
+        generate_ground_truth(dataset_name, cache_dir=args.cache_dir)
+
+    if not args.dense and not sparse_modes:
+        return
 
     for split in ["corpus", "queries"]:
         logger.info("=== Processing split: %s ===", split)

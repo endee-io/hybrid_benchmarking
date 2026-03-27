@@ -215,3 +215,71 @@ python main.py \
   --query-mode hybrid \
   --modifier idf \
   --validation-env validation-env
+
+
+# ============================================================
+# DELETE / INSERT AUTOMATION
+# Runs all combinations of delete_percentage × delete_pick ×
+# delete_order × gt_filter × insert_scenario automatically.
+# For each combo: re-indexes, deletes, reinserts, queries,
+# validates, and saves results to JSON + Excel.
+# Environment: source ~/index-env/bin/activate
+# ============================================================
+
+# Quora (500k) — full automation, splade sparse
+python delete_insert_automation.py \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://51.89.231.115:8080/api/v1 \
+  --space-type        cosine \
+  --precision         float32 \
+  --dimension         384 \
+  --query-concurrency 4 \
+  --query-async-concurrency 10 \
+  --top-k             10 \
+  --validation-env    validation-env \
+  --output-file       quora_di_results.json
+
+# Scifact (5k) — full automation, splade sparse
+python delete_insert_automation.py \
+  --index-name        scifact_di_bench \
+  --data-dir          data \
+  --dataset-name      scifact \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://51.89.231.115:8080/api/v1 \
+  --space-type        cosine \
+  --precision         float32 \
+  --dimension         384 \
+  --query-concurrency 4 \
+  --query-async-concurrency 10 \
+  --top-k             10 \
+  --validation-env    validation-env \
+  --output-file       scifact_di_results.json
+
+# With ground-truth filter enabled (adds gt / non-gt combos)
+python delete_insert_automation.py \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://51.89.231.115:8080/api/v1 \
+  --ground-truth-file data/quora/unique_doc_ids.txt \
+  --validation-env    validation-env \
+  --output-file       quora_di_gt_results.json
+
+# Keep testcycle folders on disk (default: deleted after each combo)
+python delete_insert_automation.py \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://51.89.231.115:8080/api/v1 \
+  --validation-env    validation-env \
+  --keep-testcycle \
+  --output-file       quora_di_results.json

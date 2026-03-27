@@ -1,29 +1,25 @@
+"""
+Endee delete/insert runner with scenario controls + persistence of last deletes + insert/delete verification.
+
+Change in this version:
+- Duplicate deletes that fail with "not found" are treated as EXPECTED if the ID has already been deleted in this run.
+  They are logged at INFO as "Expected duplicate delete" instead of WARNING.
+- Duplicate deletes for the same doc_id are issued consecutively (not randomly interleaved).
+- The deleted-ids JSON file stores each doc_id only once (deduplicated).
+"""
+
 import argparse
 import json
 import logging
 import random
 import time
-from typing import List, Set
+from pathlib import Path
+from typing import List, Set, Optional, Dict, Any
 
 import numpy as np
-from scipy.sparse import csr_matrix
 
 from endee import Endee
 from tqdm import tqdm
-
-DUMMY_DENSE_DIM = 10
-DUMMY_DENSE_VECTOR = [0.1] * DUMMY_DENSE_DIM
-
-
-def _read_csr_matrix(path: str) -> csr_matrix:
-    """Read a .csr file in spmat format (NeurIPS sparse benchmark format)."""
-    with open(path, "rb") as f:
-        sizes = np.fromfile(f, dtype="int64", count=3)
-        nrow, ncol, nnz = sizes
-        indptr = np.fromfile(f, dtype="int64", count=nrow + 1)
-        indices = np.fromfile(f, dtype="int32", count=nnz)
-        data = np.fromfile(f, dtype="float32", count=nnz)
-    return csr_matrix((data, indices, indptr), shape=(int(nrow), int(ncol)))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -31,8 +27,55 @@ logger = logging.getLogger(__name__)
 DEV_PATH = "https://dev.endee.io/api/v1"
 
 
-class EndeeDeleteInsert:
+def _atomic_write_json(path: str, obj: Dict[str, Any]) -> None:
+    """Atomically write JSON to path (write temp then replace)."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    with open(tmp, "w") as f:
+        json.dump(obj, f, indent=2, sort_keys=True)
+    tmp.replace(p)
 
+
+def _load_json(path: str) -> Optional[Dict[str, Any]]:
+    p = Path(path)
+    if not p.exists():
+        return None
+    with open(p, "r") as f:
+        return json.load(f)
+
+
+def _is_not_found_exc(e: Exception) -> bool:
+    """
+    Best-effort detection for "not found" errors from Endee client.
+    We avoid importing SDK-specific exception types and instead match common text.
+    """
+    s = str(e).lower()
+    return ("resource not found" in s) or ("does not exist" in s) or ("not found" in s)
+
+
+def _load_npy_arrays(data_dir: str, dataset_name: str, sparse_mode: str):
+    """Load dense + sparse corpus npy arrays. Returns mmap'd arrays + ids."""
+    base = Path(data_dir) / dataset_name
+
+    dense_path = base / f"{dataset_name}_dense_corpus.npy"
+    dense_ids_path = base / f"{dataset_name}_dense_corpus_ids.npy"
+    logger.info("Loading dense from %s", dense_path)
+    dense = np.load(str(dense_path), mmap_mode="r")
+    dense_ids = np.load(str(dense_ids_path), allow_pickle=True)
+
+    sp_base = str(base / f"{dataset_name}_sparse_corpus_{sparse_mode}")
+    logger.info("Loading sparse from %s_*.npy", sp_base)
+    sp_values  = np.load(sp_base + "_values.npy",      mmap_mode="r")
+    sp_indices = np.load(sp_base + "_col_indices.npy",  mmap_mode="r")
+    sp_indptr  = np.load(sp_base + "_indptr.npy")
+    sp_ids     = np.load(sp_base + "_ids.npy",          allow_pickle=True)
+
+    logger.info("Dense: %d vectors  Sparse: %d vectors", len(dense_ids), len(sp_ids))
+    return dense, dense_ids, sp_values, sp_indices, sp_indptr, sp_ids
+
+
+class EndeeDeleteInsert:
     def __init__(self, token: str, base_url: str, index_name: str):
         vx = Endee(token=token)
         vx.set_base_url(base_url)
@@ -41,89 +84,162 @@ class EndeeDeleteInsert:
         total_vectors = self.index.count
         logger.info("Index '%s' has %d vectors", index_name, total_vectors)
 
-    def load_all_record_ids(self, jsonl_path: str) -> List[str]:
-        """Read every record['id'] from the JSONL file into a list."""
-        all_ids = []
-        with open(jsonl_path, "r") as f:
-            for line in tqdm(f, desc="Reading IDs"):
-                record = json.loads(line)
-                all_ids.append(record["id"])
-                del record
-        logger.info("Total records in JSONL: %d", len(all_ids))
+    def load_all_record_ids(self, data_dir: str, dataset_name: str, sparse_mode: str) -> List[str]:
+        """Load all corpus record IDs from the sparse npy ids file."""
+        base = Path(data_dir) / dataset_name
+        sp_ids_path = base / f"{dataset_name}_sparse_corpus_{sparse_mode}_ids.npy"
+        sp_ids = np.load(str(sp_ids_path), allow_pickle=True)
+        all_ids = [str(sid) for sid in sp_ids]
+        logger.info("Total corpus records: %d", len(all_ids))
         return all_ids
 
-    def select_random_ids(self, all_record_ids: List[str], delete_percentage: int) -> List[str]:
-        """Randomly sample delete_percentage% of all_record_ids."""
-        num_to_delete = int(len(all_record_ids) * delete_percentage / 100)
-        ids_to_delete = sorted(random.sample(all_record_ids, num_to_delete))
-        logger.info("Selected %d random IDs (%d%%) to delete", len(ids_to_delete), delete_percentage)
-        return ids_to_delete
+    @staticmethod
+    def check_data_files(
+        data_dir: str, dataset_name: str, sparse_mode: str, need_ground_truth: bool = False
+    ) -> None:
+        """Verify all required .npy data files exist. Raises FileNotFoundError listing missing files."""
+        base = Path(data_dir) / dataset_name
+        required = [
+            base / f"{dataset_name}_dense_corpus.npy",
+            base / f"{dataset_name}_dense_corpus_ids.npy",
+            base / f"{dataset_name}_sparse_corpus_{sparse_mode}_values.npy",
+            base / f"{dataset_name}_sparse_corpus_{sparse_mode}_col_indices.npy",
+            base / f"{dataset_name}_sparse_corpus_{sparse_mode}_indptr.npy",
+            base / f"{dataset_name}_sparse_corpus_{sparse_mode}_ids.npy",
+        ]
+        if need_ground_truth:
+            required.append(base / f"{dataset_name}_ground_truth_ids.npy")
+        missing = [str(p) for p in required if not p.exists()]
+        if missing:
+            raise FileNotFoundError(
+                "Missing required data files:\n" + "\n".join(f"  {p}" for p in missing)
+            )
+        logger.info("All required data files present in %s", base)
 
-    def select_last_n_percent_ids(self, all_record_ids: List[str], delete_percentage: int) -> List[str]:
-        """Select the last delete_percentage% of all_record_ids (tail of the list)."""
-        start_idx = len(all_record_ids) * (100 - delete_percentage) // 100
-        ids_to_delete = all_record_ids[start_idx:]
-        logger.info(
-            "Selected last %d%% = %d IDs (from index %d to %d)",
-            delete_percentage, len(ids_to_delete), start_idx, len(all_record_ids) - 1,
-        )
-        return ids_to_delete
-    def select_first_n_percent_ids(self, all_record_ids: List[str], delete_percentage: int) -> List[str]:
-        """Select the first delete_percentage% of all_record_ids (head of the list)."""
-        end_idx = len(all_record_ids) * delete_percentage // 100
-        ids_to_delete = all_record_ids[:end_idx]
-        logger.info(
-            "Selected first %d%% = %d IDs (from index 0 to %d)",
-            delete_percentage, len(ids_to_delete), end_idx - 1, 
-        )
-        return ids_to_delete
+    @staticmethod
+    def load_ground_truth_ids(data_dir: str, dataset_name: str) -> Set[str]:
+        """Load ground-truth corpus IDs from the .npy file produced by embedding_creation_v2.py."""
+        path = Path(data_dir) / dataset_name / f"{dataset_name}_ground_truth_ids.npy"
+        ids_arr = np.load(str(path), allow_pickle=True)
+        ids = set(str(x) for x in ids_arr)
+        logger.info("Loaded %d ground-truth IDs from %s", len(ids), path)
+        return ids
+
     def select_ground_truth_ids(self, all_record_ids: List[str], ground_truth_ids: Set[str]) -> List[str]:
         """Select IDs that are in both all_record_ids and ground_truth_ids."""
         common_ids = sorted(set(str(i) for i in all_record_ids) & ground_truth_ids)
-        logger.info("Selected %d ground-truth IDs to delete", len(common_ids))
+        logger.info("Selected %d ground-truth IDs in candidate pool", len(common_ids))
         return common_ids
 
     def select_non_ground_truth_ids(self, all_record_ids: List[str], ground_truth_ids: Set[str]) -> List[str]:
         """Select IDs that are in all_record_ids but not in ground_truth_ids."""
         non_gt_ids = sorted(set(str(i) for i in all_record_ids) - ground_truth_ids)
-        logger.info("Selected %d non-ground-truth IDs to delete", len(non_gt_ids))
+        logger.info("Selected %d non-ground-truth IDs in candidate pool", len(non_gt_ids))
         return non_gt_ids
 
-    @staticmethod
-    def load_ground_truth_file(path: str) -> Set[str]:
-        """Load a ground-truth ID file (one ID per line) produced by endee_validation.py."""
-        ids = set()
-        with open(path, "r") as f:
-            for line in f:
-                stripped = line.strip()
-                if stripped:
-                    ids.add(stripped)
-        logger.info("Loaded %d ground-truth IDs from %s", len(ids), path)
-        return ids
 
-    def delete_vectors(self, ids_to_delete: List[str]) -> dict:
-        """Delete vectors one by one. Returns a summary dict."""
+    def build_id_list(
+        self,
+        candidate_pool: List[str],
+        percentage: int,
+        pick: str,
+        order: str,
+        repeat: int,
+        seed: Optional[int] = None,
+    ) -> List[str]:
+        """
+        Build an ID list for operations:
+          1) pick a subset of IDs from candidate_pool (begin/end/random) based on percentage
+          2) order them (seq/reverse/random)
+          3) repeat each ID 'repeat' times — duplicates are always consecutive
+             (e.g. [A, A, B, B, C, C] not [A, B, C, A, B, C])
+        """
+        if seed is not None:
+            random.seed(seed)
+
+        if not candidate_pool:
+            return []
+
+        percentage = max(0, min(int(percentage), 100))
+        n = int(len(candidate_pool) * percentage / 100)
+        n = max(0, min(n, len(candidate_pool)))
+
+        # 1) pick subset
+        if pick == "begin":
+            base = candidate_pool[:n]
+        elif pick == "end":
+            base = candidate_pool[len(candidate_pool) - n :]
+        else:  # random
+            base = random.sample(candidate_pool, n)
+
+        # 2) order operations
+        if order == "seq":
+            ordered = list(base)
+        elif order == "reverse":
+            ordered = list(reversed(base))
+        else:  # random order
+            ordered = list(base)
+            random.shuffle(ordered)
+
+        # 3) duplicate operations — duplicates are always consecutive
+        repeat = max(1, int(repeat))
+        if repeat == 1:
+            return ordered
+
+        expanded: List[str] = []
+        for vid in ordered:
+            expanded.extend([vid] * repeat)
+
+        return expanded
+
+
+    def delete_vectors(self, ids_to_delete: List[str]) -> Dict[str, Any]:
+        """
+        Delete vectors one by one.
+
+        Improvement:
+        - If the same ID appears multiple times in ids_to_delete and we get a "not found" error
+          after we've already successfully deleted that ID earlier in this run, we treat it as expected.
+        """
         delete_success = 0
         delete_fail = 0
+        expected_dup_not_found = 0
         start = time.perf_counter()
 
+        deleted_once: Set[str] = set()
+
         for vid in tqdm(ids_to_delete, desc="Deleting vectors"):
+            vid = str(vid)
             try:
-                self.index.delete_vector(str(vid))
+                self.index.delete_vector(vid)
                 delete_success += 1
+                deleted_once.add(vid)
             except Exception as e:
+                # Expected case: duplicate delete after a successful delete in this run
+                if vid in deleted_once and _is_not_found_exc(e):
+                    expected_dup_not_found += 1
+                    logger.info("Expected duplicate delete (already deleted in this run): ID %s", vid)
+                    continue
+
                 delete_fail += 1
                 logger.warning("Failed to delete ID %s: %s", vid, e)
 
         elapsed = time.perf_counter() - start
         logger.info(
-            "Delete complete — success: %d  failed: %d  time: %.2fs",
-            delete_success, delete_fail, elapsed,
+            "Delete complete — success: %d  failed: %d  expected_dup_not_found: %d  time: %.2fs",
+            delete_success,
+            delete_fail,
+            expected_dup_not_found,
+            elapsed,
         )
-        return {"deleted": delete_success, "failed": delete_fail, "elapsed_sec": round(elapsed, 2)}
-    
+        return {
+            "deleted": delete_success,
+            "failed": delete_fail,
+            "expected_dup_not_found": expected_dup_not_found,
+            "elapsed_sec": round(elapsed, 2),
+        }
 
-    def verify_deletion(self, ids_to_delete: List[str]) -> dict:
+    def verify_deletion(self, ids_to_delete: List[str]) -> Dict[str, Any]:
         """Verify that all deleted IDs are gone from the index."""
         confirmed_deleted = 0
         still_exists = 0
@@ -137,7 +253,7 @@ class EndeeDeleteInsert:
 
         accuracy = confirmed_deleted / len(ids_to_delete) * 100 if ids_to_delete else 0.0
         logger.info(
-            "Verification — confirmed deleted: %d  still exists: %d  accuracy: %.2f%%",
+            "Delete Verification — confirmed deleted: %d  still exists: %d  accuracy: %.2f%%",
             confirmed_deleted, still_exists, accuracy,
         )
         return {
@@ -146,117 +262,113 @@ class EndeeDeleteInsert:
             "delete_accuracy_pct": round(accuracy, 2),
         }
 
-    def load_ids_from_csr(self, csr_path: str) -> List[str]:
-        """Return all record IDs for a sparse-only index.
-
-        IDs are the string row-indices (0, 1, 2, …) of the CSR matrix.
-        Only the header is read so this is fast even for large files.
-        """
-        with open(csr_path, "rb") as f:
-            nrow = int(np.fromfile(f, dtype="int64", count=1)[0])
-        all_ids = [str(i) for i in range(nrow)]
-        logger.info("Sparse CSR '%s' has %d rows → %d IDs", csr_path, nrow, len(all_ids))
-        return all_ids
-
     def reinsert_vectors(
         self,
-        ids_to_delete: List[str],
-        jsonl_path: str = None,
-        csr_path: str = None,
+        ids_to_insert: List[str],
+        data_dir: str,
+        dataset_name: str,
+        sparse_mode: str,
         batch_size: int = 1000,
         max_retries: int = 5,
-    ) -> dict:
-        """Reinsert vectors whose IDs appear in ids_to_delete.
+        sparse_output_file: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Insert/upsert vectors whose IDs appear in ids_to_insert from npy files.
 
-        Pass jsonl_path for hybrid/dense indexes or csr_path for sparse-only indexes.
+        IMPORTANT:
+        - Order of ids_to_insert is preserved (no sorting).
+        - Duplicates in ids_to_insert will cause repeated upserts of the same ID.
         """
-        batch = []
-        upsert_times = []
-        reinsert_count = 0
-        reinsert_fail = 0
+        dense, dense_ids, sp_values, sp_indices, sp_indptr, sp_ids = _load_npy_arrays(
+            data_dir, dataset_name, sparse_mode
+        )
 
-        def flush_batch(batch):
-            nonlocal reinsert_count, reinsert_fail
+        # Build fast lookup: id -> row index
+        dense_id_to_idx: Dict[str, int] = {str(did): i for i, did in enumerate(dense_ids)}
+        sp_id_to_idx: Dict[str, int]    = {str(sid): i for i, sid in enumerate(sp_ids)}
+
+        batch: List[Dict[str, Any]] = []
+        upsert_times: List[float] = []
+        insert_count = 0
+        insert_fail = 0
+        not_found = 0
+        sparse_log: List[Dict[str, Any]] = []
+
+        def flush_batch(batch_local: List[Dict[str, Any]]) -> None:
+            nonlocal insert_count, insert_fail
             t0 = time.perf_counter()
             for attempt in range(max_retries):
                 try:
-                    self.index.upsert(batch)
-                    reinsert_count += len(batch)
+                    self.index.upsert(batch_local)
+                    insert_count += len(batch_local)
                     break
                 except Exception as e:
                     if attempt < max_retries - 1:
                         time.sleep(1.5)
                     else:
-                        reinsert_fail += len(batch)
+                        insert_fail += len(batch_local)
                         logger.error("Batch upsert failed after %d retries: %s", max_retries, e)
             upsert_times.append(time.perf_counter() - t0)
-            batch.clear()
+            batch_local.clear()
 
         start = time.perf_counter()
 
-        if csr_path:
-            # Sparse-only mode: IDs are row indices; load matrix and index directly
-            logger.info("Loading CSR matrix from '%s' …", csr_path)
-            data = _read_csr_matrix(csr_path)
-            for row_idx in tqdm(sorted(int(i) for i in ids_to_delete), desc="Reinserting sparse vectors"):
-                row = data[row_idx]
-                batch.append({
-                    "id": str(row_idx),
-                    "vector": DUMMY_DENSE_VECTOR,
-                    "sparse_indices": row.indices.tolist(),
-                    "sparse_values": row.data.tolist(),
-                    "meta": {"point_id": row_idx},
+        for vid in tqdm(ids_to_insert, desc="Inserting vectors"):
+            vid = str(vid)
+            d_idx = dense_id_to_idx.get(vid)
+            s_idx = sp_id_to_idx.get(vid)
+
+            if d_idx is None or s_idx is None:
+                not_found += 1
+                logger.warning("ID %s not found in npy data (dense=%s, sparse=%s), skipping",
+                               vid, d_idx is not None, s_idx is not None)
+                continue
+
+            dv = dense[d_idx].tolist()
+            s, e = int(sp_indptr[s_idx]), int(sp_indptr[s_idx + 1])
+
+            raw_vals = sp_values[s:e]
+            raw_idxs = sp_indices[s:e]
+            mask = raw_vals != 0
+
+            filtered_indices = raw_idxs[mask].tolist()
+            filtered_values  = raw_vals[mask].tolist()
+
+            if sparse_output_file is not None:
+                sparse_log.append({
+                    "id": vid,
+                    "sparse_indices": filtered_indices,
+                    "sparse_values":  filtered_values,
                 })
-                if len(batch) >= batch_size:
-                    flush_batch(batch)
-            not_found = 0
-            scan_time = 0.0
-        else:
-            # JSONL mode: scan file and match by ID
-            target_ids: Set[str] = set(str(i) for i in ids_to_delete)
-            found_ids: Set[str] = set()
-            with open(jsonl_path, "r") as f:
-                for line in tqdm(f, desc="Scanning JSONL"):
-                    record = json.loads(line)
-                    if str(record["id"]) not in target_ids:
-                        del record
-                        continue
-                    found_ids.add(str(record["id"]))
-                    sv = record.get("sparse_vector", {})
-                    batch.append({
-                        "id": record["id"],
-                        "vector": record["dense_vector"],
-                        "sparse_indices": sv.get("indices", []),
-                        "sparse_values": sv.get("values", []),
-                        "meta": {
-                            "text": record["meta"]["text"],
-                            "id": record["id"],
-                        },
-                    })
-                    del record, sv
-                    if len(batch) >= batch_size:
-                        flush_batch(batch)
-                    if len(found_ids) == len(target_ids):
-                        break
-            not_found = len(target_ids - found_ids)
-            scan_time = None  # computed below
+
+            batch.append({
+                "id": vid,
+                "vector": dv,
+                "sparse_indices": filtered_indices,
+                "sparse_values":  filtered_values,
+                "meta": {"id": vid},
+            })
+            if len(batch) >= batch_size:
+                flush_batch(batch)
 
         if batch:
             flush_batch(batch)
 
+        if sparse_output_file is not None:
+            _atomic_write_json(sparse_output_file, {"vectors": sparse_log})
+            logger.info("Saved sparse data for %d vectors to %s", len(sparse_log), sparse_output_file)
+
         elapsed = time.perf_counter() - start
         total_upsert = sum(upsert_times)
 
-        summary = {
-            "reinserted": reinsert_count,
-            "failed": reinsert_fail,
+        summary: Dict[str, Any] = {
+            "inserted": insert_count,
+            "failed": insert_fail,
+            "not_found_in_npy": not_found,
             "total_elapsed_sec": round(elapsed, 2),
             "upsert_time_sec": round(total_upsert, 2),
+            "scan_time_sec": round(elapsed - total_upsert, 2),
             "num_batches": len(upsert_times),
         }
-        if not csr_path:
-            summary["not_found_in_jsonl"] = not_found
-            summary["scan_time_sec"] = round(elapsed - total_upsert, 2)
         if upsert_times:
             summary["upsert_per_batch"] = {
                 "min_sec": round(min(upsert_times), 2),
@@ -265,58 +377,143 @@ class EndeeDeleteInsert:
             }
 
         logger.info(
-            "Reinsert complete — reinserted: %d  failed: %d  time: %.2fs",
-            reinsert_count, reinsert_fail, elapsed,
+            "Insert complete — inserted: %d  failed: %d  not_found: %d  time: %.2fs",
+            insert_count, insert_fail, not_found, elapsed,
         )
         return summary
 
+    def verify_insertion(self, ids_to_insert: List[str]) -> Dict[str, Any]:
+        """Verify that all inserted IDs exist in the index."""
+        confirmed_present = 0
+        missing = 0
+
+        for vid in tqdm(ids_to_insert, desc="Verifying insertions"):
+            try:
+                self.index.get_vector(str(vid))
+                confirmed_present += 1
+            except Exception:
+                missing += 1
+
+        accuracy = confirmed_present / len(ids_to_insert) * 100 if ids_to_insert else 0.0
+        logger.info(
+            "Insert Verification — confirmed present: %d  missing: %d  accuracy: %.2f%%",
+            confirmed_present, missing, accuracy,
+        )
+        return {
+            "confirmed_present": confirmed_present,
+            "missing": missing,
+            "insert_accuracy_pct": round(accuracy, 2),
+        }
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Delete and reinsert Endee vectors from a JSONL or CSR file.")
-    parser.add_argument("--index_name",    help="Name of the Endee index")
-    parser.add_argument("--jsonl_path",    help="Path to the JSONL embeddings file (hybrid/dense indexes)")
-    parser.add_argument("--sparse-only",   action="store_true", default=False,
-                        help="Use sparse-only mode: load IDs and vectors from a .csr file")
-    parser.add_argument("--csr-path",      default=None,
-                        help="Path to the .csr data file (required when --sparse-only is set)")
-    parser.add_argument("--token",       default="12345678",  help="Endee API token (default: 12345678)")
-    parser.add_argument("--base-url",    default=DEV_PATH,    help=f"Endee base URL (default: {DEV_PATH})")
-    parser.add_argument("--delete-percentage", type=int, default=10,
-                        help="Percentage of vectors to delete from the candidate pool (default: 10)")
-    parser.add_argument("--mode", choices=["random", "last-n-percent", "first-n-percent"], default="random",
-                        help="ID selection mode applied to the candidate pool (default: random)")
-    parser.add_argument("--ground-truth-file", default=None,
-                        help="Path to unique_doc_ids.txt produced by endee_validation.py")
-    parser.add_argument("--gt-filter", choices=["ground-truth", "non-ground-truth"], default=None,
-                        help="Filter candidate pool to ground-truth or non-ground-truth IDs before applying --mode; requires --ground-truth-file")
-    parser.add_argument("--batch-size",  type=int, default=1000, help="Reinsert batch size (default: 1000)")
-    parser.add_argument("--skip-reinsert", type=lambda x: x.lower() != "false", default=False,
-                        help="Skip reinsertion after deletion (default: false)")
-    parser.add_argument("--verify-delete", type=lambda x: x.lower() == "true", default=False,
-                        help="Verify deletions after delete step (default: false)")
-    args = parser.parse_args()
+    parser = argparse.ArgumentParser(
+        description="Delete and/or insert Endee vectors from .npy embedding files with configurable scenarios."
+    )
+    parser.add_argument("--index_name",    required=True, help="Name of the Endee index")
+    parser.add_argument("--data-dir",      required=True, help="Root data directory (contains <dataset_name>/ subfolder)")
+    parser.add_argument("--dataset-name",  required=True, help="Dataset name, e.g. quora or scifact")
+    parser.add_argument("--sparse-mode",   default="splade", help="Sparse embedding type: splade or bm25 (default: splade)")
 
-    if args.sparse_only and not args.csr_path:
-        parser.error("--sparse-only requires --csr-path")
-    if not args.sparse_only and not args.jsonl_path:
-        parser.error("--jsonl_path is required unless --sparse-only is set")
-    if args.gt_filter and not args.ground_truth_file:
-        parser.error("--gt-filter requires --ground-truth-file")
+    parser.add_argument("--token",    default="12345678", help="Endee API token (default: 12345678)")
+    parser.add_argument("--base-url", default=DEV_PATH,   help=f"Endee base URL (default: {DEV_PATH})")
 
-    edi = EndeeDeleteInsert(
-        token=args.token,
-        base_url=args.base_url,
-        index_name=args.index_name,
+    parser.add_argument(
+        "--delete-percentage",
+        type=int, default=10,
+        help="Percent of candidate pool to pick IDs from (default: 10)",
+    )
+    parser.add_argument(
+        "--delete-pick",
+        choices=["random", "begin", "end"], default="random",
+        help="Which IDs to pick from candidate pool before ordering (default: random)",
+    )
+    parser.add_argument(
+        "--delete-order",
+        choices=["random", "seq", "reverse"], default="random",
+        help="Execution order for deletes (default: random)",
+    )
+    parser.add_argument(
+        "--delete-repeat",
+        type=int, default=1,
+        help="Repeat deletes per selected ID (delete same doc multiple times). Default: 1",
     )
 
-    # Load IDs from the appropriate source
-    if args.sparse_only:
-        all_record_ids = edi.load_ids_from_csr(args.csr_path)
-    else:
-        all_record_ids = edi.load_all_record_ids(args.jsonl_path)
+    parser.add_argument(
+        "--gt-filter",
+        choices=["ground-truth", "non-ground-truth"], default=None,
+        help="Filter candidate pool to ground-truth or non-ground-truth IDs before picking; "
+             "loads <data-dir>/<dataset-name>/<dataset-name>_ground_truth_ids.npy",
+    )
 
-    # Optionally narrow the candidate pool using ground-truth filter
+    parser.add_argument(
+        "--insert-only",
+        action="store_true", default=False,
+        help="Only insert (no deletes). Uses the same pick/order/percentage logic to choose IDs.",
+    )
+    parser.add_argument(
+        "--insert-order",
+        choices=["same-as-delete", "random"], default="same-as-delete",
+        help="Insertion order: same as delete list, or random shuffle (default: same-as-delete)",
+    )
+    parser.add_argument(
+        "--insert-repeat",
+        type=int, default=1,
+        help="Repeat inserts per ID (insert same doc multiple times). Default: 1",
+    )
+
+    parser.add_argument("--batch-size", type=int, default=1000, help="Insert batch size (default: 1000)")
+    parser.add_argument(
+        "--sparse-output-file",
+        default=None,
+        help="If set, save inserted sparse indices/values to this JSON file (default: disabled)",
+    )
+    parser.add_argument(
+        "--skip-insert",
+        action="store_true", default=False,
+        help="Skip insertion step entirely (default: false)",
+    )
+    parser.add_argument(
+        "--verify-delete",
+        type=lambda x: x.lower() == "true", default=False,
+        help="Verify deletions after delete step (default: false)",
+    )
+    parser.add_argument(
+        "--verify-insert",
+        type=lambda x: x.lower() == "true", default=False,
+        help="Verify insertions after insert step (default: false)",
+    )
+
+    parser.add_argument(
+        "--seed",
+        type=int, default=None,
+        help="Optional RNG seed for reproducible random pick/order and insert-order randomization",
+    )
+
+    parser.add_argument(
+        "--deleted-ids-file",
+        default="last_deleted_ids.json",
+        help="Path to store IDs deleted in the last run (default: last_deleted_ids.json).",
+    )
+    parser.add_argument(
+        "--use-last-deletes",
+        action="store_true", default=False,
+        help="Ignore selection logic and load IDs from --deleted-ids-file for insertion (useful for 'insert later').",
+    )
+
+    args = parser.parse_args()
+
+    EndeeDeleteInsert.check_data_files(
+        args.data_dir, args.dataset_name, args.sparse_mode,
+        need_ground_truth=(args.gt_filter is not None),
+    )
+
+    edi = EndeeDeleteInsert(token=args.token, base_url=args.base_url, index_name=args.index_name)
+
+    all_record_ids = edi.load_all_record_ids(args.data_dir, args.dataset_name, args.sparse_mode)
+
     if args.gt_filter:
-        gt_ids = EndeeDeleteInsert.load_ground_truth_file(args.ground_truth_file)
+        gt_ids = EndeeDeleteInsert.load_ground_truth_ids(args.data_dir, args.dataset_name)
         if args.gt_filter == "ground-truth":
             candidate_pool = edi.select_ground_truth_ids(all_record_ids, gt_ids)
         else:
@@ -324,26 +521,88 @@ def main():
     else:
         candidate_pool = all_record_ids
 
-    # Apply selection mode to the candidate pool
-    if args.mode == "random":
-        ids_to_delete = edi.select_random_ids(candidate_pool, args.delete_percentage)
-    elif args.mode == "last-n-percent":
-        ids_to_delete = edi.select_last_n_percent_ids(candidate_pool, args.delete_percentage)
-    else:  # first-n-percent
-        ids_to_delete = edi.select_first_n_percent_ids(candidate_pool, args.delete_percentage)
-
-    edi.delete_vectors(ids_to_delete)
-
-    if args.verify_delete:
-        edi.verify_deletion(ids_to_delete)
-
-    if not args.skip_reinsert:
-        edi.reinsert_vectors(
-            ids_to_delete=ids_to_delete,
-            jsonl_path=args.jsonl_path if not args.sparse_only else None,
-            csr_path=args.csr_path if args.sparse_only else None,
-            batch_size=args.batch_size,
+    if args.use_last_deletes:
+        saved = _load_json(args.deleted_ids_file)
+        if not saved or "ids" not in saved:
+            raise RuntimeError(f"--use-last-deletes set but no valid file found at {args.deleted_ids_file}")
+        delete_ids = [str(x) for x in saved["ids"]]
+        logger.info("Loaded %d IDs from %s for insertion", len(delete_ids), args.deleted_ids_file)
+    else:
+        delete_ids = edi.build_id_list(
+            candidate_pool=candidate_pool,
+            percentage=args.delete_percentage,
+            pick=args.delete_pick,
+            order=args.delete_order,
+            repeat=args.delete_repeat,
+            seed=args.seed,
         )
+
+    did_delete = False
+    if args.insert_only or args.use_last_deletes:
+        if args.insert_only:
+            logger.info("--insert-only set: skipping deletes")
+        if args.use_last_deletes:
+            logger.info("--use-last-deletes set: skipping deletes")
+    else:
+        edi.delete_vectors(delete_ids)
+        did_delete = True
+        if args.verify_delete:
+            edi.verify_deletion(delete_ids)
+
+        # Deduplicate IDs before saving — each doc_id is stored only once
+        seen: Set[str] = set()
+        unique_delete_ids: List[str] = []
+        for vid in delete_ids:
+            if vid not in seen:
+                seen.add(vid)
+                unique_delete_ids.append(vid)
+
+        payload = {
+            "index_name":   args.index_name,
+            "base_url":     args.base_url,
+            "data_dir":     args.data_dir,
+            "dataset_name": args.dataset_name,
+            "sparse_mode":  args.sparse_mode,
+            "created_at_unix": time.time(),
+            "ids": unique_delete_ids,
+        }
+        _atomic_write_json(args.deleted_ids_file, payload)
+        logger.info("Saved %d unique deleted IDs to %s", len(unique_delete_ids), args.deleted_ids_file)
+
+    if args.skip_insert:
+        logger.info("--skip-insert set: skipping insertion step")
+        return
+
+    insert_ids = list(delete_ids)
+
+    if args.insert_order == "random":
+        if args.seed is not None:
+            random.seed(args.seed + 1)
+        random.shuffle(insert_ids)
+
+    args.insert_repeat = max(1, int(args.insert_repeat))
+    if args.insert_repeat > 1:
+        expanded: List[str] = []
+        for vid in insert_ids:
+            expanded.extend([vid] * args.insert_repeat)
+        insert_ids = expanded
+
+    edi.reinsert_vectors(
+        ids_to_insert=insert_ids,
+        data_dir=args.data_dir,
+        dataset_name=args.dataset_name,
+        sparse_mode=args.sparse_mode,
+        batch_size=args.batch_size,
+        sparse_output_file=args.sparse_output_file,
+    )
+
+    if args.verify_insert:
+        edi.verify_insertion(insert_ids)
+
+    if did_delete:
+        logger.info("Run complete: delete+insert finished")
+    else:
+        logger.info("Run complete: insert finished")
 
 
 if __name__ == "__main__":
