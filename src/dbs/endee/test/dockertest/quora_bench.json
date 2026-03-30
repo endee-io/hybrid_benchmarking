@@ -1,0 +1,15 @@
+{
+  "index_name": "quora_bench",
+  "total_vectors": 522842,
+  "total_batches": 523,
+  "batch_size": 1000,
+  "total_time_sec": 329.332,
+  "upsert_latency_ms": {
+    "min": 155.571,
+    "p50": 569.282,
+    "p95": 977.461,
+    "p99": 1133.057,
+    "max": 20728.174,
+    "mean": 598.633
+  }
+}

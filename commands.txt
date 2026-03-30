@@ -1,0 +1,250 @@
+# ============================================================
+# Hybrid Vector Benchmark — Example Commands
+# Environment: source index-env/bin/activate
+# ============================================================
+
+
+# ============================================================
+# EMBEDDING CREATION
+# Environment: source index-env/bin/activate
+# Output: data/<dataset>/*.npy
+# ============================================================
+
+# Scifact (5k) — dense + bm25 sparse
+python src/embedding_creation.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode bm25 \
+  --cache-dir model_cache
+
+# Scifact (5k) — bm25 sparse only
+python src/embedding_creation.py \
+  --dataset-id BeIR/scifact \
+  --sparse-mode bm25 \
+  --cache-dir model_cache
+
+# Scifact (5k) — dense + splade sparse
+python src/embedding_creation.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode splade \
+  --cache-dir model_cache
+
+# Scifact (5k) — dense + bm25 + splade
+python src/embedding_creation.py \
+  --dataset-id BeIR/scifact \
+  --dense \
+  --sparse-mode bm25 splade \
+  --cache-dir model_cache
+
+# Quora (500k) — dense + bm25 sparse
+python src/embedding_creation.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode bm25 \
+  --cache-dir model_cache
+
+# Quora (500k) — bm25 sparse only
+python src/embedding_creation.py \
+  --dataset-id BeIR/quora \
+  --sparse-mode bm25 \
+  --cache-dir model_cache
+
+# Quora (500k) — dense + splade sparse
+python src/embedding_creation.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode splade \
+  --cache-dir model_cache
+
+# Quora (500k) — dense + bm25 + splade
+python src/embedding_creation.py \
+  --dataset-id BeIR/quora \
+  --dense \
+  --sparse-mode bm25 splade \
+  --cache-dir model_cache
+
+
+# ============================================================
+# ENDEE
+# ============================================================
+
+# Full run — index + query + validate
+python -m src.main \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-venv validation-env \
+  --cache-dir model_cache
+
+# Skip indexing — query + validate only
+python -m src.main \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --skip-indexing \
+  --validation-venv validation-env \
+  --cache-dir model_cache
+
+# Query only — no validation
+python -m src.main \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --skip-indexing \
+  --skip-validation
+
+# Ingest into existing index — skip creation
+python -m src.main \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --create-index false \
+  --skip-query \
+  --skip-validation
+
+# Scifact dataset (5k)
+python -m src.main \
+  --db endee \
+  --index-name scifact_bench \
+  --dataset-name beir_scifact \
+  --results run1 \
+  --concurrency 8 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v1 \
+  --sparse-mode bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-venv validation-env \
+  --cache-dir model_cache
+
+
+# ============================================================
+# QDRANT
+# ============================================================
+
+# Full run — hybrid mode (index + query + validate)
+python -m src.main \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --host localhost \
+  --query-mode hybrid \
+  --modifier hybrid \
+  --sparse-mode splade \
+  --validation-venv validation-env \
+  --cache-dir model_cache
+
+# Full run — sparse-only mode (index + query + validate)
+python -m src.main \
+  --db qdrant \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --host localhost \
+  --query-mode sparse \
+  --modifier hybrid \
+  --sparse-mode splade \
+  --validation-venv validation-env \
+  --cache-dir model_cache
+
+# ============================================================
+# DELETE / INSERT AUTOMATION
+# Runs all combinations of delete_percentage × delete_pick ×
+# delete_order × gt_filter × insert_scenario automatically.
+# For each combo: re-indexes, deletes, reinserts, queries,
+# validates, and saves results to JSON + Excel.
+# Environment: source ~/index-env/bin/activate
+# ============================================================
+
+# Quora (500k) — full automation, splade sparse
+python -m src.delete_insert_automation \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      beir_quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://localhost:8080/api/v1 \
+  --space-type        cosine \
+  --precision         float32 \
+  --dimension         384 \
+  --query-concurrency 4 \
+  --top-k             10 \
+  --validation-venv   validation-env \
+  --cache-dir         model_cache \
+  --output-file       quora_delete_insert_results.json
+
+# Scifact (5k) — full automation, splade sparse
+python -m src.delete_insert_automation \
+  --index-name        scifact_di_bench \
+  --data-dir          data \
+  --dataset-name      beir_scifact \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://localhost:8080/api/v1 \
+  --space-type        cosine \
+  --precision         float32 \
+  --dimension         384 \
+  --query-concurrency 4 \
+  --top-k             10 \
+  --validation-venv   validation-env \
+  --cache-dir         model_cache \
+  --output-file       scifact_delete_insert_results.json
+
+# With ground-truth filter enabled (loads GT IDs from HuggingFace dataset)
+python -m src.delete_insert_automation \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      beir_quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://localhost:8080/api/v1 \
+  --gt-corpus-ids \
+  --validation-venv   validation-env \
+  --cache-dir         model_cache \
+  --output-file       quora_di_gt_results.json
+
+# Keep testcycle folders on disk (default: deleted after each combo)
+python -m src.delete_insert_automation \
+  --index-name        quora_di_bench \
+  --data-dir          data \
+  --dataset-name      beir_quora \
+  --sparse-mode       splade \
+  --token             12345678 \
+  --base-url          http://localhost:8080/api/v1 \
+  --validation-venv   validation-env \
+  --cache-dir         model_cache \
+  --keep-results \
+  --output-file       quora_di_results.json

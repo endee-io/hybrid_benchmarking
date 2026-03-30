@@ -1,0 +1,15 @@
+{
+  "testcycle": "scifact_test",
+  "concurrency": 16,
+  "total_queries": 1109,
+  "successful_queries": 1109,
+  "failed_queries": 0,
+  "p99_latency_ms": 29.59585189819336,
+  "p95_latency_ms": 21.13795280456542,
+  "p90_latency_ms": 16.420650482177734,
+  "p50_latency_ms": 9.932994842529297,
+  "mean_latency_ms": 10.993232804445451,
+  "min_latency_ms": 3.2770633697509766,
+  "max_latency_ms": 48.60877990722656,
+  "total_time_seconds": 2.513357639312744
+}

@@ -1,0 +1,7765 @@
+[
+  {
+    "query_id": "734",
+    "latency_ms": 3.2770633697509766,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "616",
+    "latency_ms": 3.2949447631835938,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1199",
+    "latency_ms": 3.350973129272461,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "728",
+    "latency_ms": 3.9491653442382812,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "729",
+    "latency_ms": 4.138946533203125,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "742",
+    "latency_ms": 4.138946533203125,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "9",
+    "latency_ms": 4.230022430419922,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "736",
+    "latency_ms": 4.449129104614258,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "727",
+    "latency_ms": 4.461050033569336,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "759",
+    "latency_ms": 4.489898681640625,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "715",
+    "latency_ms": 4.6291351318359375,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "716",
+    "latency_ms": 4.635095596313477,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "56",
+    "latency_ms": 4.695892333984375,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "770",
+    "latency_ms": 4.748106002807617,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "54",
+    "latency_ms": 4.752159118652344,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "743",
+    "latency_ms": 4.936933517456055,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "390",
+    "latency_ms": 5.017995834350586,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1091",
+    "latency_ms": 5.148172378540039,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "685",
+    "latency_ms": 5.216121673583984,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "687",
+    "latency_ms": 5.223989486694336,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "686",
+    "latency_ms": 5.232095718383789,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "683",
+    "latency_ms": 5.237102508544922,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "406",
+    "latency_ms": 5.296945571899414,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1144",
+    "latency_ms": 5.307912826538086,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "693",
+    "latency_ms": 5.3310394287109375,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "644",
+    "latency_ms": 5.383968353271484,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "768",
+    "latency_ms": 5.403995513916016,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "88",
+    "latency_ms": 5.409002304077148,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "756",
+    "latency_ms": 5.415916442871094,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "744",
+    "latency_ms": 5.420207977294922,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "682",
+    "latency_ms": 5.420684814453125,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "691",
+    "latency_ms": 5.458831787109375,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "628",
+    "latency_ms": 5.491971969604492,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "660",
+    "latency_ms": 5.50389289855957,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1045",
+    "latency_ms": 5.5217742919921875,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "723",
+    "latency_ms": 5.5217742919921875,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "718",
+    "latency_ms": 5.536079406738281,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "721",
+    "latency_ms": 5.543947219848633,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1288",
+    "latency_ms": 5.578041076660156,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "449",
+    "latency_ms": 5.584955215454102,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "82",
+    "latency_ms": 5.585908889770508,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "86",
+    "latency_ms": 5.591869354248047,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1359",
+    "latency_ms": 5.595684051513672,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "853",
+    "latency_ms": 5.609989166259766,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "70",
+    "latency_ms": 5.609989166259766,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "448",
+    "latency_ms": 5.620241165161133,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "89",
+    "latency_ms": 5.634069442749023,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "772",
+    "latency_ms": 5.655050277709961,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "378",
+    "latency_ms": 5.658149719238281,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1269",
+    "latency_ms": 5.663871765136719,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "767",
+    "latency_ms": 5.673885345458984,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "447",
+    "latency_ms": 5.675792694091797,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1340",
+    "latency_ms": 5.700111389160156,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "690",
+    "latency_ms": 5.700111389160156,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "610",
+    "latency_ms": 5.703926086425781,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "609",
+    "latency_ms": 5.716085433959961,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "607",
+    "latency_ms": 5.727052688598633,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "606",
+    "latency_ms": 5.730152130126953,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "659",
+    "latency_ms": 5.732059478759766,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "377",
+    "latency_ms": 5.742788314819336,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "649",
+    "latency_ms": 5.770206451416016,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "603",
+    "latency_ms": 5.773067474365234,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1330",
+    "latency_ms": 5.775928497314453,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "700",
+    "latency_ms": 5.807161331176758,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "577",
+    "latency_ms": 5.813121795654297,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "575",
+    "latency_ms": 5.839824676513672,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "692",
+    "latency_ms": 5.855083465576172,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "491",
+    "latency_ms": 5.86700439453125,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "380",
+    "latency_ms": 5.874872207641602,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "828",
+    "latency_ms": 5.904912948608398,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1315",
+    "latency_ms": 5.9051513671875,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1284",
+    "latency_ms": 5.905866622924805,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "479",
+    "latency_ms": 5.9070587158203125,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "486",
+    "latency_ms": 5.919933319091797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "784",
+    "latency_ms": 5.942106246948242,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "389",
+    "latency_ms": 5.98597526550293,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1363",
+    "latency_ms": 5.991935729980469,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "904",
+    "latency_ms": 6.001949310302734,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1258",
+    "latency_ms": 6.036996841430664,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "825",
+    "latency_ms": 6.067991256713867,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1328",
+    "latency_ms": 6.072044372558594,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1327",
+    "latency_ms": 6.098031997680664,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1304",
+    "latency_ms": 6.122112274169922,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1276",
+    "latency_ms": 6.123781204223633,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "569",
+    "latency_ms": 6.13093376159668,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "554",
+    "latency_ms": 6.162881851196289,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "846",
+    "latency_ms": 6.227016448974609,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1142",
+    "latency_ms": 6.228923797607422,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1136",
+    "latency_ms": 6.231069564819336,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1138",
+    "latency_ms": 6.232023239135742,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1141",
+    "latency_ms": 6.246328353881836,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1139",
+    "latency_ms": 6.261110305786133,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "775",
+    "latency_ms": 6.263017654418945,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "866",
+    "latency_ms": 6.2770843505859375,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "838",
+    "latency_ms": 6.322145462036133,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "785",
+    "latency_ms": 6.345033645629883,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "783",
+    "latency_ms": 6.358623504638672,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "781",
+    "latency_ms": 6.412029266357422,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "672",
+    "latency_ms": 6.447076797485352,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "488",
+    "latency_ms": 6.448984146118164,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "702",
+    "latency_ms": 6.460905075073242,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "733",
+    "latency_ms": 6.4830780029296875,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "444",
+    "latency_ms": 6.500720977783203,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "765",
+    "latency_ms": 6.541967391967773,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "441",
+    "latency_ms": 6.5460205078125,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "764",
+    "latency_ms": 6.5670013427734375,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1098",
+    "latency_ms": 6.577014923095703,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "684",
+    "latency_ms": 6.582021713256836,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1096",
+    "latency_ms": 6.583213806152344,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "761",
+    "latency_ms": 6.592035293579102,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1395",
+    "latency_ms": 6.606817245483398,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "619",
+    "latency_ms": 6.607770919799805,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "671",
+    "latency_ms": 6.622076034545898,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "670",
+    "latency_ms": 6.636142730712891,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1249",
+    "latency_ms": 6.654977798461914,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "637",
+    "latency_ms": 6.685972213745117,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "860",
+    "latency_ms": 6.710052490234375,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "669",
+    "latency_ms": 6.714105606079102,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "910",
+    "latency_ms": 6.727933883666992,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "916",
+    "latency_ms": 6.742000579833984,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "912",
+    "latency_ms": 6.742954254150391,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "909",
+    "latency_ms": 6.743907928466797,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1140",
+    "latency_ms": 6.754159927368164,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1352",
+    "latency_ms": 6.757259368896484,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "908",
+    "latency_ms": 6.769895553588867,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1344",
+    "latency_ms": 6.77800178527832,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1339",
+    "latency_ms": 6.803035736083984,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1335",
+    "latency_ms": 6.808280944824219,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1336",
+    "latency_ms": 6.815910339355469,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1332",
+    "latency_ms": 6.822109222412109,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1337",
+    "latency_ms": 6.826877593994141,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "85",
+    "latency_ms": 6.83283805847168,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "383",
+    "latency_ms": 6.857156753540039,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "745",
+    "latency_ms": 6.904125213623047,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "384",
+    "latency_ms": 6.912708282470703,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "343",
+    "latency_ms": 6.916284561157227,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "362",
+    "latency_ms": 6.91986083984375,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "526",
+    "latency_ms": 6.958723068237305,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "861",
+    "latency_ms": 6.968259811401367,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "515",
+    "latency_ms": 6.988048553466797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "523",
+    "latency_ms": 6.989002227783203,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "844",
+    "latency_ms": 6.989002227783203,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1347",
+    "latency_ms": 6.990194320678711,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1342",
+    "latency_ms": 6.996870040893555,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "524",
+    "latency_ms": 6.9980621337890625,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1345",
+    "latency_ms": 7.002830505371094,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "314",
+    "latency_ms": 7.010936737060547,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1087",
+    "latency_ms": 7.016181945800781,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1210",
+    "latency_ms": 7.025241851806641,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "490",
+    "latency_ms": 7.049083709716797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "509",
+    "latency_ms": 7.049083709716797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "589",
+    "latency_ms": 7.056951522827148,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "593",
+    "latency_ms": 7.062196731567383,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1208",
+    "latency_ms": 7.070064544677734,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1206",
+    "latency_ms": 7.081031799316406,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1218",
+    "latency_ms": 7.10606575012207,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1211",
+    "latency_ms": 7.107019424438477,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1205",
+    "latency_ms": 7.116079330444336,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "129",
+    "latency_ms": 7.159948348999023,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "445",
+    "latency_ms": 7.177114486694336,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "235",
+    "latency_ms": 7.184028625488281,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "229",
+    "latency_ms": 7.2040557861328125,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "456",
+    "latency_ms": 7.225751876831055,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "674",
+    "latency_ms": 7.229089736938477,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "458",
+    "latency_ms": 7.25102424621582,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "480",
+    "latency_ms": 7.276058197021484,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "453",
+    "latency_ms": 7.279872894287109,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "440",
+    "latency_ms": 7.293224334716797,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "227",
+    "latency_ms": 7.297992706298828,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "224",
+    "latency_ms": 7.300853729248047,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "223",
+    "latency_ms": 7.302045822143555,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "443",
+    "latency_ms": 7.302045822143555,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "435",
+    "latency_ms": 7.310152053833008,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "226",
+    "latency_ms": 7.311820983886719,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "225",
+    "latency_ms": 7.326841354370117,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "432",
+    "latency_ms": 7.328033447265625,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "566",
+    "latency_ms": 7.330179214477539,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "568",
+    "latency_ms": 7.331132888793945,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "564",
+    "latency_ms": 7.332086563110352,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "168",
+    "latency_ms": 7.344961166381836,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1331",
+    "latency_ms": 7.370948791503906,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "641",
+    "latency_ms": 7.387876510620117,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "563",
+    "latency_ms": 7.397174835205078,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1112",
+    "latency_ms": 7.420063018798828,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1114",
+    "latency_ms": 7.426977157592773,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1115",
+    "latency_ms": 7.431983947753906,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1346",
+    "latency_ms": 7.443904876708984,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1209",
+    "latency_ms": 7.466793060302734,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "936",
+    "latency_ms": 7.502079010009766,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "536",
+    "latency_ms": 7.550954818725586,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "929",
+    "latency_ms": 7.586002349853516,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "930",
+    "latency_ms": 7.586002349853516,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "382",
+    "latency_ms": 7.593870162963867,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "928",
+    "latency_ms": 7.599830627441406,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "933",
+    "latency_ms": 7.600069046020508,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "927",
+    "latency_ms": 7.602930068969727,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "338",
+    "latency_ms": 7.606029510498047,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1257",
+    "latency_ms": 7.609844207763672,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1311",
+    "latency_ms": 7.609844207763672,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "324",
+    "latency_ms": 7.625102996826172,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1193",
+    "latency_ms": 7.627964019775391,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "379",
+    "latency_ms": 7.629871368408203,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "381",
+    "latency_ms": 7.674932479858398,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1378",
+    "latency_ms": 7.674932479858398,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "72",
+    "latency_ms": 7.68589973449707,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "376",
+    "latency_ms": 7.689952850341797,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "885",
+    "latency_ms": 7.691860198974609,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1380",
+    "latency_ms": 7.69495964050293,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "673",
+    "latency_ms": 7.697105407714844,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "375",
+    "latency_ms": 7.752895355224609,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "890",
+    "latency_ms": 7.790803909301758,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "891",
+    "latency_ms": 7.795095443725586,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1134",
+    "latency_ms": 7.800102233886719,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "738",
+    "latency_ms": 7.802009582519531,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "32",
+    "latency_ms": 7.802724838256836,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "739",
+    "latency_ms": 7.807016372680664,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "740",
+    "latency_ms": 7.807016372680664,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "886",
+    "latency_ms": 7.808923721313477,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1001",
+    "latency_ms": 7.81702995300293,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1373",
+    "latency_ms": 7.817983627319336,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1135",
+    "latency_ms": 7.829904556274414,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1133",
+    "latency_ms": 7.834196090698242,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "200",
+    "latency_ms": 7.838010787963867,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "201",
+    "latency_ms": 7.842063903808594,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "884",
+    "latency_ms": 7.845878601074219,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "199",
+    "latency_ms": 7.848024368286133,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1128",
+    "latency_ms": 7.850885391235352,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "780",
+    "latency_ms": 7.856130599975586,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "197",
+    "latency_ms": 7.862091064453125,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1385",
+    "latency_ms": 7.862091064453125,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "30",
+    "latency_ms": 7.864952087402344,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "601",
+    "latency_ms": 7.864952087402344,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "737",
+    "latency_ms": 7.8678131103515625,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "615",
+    "latency_ms": 7.868051528930664,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1127",
+    "latency_ms": 7.868766784667969,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "196",
+    "latency_ms": 7.872104644775391,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "777",
+    "latency_ms": 7.880926132202148,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "28",
+    "latency_ms": 7.884025573730469,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "128",
+    "latency_ms": 7.884025573730469,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1146",
+    "latency_ms": 7.887125015258789,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "816",
+    "latency_ms": 7.890939712524414,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "626",
+    "latency_ms": 7.895946502685547,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "945",
+    "latency_ms": 7.899045944213867,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "944",
+    "latency_ms": 7.912158966064453,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1366",
+    "latency_ms": 7.91478157043457,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "454",
+    "latency_ms": 7.925987243652344,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "452",
+    "latency_ms": 7.933855056762695,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "230",
+    "latency_ms": 7.9479217529296875,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "426",
+    "latency_ms": 7.950067520141602,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "429",
+    "latency_ms": 7.967233657836914,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "219",
+    "latency_ms": 7.969141006469727,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "600",
+    "latency_ms": 7.974863052368164,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "218",
+    "latency_ms": 7.977962493896484,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "217",
+    "latency_ms": 7.981061935424805,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "602",
+    "latency_ms": 7.997989654541016,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "941",
+    "latency_ms": 7.998943328857422,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "595",
+    "latency_ms": 8.024930953979492,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1214",
+    "latency_ms": 8.027791976928711,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "169",
+    "latency_ms": 8.040189743041992,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "613",
+    "latency_ms": 8.040904998779297,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "172",
+    "latency_ms": 8.043050765991211,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "173",
+    "latency_ms": 8.043766021728516,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "174",
+    "latency_ms": 8.044004440307617,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "265",
+    "latency_ms": 8.059263229370117,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "264",
+    "latency_ms": 8.070230484008789,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1111",
+    "latency_ms": 8.080005645751953,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "487",
+    "latency_ms": 8.09478759765625,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "537",
+    "latency_ms": 8.102893829345703,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "541",
+    "latency_ms": 8.105993270874023,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "901",
+    "latency_ms": 8.105993270874023,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "594",
+    "latency_ms": 8.107185363769531,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1334",
+    "latency_ms": 8.117914199829102,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "531",
+    "latency_ms": 8.11910629272461,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "529",
+    "latency_ms": 8.121013641357422,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1005",
+    "latency_ms": 8.126974105834961,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "530",
+    "latency_ms": 8.12983512878418,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "858",
+    "latency_ms": 8.1329345703125,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "902",
+    "latency_ms": 8.136272430419922,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1006",
+    "latency_ms": 8.138895034790039,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1268",
+    "latency_ms": 8.13913345336914,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1003",
+    "latency_ms": 8.141040802001953,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "867",
+    "latency_ms": 8.143186569213867,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "898",
+    "latency_ms": 8.143901824951172,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "855",
+    "latency_ms": 8.144140243530273,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "494",
+    "latency_ms": 8.144855499267578,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "857",
+    "latency_ms": 8.144855499267578,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "636",
+    "latency_ms": 8.144855499267578,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "900",
+    "latency_ms": 8.148908615112305,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1353",
+    "latency_ms": 8.152008056640625,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1405",
+    "latency_ms": 8.152008056640625,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1157",
+    "latency_ms": 8.153200149536133,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "899",
+    "latency_ms": 8.157014846801758,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "238",
+    "latency_ms": 8.157968521118164,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "854",
+    "latency_ms": 8.159875869750977,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "863",
+    "latency_ms": 8.160114288330078,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1",
+    "latency_ms": 8.162975311279297,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "495",
+    "latency_ms": 8.177995681762695,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1350",
+    "latency_ms": 8.187055587768555,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1236",
+    "latency_ms": 8.189916610717773,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1379",
+    "latency_ms": 8.1939697265625,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "492",
+    "latency_ms": 8.20302963256836,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1275",
+    "latency_ms": 8.209228515625,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1255",
+    "latency_ms": 8.216142654418945,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "758",
+    "latency_ms": 8.21995735168457,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1219",
+    "latency_ms": 8.22591781616211,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "757",
+    "latency_ms": 8.232831954956055,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "262",
+    "latency_ms": 8.234977722167969,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "258",
+    "latency_ms": 8.241891860961914,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "755",
+    "latency_ms": 8.241891860961914,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "104",
+    "latency_ms": 8.243799209594727,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "753",
+    "latency_ms": 8.252143859863281,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "256",
+    "latency_ms": 8.259773254394531,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1375",
+    "latency_ms": 8.262872695922852,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "106",
+    "latency_ms": 8.269071578979492,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "120",
+    "latency_ms": 8.273124694824219,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "501",
+    "latency_ms": 8.279085159301758,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "122",
+    "latency_ms": 8.282184600830078,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "121",
+    "latency_ms": 8.301258087158203,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "98",
+    "latency_ms": 8.303165435791016,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "180",
+    "latency_ms": 8.305072784423828,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "119",
+    "latency_ms": 8.307933807373047,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "36",
+    "latency_ms": 8.307933807373047,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "922",
+    "latency_ms": 8.316993713378906,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "565",
+    "latency_ms": 8.31913948059082,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "116",
+    "latency_ms": 8.321762084960938,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "114",
+    "latency_ms": 8.333921432495117,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "423",
+    "latency_ms": 8.338212966918945,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "96",
+    "latency_ms": 8.345842361450195,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "161",
+    "latency_ms": 8.357048034667969,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "171",
+    "latency_ms": 8.369922637939453,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "657",
+    "latency_ms": 8.386850357055664,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "661",
+    "latency_ms": 8.392095565795898,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "81",
+    "latency_ms": 8.393287658691406,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "662",
+    "latency_ms": 8.395910263061523,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "658",
+    "latency_ms": 8.401870727539062,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "655",
+    "latency_ms": 8.424043655395508,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "434",
+    "latency_ms": 8.437156677246094,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "856",
+    "latency_ms": 8.443117141723633,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "80",
+    "latency_ms": 8.458137512207031,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "183",
+    "latency_ms": 8.465766906738281,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "437",
+    "latency_ms": 8.46719741821289,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "430",
+    "latency_ms": 8.478879928588867,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1055",
+    "latency_ms": 8.489847183227539,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "166",
+    "latency_ms": 8.49294662475586,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "167",
+    "latency_ms": 8.498907089233398,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "870",
+    "latency_ms": 8.504867553710938,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1054",
+    "latency_ms": 8.505821228027344,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "165",
+    "latency_ms": 8.514881134033203,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "57",
+    "latency_ms": 8.519887924194336,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "164",
+    "latency_ms": 8.528947830200195,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "179",
+    "latency_ms": 8.536100387573242,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "625",
+    "latency_ms": 8.547782897949219,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "632",
+    "latency_ms": 8.55112075805664,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "841",
+    "latency_ms": 8.556127548217773,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "852",
+    "latency_ms": 8.559942245483398,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1110",
+    "latency_ms": 8.563995361328125,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "560",
+    "latency_ms": 8.569002151489258,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "489",
+    "latency_ms": 8.57090950012207,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "79",
+    "latency_ms": 8.577108383178711,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "624",
+    "latency_ms": 8.580207824707031,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "847",
+    "latency_ms": 8.587121963500977,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "425",
+    "latency_ms": 8.589029312133789,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "614",
+    "latency_ms": 8.607864379882812,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1248",
+    "latency_ms": 8.615970611572266,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1164",
+    "latency_ms": 8.620023727416992,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "790",
+    "latency_ms": 8.63504409790039,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1244",
+    "latency_ms": 8.63790512084961,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1097",
+    "latency_ms": 8.638143539428711,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1159",
+    "latency_ms": 8.661746978759766,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "788",
+    "latency_ms": 8.671998977661133,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1323",
+    "latency_ms": 8.687019348144531,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "53",
+    "latency_ms": 8.690834045410156,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "78",
+    "latency_ms": 8.712053298950195,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "93",
+    "latency_ms": 8.714914321899414,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "51",
+    "latency_ms": 8.718013763427734,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1162",
+    "latency_ms": 8.726835250854492,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "942",
+    "latency_ms": 8.72802734375,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "946",
+    "latency_ms": 8.730888366699219,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "137",
+    "latency_ms": 8.735895156860352,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "883",
+    "latency_ms": 8.739948272705078,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1319",
+    "latency_ms": 8.745908737182617,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "584",
+    "latency_ms": 8.750200271606445,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "877",
+    "latency_ms": 8.752822875976562,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "91",
+    "latency_ms": 8.758068084716797,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "95",
+    "latency_ms": 8.764266967773438,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1320",
+    "latency_ms": 8.764982223510742,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "798",
+    "latency_ms": 8.765935897827148,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "579",
+    "latency_ms": 8.772134780883789,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "428",
+    "latency_ms": 8.774995803833008,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1158",
+    "latency_ms": 8.779048919677734,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1302",
+    "latency_ms": 8.790969848632812,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "582",
+    "latency_ms": 8.796215057373047,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "580",
+    "latency_ms": 8.797883987426758,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "90",
+    "latency_ms": 8.807182312011719,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "795",
+    "latency_ms": 8.807182312011719,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "574",
+    "latency_ms": 8.808374404907227,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "797",
+    "latency_ms": 8.810043334960938,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1394",
+    "latency_ms": 8.813142776489258,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "871",
+    "latency_ms": 8.816719055175781,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1397",
+    "latency_ms": 8.818864822387695,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "259",
+    "latency_ms": 8.82411003112793,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "268",
+    "latency_ms": 8.839845657348633,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1120",
+    "latency_ms": 8.840322494506836,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1069",
+    "latency_ms": 8.84103775024414,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1125",
+    "latency_ms": 8.841991424560547,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "576",
+    "latency_ms": 8.845090866088867,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1126",
+    "latency_ms": 8.846044540405273,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1322",
+    "latency_ms": 8.85009765625,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1118",
+    "latency_ms": 8.852958679199219,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1119",
+    "latency_ms": 8.857250213623047,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "242",
+    "latency_ms": 8.858203887939453,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "572",
+    "latency_ms": 8.861064910888672,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "241",
+    "latency_ms": 8.873939514160156,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "239",
+    "latency_ms": 8.878231048583984,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1011",
+    "latency_ms": 8.881092071533203,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1002",
+    "latency_ms": 8.892059326171875,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "896",
+    "latency_ms": 8.90803337097168,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "897",
+    "latency_ms": 8.908987045288086,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "679",
+    "latency_ms": 8.92496109008789,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "895",
+    "latency_ms": 8.926153182983398,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "228",
+    "latency_ms": 8.929014205932617,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "484",
+    "latency_ms": 8.929014205932617,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1297",
+    "latency_ms": 8.929014205932617,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1000",
+    "latency_ms": 8.931159973144531,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "680",
+    "latency_ms": 8.934974670410156,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "681",
+    "latency_ms": 8.945941925048828,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "677",
+    "latency_ms": 8.953094482421875,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1085",
+    "latency_ms": 8.97216796875,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1400",
+    "latency_ms": 8.975028991699219,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "676",
+    "latency_ms": 8.979082107543945,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "573",
+    "latency_ms": 8.980035781860352,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "294",
+    "latency_ms": 8.986949920654297,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1402",
+    "latency_ms": 8.993864059448242,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1403",
+    "latency_ms": 8.994817733764648,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1333",
+    "latency_ms": 8.995771408081055,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "571",
+    "latency_ms": 9.031057357788086,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "973",
+    "latency_ms": 9.037017822265625,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "34",
+    "latency_ms": 9.050130844116211,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "970",
+    "latency_ms": 9.055852890014648,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "972",
+    "latency_ms": 9.06515121459961,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1341",
+    "latency_ms": 9.065866470336914,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1230",
+    "latency_ms": 9.068012237548828,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "969",
+    "latency_ms": 9.071111679077148,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "965",
+    "latency_ms": 9.089946746826172,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "612",
+    "latency_ms": 9.099006652832031,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "859",
+    "latency_ms": 9.099006652832031,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "648",
+    "latency_ms": 9.119033813476562,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "631",
+    "latency_ms": 9.121179580688477,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "163",
+    "latency_ms": 9.13095474243164,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "647",
+    "latency_ms": 9.141921997070312,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "804",
+    "latency_ms": 9.16290283203125,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "646",
+    "latency_ms": 9.168148040771484,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "815",
+    "latency_ms": 9.17196273803711,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "645",
+    "latency_ms": 9.179830551147461,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "812",
+    "latency_ms": 9.19198989868164,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "803",
+    "latency_ms": 9.196043014526367,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "813",
+    "latency_ms": 9.205818176269531,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "205",
+    "latency_ms": 9.227991104125977,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "570",
+    "latency_ms": 9.230852127075195,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "210",
+    "latency_ms": 9.23609733581543,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "801",
+    "latency_ms": 9.237051010131836,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "643",
+    "latency_ms": 9.240865707397461,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "112",
+    "latency_ms": 9.243011474609375,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "204",
+    "latency_ms": 9.248018264770508,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "209",
+    "latency_ms": 9.26518440246582,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "592",
+    "latency_ms": 9.269237518310547,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "591",
+    "latency_ms": 9.276866912841797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1109",
+    "latency_ms": 9.278059005737305,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "652",
+    "latency_ms": 9.279012680053711,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1254",
+    "latency_ms": 9.283781051635742,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "590",
+    "latency_ms": 9.286880493164062,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1194",
+    "latency_ms": 9.289979934692383,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1191",
+    "latency_ms": 9.295225143432617,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1196",
+    "latency_ms": 9.297847747802734,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "789",
+    "latency_ms": 9.29880142211914,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "654",
+    "latency_ms": 9.304046630859375,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1150",
+    "latency_ms": 9.310007095336914,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1253",
+    "latency_ms": 9.31096076965332,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "653",
+    "latency_ms": 9.314775466918945,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "588",
+    "latency_ms": 9.327888488769531,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "651",
+    "latency_ms": 9.334802627563477,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "980",
+    "latency_ms": 9.335041046142578,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1197",
+    "latency_ms": 9.335994720458984,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "585",
+    "latency_ms": 9.337902069091797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "342",
+    "latency_ms": 9.344100952148438,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1309",
+    "latency_ms": 9.344816207885742,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "341",
+    "latency_ms": 9.345054626464844,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "979",
+    "latency_ms": 9.347915649414062,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "978",
+    "latency_ms": 9.357213973999023,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "339",
+    "latency_ms": 9.362936019897461,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1351",
+    "latency_ms": 9.381771087646484,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "650",
+    "latency_ms": 9.397029876708984,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1348",
+    "latency_ms": 9.400129318237305,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "469",
+    "latency_ms": 9.40704345703125,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "130",
+    "latency_ms": 9.431123733520508,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "893",
+    "latency_ms": 9.440898895263672,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "894",
+    "latency_ms": 9.448051452636719,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1004",
+    "latency_ms": 9.474039077758789,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1132",
+    "latency_ms": 9.479999542236328,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1081",
+    "latency_ms": 9.498119354248047,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "203",
+    "latency_ms": 9.499073028564453,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "220",
+    "latency_ms": 9.511947631835938,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "222",
+    "latency_ms": 9.519100189208984,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "124",
+    "latency_ms": 9.520292282104492,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1195",
+    "latency_ms": 9.531021118164062,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "214",
+    "latency_ms": 9.53984260559082,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "211",
+    "latency_ms": 9.553909301757812,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "248",
+    "latency_ms": 9.556055068969727,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1190",
+    "latency_ms": 9.569883346557617,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "303",
+    "latency_ms": 9.578943252563477,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1188",
+    "latency_ms": 9.58704948425293,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1186",
+    "latency_ms": 9.589195251464844,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "263",
+    "latency_ms": 9.603023529052734,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "298",
+    "latency_ms": 9.60397720336914,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "879",
+    "latency_ms": 9.610891342163086,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "880",
+    "latency_ms": 9.613037109375,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "882",
+    "latency_ms": 9.627819061279297,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "160",
+    "latency_ms": 9.667158126831055,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "873",
+    "latency_ms": 9.667158126831055,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "354",
+    "latency_ms": 9.678125381469727,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "159",
+    "latency_ms": 9.679794311523438,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "156",
+    "latency_ms": 9.686946868896484,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "157",
+    "latency_ms": 9.689092636108398,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "155",
+    "latency_ms": 9.69386100769043,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1314",
+    "latency_ms": 9.698152542114258,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "498",
+    "latency_ms": 9.731054306030273,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1401",
+    "latency_ms": 9.742021560668945,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "527",
+    "latency_ms": 9.752035140991211,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "620",
+    "latency_ms": 9.755849838256836,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1382",
+    "latency_ms": 9.759664535522461,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "622",
+    "latency_ms": 9.766101837158203,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "279",
+    "latency_ms": 9.766817092895508,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "621",
+    "latency_ms": 9.768009185791016,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "776",
+    "latency_ms": 9.773015975952148,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "618",
+    "latency_ms": 9.778261184692383,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "848",
+    "latency_ms": 9.790897369384766,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "461",
+    "latency_ms": 9.793996810913086,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "350",
+    "latency_ms": 9.795904159545898,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "617",
+    "latency_ms": 9.814023971557617,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1030",
+    "latency_ms": 9.82522964477539,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1238",
+    "latency_ms": 9.840250015258789,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "998",
+    "latency_ms": 9.840965270996094,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1028",
+    "latency_ms": 9.8419189453125,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "111",
+    "latency_ms": 9.84811782836914,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1008",
+    "latency_ms": 9.851217269897461,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "436",
+    "latency_ms": 9.855985641479492,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "422",
+    "latency_ms": 9.861946105957031,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "42",
+    "latency_ms": 9.886741638183594,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "76",
+    "latency_ms": 9.899139404296875,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "74",
+    "latency_ms": 9.912967681884766,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "420",
+    "latency_ms": 9.91511344909668,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "73",
+    "latency_ms": 9.92584228515625,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "71",
+    "latency_ms": 9.928226470947266,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "418",
+    "latency_ms": 9.93204116821289,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "189",
+    "latency_ms": 9.932994842529297,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "187",
+    "latency_ms": 9.938955307006836,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "186",
+    "latency_ms": 9.939193725585938,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "92",
+    "latency_ms": 9.95016098022461,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "417",
+    "latency_ms": 9.95016098022461,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "69",
+    "latency_ms": 9.96088981628418,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "493",
+    "latency_ms": 9.961366653442383,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "403",
+    "latency_ms": 9.96708869934082,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "184",
+    "latency_ms": 9.969949722290039,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "77",
+    "latency_ms": 9.975910186767578,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "182",
+    "latency_ms": 10.000944137573242,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "153",
+    "latency_ms": 10.008811950683594,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "154",
+    "latency_ms": 10.009765625,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "954",
+    "latency_ms": 10.012149810791016,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "952",
+    "latency_ms": 10.026931762695312,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "152",
+    "latency_ms": 10.030031204223633,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "953",
+    "latency_ms": 10.031938552856445,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1305",
+    "latency_ms": 10.031938552856445,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "951",
+    "latency_ms": 10.038137435913086,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "949",
+    "latency_ms": 10.041236877441406,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1104",
+    "latency_ms": 10.051965713500977,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "149",
+    "latency_ms": 10.056257247924805,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "144",
+    "latency_ms": 10.064125061035156,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1031",
+    "latency_ms": 10.064840316772461,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "845",
+    "latency_ms": 10.069131851196289,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1130",
+    "latency_ms": 10.078907012939453,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1027",
+    "latency_ms": 10.081768035888672,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "762",
+    "latency_ms": 10.091066360473633,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1074",
+    "latency_ms": 10.09678840637207,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "115",
+    "latency_ms": 10.100841522216797,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1026",
+    "latency_ms": 10.125160217285156,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1072",
+    "latency_ms": 10.125875473022461,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "48",
+    "latency_ms": 10.125875473022461,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "760",
+    "latency_ms": 10.133981704711914,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "212",
+    "latency_ms": 10.13803482055664,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "213",
+    "latency_ms": 10.14399528503418,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1371",
+    "latency_ms": 10.158061981201172,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1170",
+    "latency_ms": 10.164022445678711,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "198",
+    "latency_ms": 10.166168212890625,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1166",
+    "latency_ms": 10.174274444580078,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1165",
+    "latency_ms": 10.18214225769043,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "516",
+    "latency_ms": 10.196924209594727,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1169",
+    "latency_ms": 10.209083557128906,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "977",
+    "latency_ms": 10.24484634399414,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "887",
+    "latency_ms": 10.247945785522461,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "414",
+    "latency_ms": 10.248899459838867,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1168",
+    "latency_ms": 10.255813598632812,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "976",
+    "latency_ms": 10.259866714477539,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1274",
+    "latency_ms": 10.275125503540039,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "817",
+    "latency_ms": 10.283946990966797,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1237",
+    "latency_ms": 10.284900665283203,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1163",
+    "latency_ms": 10.291099548339844,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1273",
+    "latency_ms": 10.29205322265625,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "105",
+    "latency_ms": 10.297775268554688,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1272",
+    "latency_ms": 10.316133499145508,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "407",
+    "latency_ms": 10.323762893676758,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "394",
+    "latency_ms": 10.331869125366211,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "19",
+    "latency_ms": 10.335922241210938,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "396",
+    "latency_ms": 10.33782958984375,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "413",
+    "latency_ms": 10.341167449951172,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "578",
+    "latency_ms": 10.343790054321289,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "267",
+    "latency_ms": 10.351896286010742,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "393",
+    "latency_ms": 10.352134704589844,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1035",
+    "latency_ms": 10.35308837890625,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "392",
+    "latency_ms": 10.361909866333008,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "272",
+    "latency_ms": 10.36691665649414,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "771",
+    "latency_ms": 10.370016098022461,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "774",
+    "latency_ms": 10.371923446655273,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1075",
+    "latency_ms": 10.37287712097168,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "347",
+    "latency_ms": 10.384798049926758,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "391",
+    "latency_ms": 10.384798049926758,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "266",
+    "latency_ms": 10.386943817138672,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "474",
+    "latency_ms": 10.398387908935547,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "962",
+    "latency_ms": 10.404109954833984,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "964",
+    "latency_ms": 10.404109954833984,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "963",
+    "latency_ms": 10.404825210571289,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "559",
+    "latency_ms": 10.422945022583008,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "959",
+    "latency_ms": 10.424137115478516,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "955",
+    "latency_ms": 10.428190231323242,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "562",
+    "latency_ms": 10.432004928588867,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "485",
+    "latency_ms": 10.434150695800781,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "52",
+    "latency_ms": 10.435104370117188,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "555",
+    "latency_ms": 10.439872741699219,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "47",
+    "latency_ms": 10.441064834594727,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "249",
+    "latency_ms": 10.443925857543945,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "261",
+    "latency_ms": 10.444879531860352,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "46",
+    "latency_ms": 10.44607162475586,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "557",
+    "latency_ms": 10.446786880493164,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "472",
+    "latency_ms": 10.447978973388672,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "401",
+    "latency_ms": 10.450363159179688,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "45",
+    "latency_ms": 10.455131530761719,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "346",
+    "latency_ms": 10.468006134033203,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "553",
+    "latency_ms": 10.47205924987793,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "404",
+    "latency_ms": 10.478019714355469,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1070",
+    "latency_ms": 10.482072830200195,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "598",
+    "latency_ms": 10.516166687011719,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1106",
+    "latency_ms": 10.522842407226562,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1047",
+    "latency_ms": 10.524988174438477,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "397",
+    "latency_ms": 10.539054870605469,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1103",
+    "latency_ms": 10.544776916503906,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "704",
+    "latency_ms": 10.554790496826172,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1102",
+    "latency_ms": 10.558843612670898,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "705",
+    "latency_ms": 10.569095611572266,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "709",
+    "latency_ms": 10.576725006103516,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1020",
+    "latency_ms": 10.602951049804688,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "913",
+    "latency_ms": 10.619878768920898,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "960",
+    "latency_ms": 10.623931884765625,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1392",
+    "latency_ms": 10.630130767822266,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "911",
+    "latency_ms": 10.63394546508789,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "278",
+    "latency_ms": 10.63990592956543,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "611",
+    "latency_ms": 10.641098022460938,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1161",
+    "latency_ms": 10.641813278198242,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "400",
+    "latency_ms": 10.652780532836914,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "907",
+    "latency_ms": 10.65683364868164,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "539",
+    "latency_ms": 10.683059692382812,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "535",
+    "latency_ms": 10.693073272705078,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "236",
+    "latency_ms": 10.706186294555664,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1062",
+    "latency_ms": 10.709047317504883,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1187",
+    "latency_ms": 10.709762573242188,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "830",
+    "latency_ms": 10.715723037719727,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1185",
+    "latency_ms": 10.721921920776367,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "233",
+    "latency_ms": 10.7269287109375,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "710",
+    "latency_ms": 10.730981826782227,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "823",
+    "latency_ms": 10.732173919677734,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "35",
+    "latency_ms": 10.732650756835938,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1180",
+    "latency_ms": 10.735750198364258,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "232",
+    "latency_ms": 10.742902755737305,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "398",
+    "latency_ms": 10.746002197265625,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "820",
+    "latency_ms": 10.750293731689453,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "703",
+    "latency_ms": 10.758161544799805,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "269",
+    "latency_ms": 10.758161544799805,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "814",
+    "latency_ms": 10.777711868286133,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1105",
+    "latency_ms": 10.779142379760742,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "551",
+    "latency_ms": 10.782957077026367,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "726",
+    "latency_ms": 10.785818099975586,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "549",
+    "latency_ms": 10.791778564453125,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "724",
+    "latency_ms": 10.792016983032227,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "881",
+    "latency_ms": 10.795116424560547,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "552",
+    "latency_ms": 10.797262191772461,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "717",
+    "latency_ms": 10.814905166625977,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "714",
+    "latency_ms": 10.815143585205078,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "876",
+    "latency_ms": 10.822057723999023,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "275",
+    "latency_ms": 10.831117630004883,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1247",
+    "latency_ms": 10.833024978637695,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "208",
+    "latency_ms": 10.838031768798828,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "540",
+    "latency_ms": 10.840892791748047,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "713",
+    "latency_ms": 10.841131210327148,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "982",
+    "latency_ms": 10.851860046386719,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "410",
+    "latency_ms": 10.858297348022461,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "361",
+    "latency_ms": 10.859966278076172,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "356",
+    "latency_ms": 10.876893997192383,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1406",
+    "latency_ms": 10.879993438720703,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1312",
+    "latency_ms": 10.883092880249023,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "399",
+    "latency_ms": 10.893106460571289,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "357",
+    "latency_ms": 10.89787483215332,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "623",
+    "latency_ms": 10.922908782958984,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "388",
+    "latency_ms": 10.94198226928711,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "386",
+    "latency_ms": 10.94818115234375,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "821",
+    "latency_ms": 10.963916778564453,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "779",
+    "latency_ms": 10.979890823364258,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1089",
+    "latency_ms": 10.980844497680664,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1101",
+    "latency_ms": 10.983943939208984,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1184",
+    "latency_ms": 10.987043380737305,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1182",
+    "latency_ms": 10.987997055053711,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "6",
+    "latency_ms": 11.00611686706543,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1183",
+    "latency_ms": 11.014938354492188,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1239",
+    "latency_ms": 11.016845703125,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "431",
+    "latency_ms": 11.022806167602539,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1181",
+    "latency_ms": 11.029958724975586,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1178",
+    "latency_ms": 11.0321044921875,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1391",
+    "latency_ms": 11.058330535888672,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "473",
+    "latency_ms": 11.059999465942383,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "416",
+    "latency_ms": 11.062860488891602,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1372",
+    "latency_ms": 11.07478141784668,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1293",
+    "latency_ms": 11.076211929321289,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "415",
+    "latency_ms": 11.080026626586914,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1367",
+    "latency_ms": 11.093854904174805,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1235",
+    "latency_ms": 11.109113693237305,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "411",
+    "latency_ms": 11.129140853881836,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "839",
+    "latency_ms": 11.14511489868164,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "832",
+    "latency_ms": 11.157035827636719,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "837",
+    "latency_ms": 11.16323471069336,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1398",
+    "latency_ms": 11.16800308227539,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "835",
+    "latency_ms": 11.168956756591797,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "834",
+    "latency_ms": 11.179924011230469,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1053",
+    "latency_ms": 11.198997497558594,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "548",
+    "latency_ms": 11.213064193725586,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "807",
+    "latency_ms": 11.214017868041992,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "550",
+    "latency_ms": 11.225223541259766,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "547",
+    "latency_ms": 11.229991912841797,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "826",
+    "latency_ms": 11.23189926147461,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "766",
+    "latency_ms": 11.240005493164062,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "545",
+    "latency_ms": 11.258125305175781,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "665",
+    "latency_ms": 11.259078979492188,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1099",
+    "latency_ms": 11.261940002441406,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "667",
+    "latency_ms": 11.265039443969727,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "668",
+    "latency_ms": 11.27004623413086,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "666",
+    "latency_ms": 11.276006698608398,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1349",
+    "latency_ms": 11.309146881103516,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "542",
+    "latency_ms": 11.313915252685547,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "985",
+    "latency_ms": 11.347055435180664,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "109",
+    "latency_ms": 11.352777481079102,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "818",
+    "latency_ms": 11.391162872314453,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1390",
+    "latency_ms": 11.39688491821289,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1387",
+    "latency_ms": 11.41500473022461,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1156",
+    "latency_ms": 11.425971984863281,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1148",
+    "latency_ms": 11.427164077758789,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1153",
+    "latency_ms": 11.435985565185547,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "663",
+    "latency_ms": 11.450767517089844,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "178",
+    "latency_ms": 11.464118957519531,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1145",
+    "latency_ms": 11.466026306152344,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "355",
+    "latency_ms": 11.46697998046875,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "44",
+    "latency_ms": 11.471986770629883,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1009",
+    "latency_ms": 11.50369644165039,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "181",
+    "latency_ms": 11.511087417602539,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1052",
+    "latency_ms": 11.515140533447266,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1048",
+    "latency_ms": 11.543989181518555,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "177",
+    "latency_ms": 11.5509033203125,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "176",
+    "latency_ms": 11.562108993530273,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "295",
+    "latency_ms": 11.577129364013672,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "938",
+    "latency_ms": 11.579036712646484,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1050",
+    "latency_ms": 11.57999038696289,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "940",
+    "latency_ms": 11.582136154174805,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "939",
+    "latency_ms": 11.595964431762695,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "175",
+    "latency_ms": 11.604070663452148,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1246",
+    "latency_ms": 11.6119384765625,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "934",
+    "latency_ms": 11.620759963989258,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "935",
+    "latency_ms": 11.625051498413086,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1310",
+    "latency_ms": 11.6729736328125,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "285",
+    "latency_ms": 11.675119400024414,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "956",
+    "latency_ms": 11.681795120239258,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1389",
+    "latency_ms": 11.69729232788086,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1324",
+    "latency_ms": 11.725187301635742,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "455",
+    "latency_ms": 11.726140975952148,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1307",
+    "latency_ms": 11.759281158447266,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "237",
+    "latency_ms": 11.77978515625,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "914",
+    "latency_ms": 11.788129806518555,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "840",
+    "latency_ms": 11.79194450378418,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "132",
+    "latency_ms": 11.808156967163086,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1265",
+    "latency_ms": 11.821985244750977,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1263",
+    "latency_ms": 11.836051940917969,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "332",
+    "latency_ms": 11.859893798828125,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1046",
+    "latency_ms": 11.862039566040039,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1393",
+    "latency_ms": 11.862754821777344,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "283",
+    "latency_ms": 11.877059936523438,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1260",
+    "latency_ms": 11.878013610839844,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1362",
+    "latency_ms": 11.889934539794922,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "999",
+    "latency_ms": 11.905193328857422,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "281",
+    "latency_ms": 11.909961700439453,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1231",
+    "latency_ms": 11.925697326660156,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1234",
+    "latency_ms": 11.929988861083984,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "997",
+    "latency_ms": 11.935949325561523,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "996",
+    "latency_ms": 11.94310188293457,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "994",
+    "latency_ms": 11.972904205322266,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1229",
+    "latency_ms": 11.972904205322266,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1228",
+    "latency_ms": 11.996984481811523,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1090",
+    "latency_ms": 12.002944946289062,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1279",
+    "latency_ms": 12.01009750366211,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1282",
+    "latency_ms": 12.016773223876953,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1281",
+    "latency_ms": 12.03012466430664,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "352",
+    "latency_ms": 12.031078338623047,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1280",
+    "latency_ms": 12.038946151733398,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "506",
+    "latency_ms": 12.079954147338867,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "505",
+    "latency_ms": 12.082815170288086,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "325",
+    "latency_ms": 12.092828750610352,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "139",
+    "latency_ms": 12.141942977905273,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "500",
+    "latency_ms": 12.148141860961914,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "504",
+    "latency_ms": 12.148141860961914,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "138",
+    "latency_ms": 12.15982437133789,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "50",
+    "latency_ms": 12.164115905761719,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1303",
+    "latency_ms": 12.17794418334961,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1290",
+    "latency_ms": 12.192726135253906,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "49",
+    "latency_ms": 12.196779251098633,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "499",
+    "latency_ms": 12.197256088256836,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1316",
+    "latency_ms": 12.198925018310547,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "134",
+    "latency_ms": 12.210845947265625,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1294",
+    "latency_ms": 12.214183807373047,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1298",
+    "latency_ms": 12.220144271850586,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "280",
+    "latency_ms": 12.223005294799805,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "642",
+    "latency_ms": 12.223958969116211,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "638",
+    "latency_ms": 12.22681999206543,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "640",
+    "latency_ms": 12.228965759277344,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1291",
+    "latency_ms": 12.243986129760742,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "221",
+    "latency_ms": 12.256860733032227,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "185",
+    "latency_ms": 12.269020080566406,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "126",
+    "latency_ms": 12.277841567993164,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "358",
+    "latency_ms": 12.284994125366211,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "309",
+    "latency_ms": 12.289047241210938,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "123",
+    "latency_ms": 12.293100357055664,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "1292",
+    "latency_ms": 12.310981750488281,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "635",
+    "latency_ms": 12.32004165649414,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "277",
+    "latency_ms": 12.333154678344727,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "305",
+    "latency_ms": 12.341976165771484,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "633",
+    "latency_ms": 12.352943420410156,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "544",
+    "latency_ms": 12.357234954833984,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "923",
+    "latency_ms": 12.375831604003906,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1073",
+    "latency_ms": 12.386083602905273,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "903",
+    "latency_ms": 12.431144714355469,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "4",
+    "latency_ms": 12.459039688110352,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "831",
+    "latency_ms": 12.471199035644531,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1226",
+    "latency_ms": 12.483835220336914,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "312",
+    "latency_ms": 12.488126754760742,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "421",
+    "latency_ms": 12.490034103393555,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "921",
+    "latency_ms": 12.495279312133789,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1221",
+    "latency_ms": 12.497186660766602,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1225",
+    "latency_ms": 12.505054473876953,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1262",
+    "latency_ms": 12.57014274597168,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1245",
+    "latency_ms": 12.573957443237305,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1266",
+    "latency_ms": 12.574911117553711,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1216",
+    "latency_ms": 12.578010559082031,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1259",
+    "latency_ms": 12.58087158203125,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1241",
+    "latency_ms": 12.637853622436523,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "372",
+    "latency_ms": 12.697935104370117,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1084",
+    "latency_ms": 12.70294189453125,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "336",
+    "latency_ms": 12.70604133605957,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "371",
+    "latency_ms": 12.710094451904297,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "349",
+    "latency_ms": 12.713909149169922,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "337",
+    "latency_ms": 12.718677520751953,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "351",
+    "latency_ms": 12.724876403808594,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "463",
+    "latency_ms": 12.732982635498047,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1042",
+    "latency_ms": 12.744903564453125,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "300",
+    "latency_ms": 12.745141983032227,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "370",
+    "latency_ms": 12.75181770324707,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "369",
+    "latency_ms": 12.756109237670898,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "800",
+    "latency_ms": 12.77303695678711,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "368",
+    "latency_ms": 12.787103652954102,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "917",
+    "latency_ms": 12.81595230102539,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1056",
+    "latency_ms": 12.832164764404297,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1370",
+    "latency_ms": 12.841224670410156,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "791",
+    "latency_ms": 12.85099983215332,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1029",
+    "latency_ms": 12.970924377441406,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1407",
+    "latency_ms": 12.989997863769531,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1024",
+    "latency_ms": 13.02027702331543,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "925",
+    "latency_ms": 13.029098510742188,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1088",
+    "latency_ms": 13.043880462646484,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "919",
+    "latency_ms": 13.067960739135742,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "253",
+    "latency_ms": 13.117074966430664,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "255",
+    "latency_ms": 13.117790222167969,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "254",
+    "latency_ms": 13.126134872436523,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "251",
+    "latency_ms": 13.129949569702148,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "335",
+    "latency_ms": 13.136863708496094,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "39",
+    "latency_ms": 13.144969940185547,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "822",
+    "latency_ms": 13.148069381713867,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "41",
+    "latency_ms": 13.167858123779297,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "40",
+    "latency_ms": 13.182878494262695,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "43",
+    "latency_ms": 13.18502426147461,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "37",
+    "latency_ms": 13.190031051635742,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1386",
+    "latency_ms": 13.195037841796875,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1355",
+    "latency_ms": 13.223886489868164,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "108",
+    "latency_ms": 13.234138488769531,
+    "worker_id": 33581,
+    "batch_id": 1,
+    "num_results": 10
+  },
+  {
+    "query_id": "250",
+    "latency_ms": 13.260126113891602,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1232",
+    "latency_ms": 13.293981552124023,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "330",
+    "latency_ms": 13.307332992553711,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "326",
+    "latency_ms": 13.329267501831055,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "327",
+    "latency_ms": 13.337135314941406,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "926",
+    "latency_ms": 13.366937637329102,
+    "worker_id": 33581,
+    "batch_id": 7,
+    "num_results": 10
+  },
+  {
+    "query_id": "1043",
+    "latency_ms": 13.377904891967773,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "385",
+    "latency_ms": 13.495206832885742,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "802",
+    "latency_ms": 13.581991195678711,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1306",
+    "latency_ms": 13.615131378173828,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "967",
+    "latency_ms": 13.61989974975586,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "308",
+    "latency_ms": 13.646125793457031,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "310",
+    "latency_ms": 13.654947280883789,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "533",
+    "latency_ms": 13.67497444152832,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "306",
+    "latency_ms": 13.682126998901367,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "808",
+    "latency_ms": 13.688802719116211,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1044",
+    "latency_ms": 13.71908187866211,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "793",
+    "latency_ms": 13.742208480834961,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1271",
+    "latency_ms": 13.8092041015625,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "470",
+    "latency_ms": 13.857841491699219,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1270",
+    "latency_ms": 13.865947723388672,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1040",
+    "latency_ms": 13.869047164916992,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "975",
+    "latency_ms": 13.879060745239258,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "11",
+    "latency_ms": 13.89002799987793,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "957",
+    "latency_ms": 13.893842697143555,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "799",
+    "latency_ms": 13.9007568359375,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "514",
+    "latency_ms": 13.917207717895508,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1300",
+    "latency_ms": 13.921976089477539,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "10",
+    "latency_ms": 13.94510269165039,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "14",
+    "latency_ms": 13.955116271972656,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "15",
+    "latency_ms": 13.961076736450195,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "12",
+    "latency_ms": 13.982057571411133,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "5",
+    "latency_ms": 13.982057571411133,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "805",
+    "latency_ms": 13.987064361572266,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "2",
+    "latency_ms": 14.016151428222656,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1137",
+    "latency_ms": 14.019250869750977,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "331",
+    "latency_ms": 14.044046401977539,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1381",
+    "latency_ms": 14.146089553833008,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1404",
+    "latency_ms": 14.21499252319336,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "466",
+    "latency_ms": 14.30201530456543,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1021",
+    "latency_ms": 14.338970184326172,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "475",
+    "latency_ms": 14.433860778808594,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "274",
+    "latency_ms": 14.438867568969727,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "317",
+    "latency_ms": 14.503955841064453,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1383",
+    "latency_ms": 14.530658721923828,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1036",
+    "latency_ms": 14.533281326293945,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "313",
+    "latency_ms": 14.575958251953125,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "323",
+    "latency_ms": 14.575958251953125,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1032",
+    "latency_ms": 14.590024948120117,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "316",
+    "latency_ms": 14.598846435546875,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "315",
+    "latency_ms": 14.60576057434082,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "340",
+    "latency_ms": 14.613151550292969,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "345",
+    "latency_ms": 14.617681503295898,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "292",
+    "latency_ms": 14.69111442565918,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "286",
+    "latency_ms": 14.693021774291992,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "992",
+    "latency_ms": 14.716863632202148,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1174",
+    "latency_ms": 14.721155166625977,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "811",
+    "latency_ms": 14.738082885742188,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "478",
+    "latency_ms": 14.799833297729492,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "287",
+    "latency_ms": 14.805793762207031,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1364",
+    "latency_ms": 14.835834503173828,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1033",
+    "latency_ms": 14.83607292175293,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1121",
+    "latency_ms": 14.911890029907227,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "525",
+    "latency_ms": 15.027999877929688,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "989",
+    "latency_ms": 15.067815780639648,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "782",
+    "latency_ms": 15.148162841796875,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1058",
+    "latency_ms": 15.377998352050781,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1065",
+    "latency_ms": 15.382051467895508,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1018",
+    "latency_ms": 15.384197235107422,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1025",
+    "latency_ms": 15.43283462524414,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "13",
+    "latency_ms": 15.44809341430664,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "483",
+    "latency_ms": 15.453100204467773,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1016",
+    "latency_ms": 15.470266342163086,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1325",
+    "latency_ms": 15.56396484375,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1360",
+    "latency_ms": 15.56396484375,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "0",
+    "latency_ms": 15.615224838256836,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "290",
+    "latency_ms": 15.626907348632812,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "333",
+    "latency_ms": 15.643835067749023,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1049",
+    "latency_ms": 15.800952911376953,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "482",
+    "latency_ms": 15.823841094970703,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "1023",
+    "latency_ms": 15.9759521484375,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "364",
+    "latency_ms": 16.026973724365234,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "502",
+    "latency_ms": 16.08109474182129,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1038",
+    "latency_ms": 16.08586311340332,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1037",
+    "latency_ms": 16.10279083251953,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "990",
+    "latency_ms": 16.141176223754883,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1215",
+    "latency_ms": 16.16215705871582,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "993",
+    "latency_ms": 16.213655471801758,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "296",
+    "latency_ms": 16.272783279418945,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1376",
+    "latency_ms": 16.309738159179688,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1361",
+    "latency_ms": 16.314268112182617,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1356",
+    "latency_ms": 16.318321228027344,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1374",
+    "latency_ms": 16.352176666259766,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1176",
+    "latency_ms": 16.415119171142578,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "971",
+    "latency_ms": 16.44277572631836,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "148",
+    "latency_ms": 16.451120376586914,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "304",
+    "latency_ms": 16.4639949798584,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "3",
+    "latency_ms": 16.48402214050293,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "293",
+    "latency_ms": 16.56484603881836,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1014",
+    "latency_ms": 16.60013198852539,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "367",
+    "latency_ms": 16.613006591796875,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "587",
+    "latency_ms": 16.622066497802734,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1034",
+    "latency_ms": 16.637086868286133,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "1368",
+    "latency_ms": 16.722917556762695,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "988",
+    "latency_ms": 16.762733459472656,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "778",
+    "latency_ms": 16.801118850708008,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1295",
+    "latency_ms": 16.843080520629883,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "984",
+    "latency_ms": 16.991138458251953,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "64",
+    "latency_ms": 17.103910446166992,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "67",
+    "latency_ms": 17.110109329223633,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "66",
+    "latency_ms": 17.157793045043945,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "63",
+    "latency_ms": 17.199993133544922,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "299",
+    "latency_ms": 17.31276512145996,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1015",
+    "latency_ms": 17.314910888671875,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "301",
+    "latency_ms": 17.319917678833008,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "68",
+    "latency_ms": 17.32611656188965,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "334",
+    "latency_ms": 17.447948455810547,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "1019",
+    "latency_ms": 17.485857009887695,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "1041",
+    "latency_ms": 17.531871795654297,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "366",
+    "latency_ms": 17.620086669921875,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "21",
+    "latency_ms": 17.81916618347168,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "597",
+    "latency_ms": 17.879724502563477,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "18",
+    "latency_ms": 17.892837524414062,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "517",
+    "latency_ms": 17.918109893798828,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "17",
+    "latency_ms": 18.198013305664062,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "100",
+    "latency_ms": 18.246889114379883,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "732",
+    "latency_ms": 18.257856369018555,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1278",
+    "latency_ms": 18.280982971191406,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "365",
+    "latency_ms": 18.32294464111328,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "113",
+    "latency_ms": 18.333911895751953,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "20",
+    "latency_ms": 18.513917922973633,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "60",
+    "latency_ms": 18.558025360107422,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "730",
+    "latency_ms": 18.774032592773438,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1177",
+    "latency_ms": 18.784046173095703,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1068",
+    "latency_ms": 18.98813247680664,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "146",
+    "latency_ms": 19.047021865844727,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "528",
+    "latency_ms": 19.428014755249023,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "792",
+    "latency_ms": 19.765138626098633,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1067",
+    "latency_ms": 19.772052764892578,
+    "worker_id": 33576,
+    "batch_id": 8,
+    "num_results": 10
+  },
+  {
+    "query_id": "58",
+    "latency_ms": 19.945859909057617,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "481",
+    "latency_ms": 20.030975341796875,
+    "worker_id": 33574,
+    "batch_id": 4,
+    "num_results": 10
+  },
+  {
+    "query_id": "363",
+    "latency_ms": 20.25294303894043,
+    "worker_id": 33578,
+    "batch_id": 3,
+    "num_results": 10
+  },
+  {
+    "query_id": "1224",
+    "latency_ms": 20.418167114257812,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "143",
+    "latency_ms": 20.51687240600586,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "787",
+    "latency_ms": 20.691871643066406,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "1179",
+    "latency_ms": 20.943880081176758,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "216",
+    "latency_ms": 20.96700668334961,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1171",
+    "latency_ms": 21.05402946472168,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "1173",
+    "latency_ms": 21.05998992919922,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "247",
+    "latency_ms": 21.18992805480957,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "244",
+    "latency_ms": 21.2099552154541,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "245",
+    "latency_ms": 21.212100982666016,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "243",
+    "latency_ms": 21.268844604492188,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "439",
+    "latency_ms": 21.374940872192383,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "142",
+    "latency_ms": 21.41880989074707,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "94",
+    "latency_ms": 21.57425880432129,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "99",
+    "latency_ms": 21.586894989013672,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1212",
+    "latency_ms": 21.832942962646484,
+    "worker_id": 33574,
+    "batch_id": 9,
+    "num_results": 10
+  },
+  {
+    "query_id": "508",
+    "latency_ms": 21.908283233642578,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1223",
+    "latency_ms": 22.05801010131836,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1012",
+    "latency_ms": 22.282838821411133,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "246",
+    "latency_ms": 22.504806518554688,
+    "worker_id": 33576,
+    "batch_id": 2,
+    "num_results": 10
+  },
+  {
+    "query_id": "141",
+    "latency_ms": 22.52793312072754,
+    "worker_id": 33579,
+    "batch_id": 12,
+    "num_results": 10
+  },
+  {
+    "query_id": "1227",
+    "latency_ms": 22.62091636657715,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "1175",
+    "latency_ms": 22.845983505249023,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1207",
+    "latency_ms": 23.070096969604492,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1213",
+    "latency_ms": 23.07605743408203,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1202",
+    "latency_ms": 23.082971572875977,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1204",
+    "latency_ms": 23.096799850463867,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1200",
+    "latency_ms": 23.154020309448242,
+    "worker_id": 33585,
+    "batch_id": 15,
+    "num_results": 10
+  },
+  {
+    "query_id": "1086",
+    "latency_ms": 23.628950119018555,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "689",
+    "latency_ms": 23.712873458862305,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "751",
+    "latency_ms": 24.303197860717773,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "61",
+    "latency_ms": 24.36208724975586,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "62",
+    "latency_ms": 24.367094039916992,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1220",
+    "latency_ms": 24.467945098876953,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "55",
+    "latency_ms": 24.48725700378418,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "696",
+    "latency_ms": 24.523019790649414,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "694",
+    "latency_ms": 24.54996109008789,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "747",
+    "latency_ms": 24.59120750427246,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "688",
+    "latency_ms": 24.60503578186035,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "749",
+    "latency_ms": 24.609804153442383,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "746",
+    "latency_ms": 24.645090103149414,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "698",
+    "latency_ms": 24.66893196105957,
+    "worker_id": 33580,
+    "batch_id": 5,
+    "num_results": 10
+  },
+  {
+    "query_id": "1107",
+    "latency_ms": 25.57516098022461,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "513",
+    "latency_ms": 25.640010833740234,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1261",
+    "latency_ms": 25.774002075195312,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "521",
+    "latency_ms": 26.434898376464844,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "1100",
+    "latency_ms": 26.828765869140625,
+    "worker_id": 33581,
+    "batch_id": 14,
+    "num_results": 10
+  },
+  {
+    "query_id": "810",
+    "latency_ms": 27.079105377197266,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "127",
+    "latency_ms": 27.223825454711914,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "1289",
+    "latency_ms": 27.37593650817871,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "133",
+    "latency_ms": 28.675079345703125,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "118",
+    "latency_ms": 29.59585189819336,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  },
+  {
+    "query_id": "532",
+    "latency_ms": 33.299922943115234,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "752",
+    "latency_ms": 34.09290313720703,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "26",
+    "latency_ms": 34.81483459472656,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "1308",
+    "latency_ms": 38.28001022338867,
+    "worker_id": 33582,
+    "batch_id": 10,
+    "num_results": 10
+  },
+  {
+    "query_id": "507",
+    "latency_ms": 38.822174072265625,
+    "worker_id": 33575,
+    "batch_id": 13,
+    "num_results": 10
+  },
+  {
+    "query_id": "748",
+    "latency_ms": 39.77704048156738,
+    "worker_id": 33587,
+    "batch_id": 6,
+    "num_results": 10
+  },
+  {
+    "query_id": "24",
+    "latency_ms": 41.97406768798828,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "27",
+    "latency_ms": 41.977882385253906,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "22",
+    "latency_ms": 42.0069694519043,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "25",
+    "latency_ms": 47.60098457336426,
+    "worker_id": 33576,
+    "batch_id": 0,
+    "num_results": 10
+  },
+  {
+    "query_id": "75",
+    "latency_ms": 48.60877990722656,
+    "worker_id": 33578,
+    "batch_id": 11,
+    "num_results": 10
+  }
+]

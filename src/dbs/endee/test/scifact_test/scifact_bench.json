@@ -1,0 +1,15 @@
+{
+  "index_name": "scifact_bench",
+  "total_vectors": 5183,
+  "total_batches": 6,
+  "batch_size": 1000,
+  "total_time_sec": 4.006,
+  "upsert_latency_ms": {
+    "min": 212.484,
+    "p50": 654.345,
+    "p95": 919.888,
+    "p99": 928.784,
+    "max": 931.007,
+    "mean": 639.89
+  }
+}
