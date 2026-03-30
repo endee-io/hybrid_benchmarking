@@ -1,0 +1,15 @@
+{
+  "testcycle": "dockertest",
+  "concurrency": 16,
+  "total_queries": 14999,
+  "successful_queries": 14999,
+  "failed_queries": 0,
+  "p99_latency_ms": 59.10801887512207,
+  "p95_latency_ms": 33.48433971405024,
+  "p90_latency_ms": 23.60000610351563,
+  "p50_latency_ms": 12.814044952392578,
+  "mean_latency_ms": 15.519112839334145,
+  "min_latency_ms": 2.6950836181640625,
+  "max_latency_ms": 307.02686309814453,
+  "total_time_seconds": 17.934308767318726
+}

@@ -1,0 +1,15 @@
+{
+  "testcycle": "rrf_test",
+  "concurrency": 16,
+  "total_queries": 1109,
+  "successful_queries": 1109,
+  "failed_queries": 0,
+  "p99_latency_ms": 183.14504623413086,
+  "p95_latency_ms": 148.02470207214353,
+  "p90_latency_ms": 120.89238166809083,
+  "p50_latency_ms": 77.72183418273926,
+  "mean_latency_ms": 81.97161418237161,
+  "min_latency_ms": 19.575119018554688,
+  "max_latency_ms": 253.5688877105713,
+  "total_time_seconds": 8.800237894058228
+}
