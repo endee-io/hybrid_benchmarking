@@ -133,6 +133,7 @@ class EndeeIndexing:
                     raw_vals = sp_values[s:e]
                     raw_idxs = sp_indices[s:e]
                     mask = raw_vals != 0
+                    mask = raw_vals != 0
 
                     points.append({
                         "id": sp_doc_id,
@@ -204,7 +205,7 @@ def main():
     parser.add_argument("--index-name",    required=True,  help="Name of the Endee index")
     parser.add_argument("--data-dir",      default="data", help="Root data directory (default: data)")
     parser.add_argument("--dataset-name",  required=True,  help="Dataset name (e.g. beir_scifact, beir_quora)")
-    parser.add_argument("--sparse-mode",   default="bm25", choices=["bm25", "splade"],
+    parser.add_argument("--sparse-mode",   default="bm25", choices=["bm25","endee_bm25","splade"],
                         help="Sparse embedding type to use (default: bm25)")
     parser.add_argument("--vector-token",  default="12345678", help="Endee API token (default: 12345678)")
     parser.add_argument("--base-url",      default=DEV_PATH, help=f"Endee base URL (default: {DEV_PATH})")

@@ -119,7 +119,7 @@ These flags apply to all DBs.
 | `--dataset-name` | **Yes** | — | Dataset name matching the folder under `--data-dir` (e.g. `beir_scifact`, `beir_quora`) |
 | `--results` | **Yes** | — | Results folder label used as output folder name (e.g. `run1`) |
 | `--concurrency` | **Yes** | — | Number of parallel worker processes for querying |
-| `--sparse-mode` | No | `splade` | Sparse embedding type: `bm25` or `splade`. Use `splade` for cross-DB benchmarking — `bm25` is Endee-specific |
+| `--sparse-mode` | No | `splade` | Sparse embedding type: `endee_bm25` (Endee-only), `bm25` (rank_bm25, any DB), or `splade` |
 | `--data-dir` | No | `data` | Root directory containing dataset `.npy` files |
 | `--top-k` | No | `10` | Number of top results to retrieve per query |
 | `--batch-size` | No | `1000` | Upsert batch size during indexing |
