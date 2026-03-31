@@ -263,6 +263,7 @@ def save_results(
         "min_latency_ms":    min(successful_latencies)                       if successful_latencies else 0,
         "max_latency_ms":    max(successful_latencies)                       if successful_latencies else 0,
         "total_time_seconds": total_time,
+        "qps":               round(len(successful_latencies) / total_time, 2) if total_time else 0,
     }
     with open(output_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -273,8 +274,8 @@ def main():
     parser = argparse.ArgumentParser(description="Async multiprocessed Endee query execution from .npy files")
     parser.add_argument("--data-dir",         type=str, default="data",      help="Root data directory (default: data)")
     parser.add_argument("--dataset-name",     type=str, required=True,       help="Dataset name (e.g. beir_scifact, beir_quora)")
-    parser.add_argument("--sparse-mode",      type=str, default="bm25",      choices=["bm25", "splade"],
-                        help="Sparse embedding type to query with (default: bm25)")
+    parser.add_argument("--sparse-mode",      type=str, default="endee_bm25", choices=["endee_bm25", "bm25", "splade"],
+                        help="Sparse embedding type to query with (default: endee_bm25)")
     parser.add_argument("--index-name",       type=str, required=True,       help="Name of the Endee index")
     parser.add_argument("--vector-token",     type=str, default="12345678",  help="Endee vector token")
     parser.add_argument("--concurrency",      type=int, required=True,       help="Number of parallel worker processes")

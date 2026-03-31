@@ -299,8 +299,8 @@ def main():
                         help="Root data directory (contains <dataset-name>/ subfolder)")
     parser.add_argument("--dataset-name", required=True,
                         help="Dataset name (e.g. beir_scifact, beir_quora)")
-    parser.add_argument("--sparse-mode",  default="splade",
-                        help="Sparse embedding type: splade or bm25 (default: splade)")
+    parser.add_argument("--sparse-mode",  default="splade", choices=["endee_bm25", "bm25", "splade"],
+                        help="Sparse embedding type: endee_bm25 (Endee-only), bm25 (any DB), splade (default: splade)")
 
     parser.add_argument("--index-name", required=True, help="Endee index name")
     parser.add_argument("--token",      default="12345678", help="Endee API token (default: 12345678)")

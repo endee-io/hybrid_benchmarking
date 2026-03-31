@@ -10,16 +10,17 @@
 # Output: data/<dataset>/*.npy
 # ============================================================
 
-# Scifact (5k) — dense + bm25 sparse
+# Scifact (5k) — dense + endee_bm25 sparse (Endee-specific)
 python src/embedding_creation.py \
   --dataset-id BeIR/scifact \
   --dense \
-  --sparse-mode bm25 \
+  --sparse-mode endee_bm25 \
   --cache-dir model_cache
 
-# Scifact (5k) — bm25 sparse only
+# Scifact (5k) — dense + bm25 sparse (rank_bm25, any DB)
 python src/embedding_creation.py \
   --dataset-id BeIR/scifact \
+  --dense \
   --sparse-mode bm25 \
   --cache-dir model_cache
 
@@ -30,23 +31,24 @@ python src/embedding_creation.py \
   --sparse-mode splade \
   --cache-dir model_cache
 
-# Scifact (5k) — dense + bm25 + splade
+# Scifact (5k) — dense + endee_bm25 + splade
 python src/embedding_creation.py \
   --dataset-id BeIR/scifact \
   --dense \
-  --sparse-mode bm25 splade \
+  --sparse-mode endee_bm25 splade \
   --cache-dir model_cache
 
-# Quora (500k) — dense + bm25 sparse
+# Quora (500k) — dense + endee_bm25 sparse (Endee-specific)
 python src/embedding_creation.py \
   --dataset-id BeIR/quora \
   --dense \
-  --sparse-mode bm25 \
+  --sparse-mode endee_bm25 \
   --cache-dir model_cache
 
-# Quora (500k) — bm25 sparse only
+# Quora (500k) — dense + bm25 sparse (rank_bm25, any DB)
 python src/embedding_creation.py \
   --dataset-id BeIR/quora \
+  --dense \
   --sparse-mode bm25 \
   --cache-dir model_cache
 
@@ -57,11 +59,11 @@ python src/embedding_creation.py \
   --sparse-mode splade \
   --cache-dir model_cache
 
-# Quora (500k) — dense + bm25 + splade
+# Quora (500k) — dense + endee_bm25 + splade
 python src/embedding_creation.py \
   --dataset-id BeIR/quora \
   --dense \
-  --sparse-mode bm25 splade \
+  --sparse-mode endee_bm25 splade \
   --cache-dir model_cache
 
 
@@ -79,7 +81,7 @@ python -m src.main \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://localhost:8080/api/v1 \
-  --sparse-mode bm25 \
+  --sparse-mode endee_bm25 \
   --sparse-scoring-model endee_bm25 \
   --validation-venv validation-env \
   --cache-dir model_cache
@@ -94,8 +96,8 @@ python -m src.main \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://localhost:8080/api/v1 \
-  --sparse-mode bm25 \
-  --sparse-scoring-model endee_bm25 \
+  --sparse-mode splade \
+  --sparse-scoring-model default \
   --skip-indexing \
   --validation-venv validation-env \
   --cache-dir model_cache
@@ -111,7 +113,7 @@ python -m src.main \
   --vector-token mytoken \
   --base-url http://localhost:8080/api/v1 \
   --sparse-mode bm25 \
-  --sparse-scoring-model endee_bm25 \
+  --sparse-scoring-model default \
   --skip-indexing \
   --skip-validation
 
@@ -124,7 +126,7 @@ python -m src.main \
   --concurrency 16 \
   --vector-token mytoken \
   --base-url http://localhost:8080/api/v1 \
-  --sparse-mode bm25 \
+  --sparse-mode endee_bm25 \
   --sparse-scoring-model endee_bm25 \
   --create-index false \
   --skip-query \
@@ -140,7 +142,7 @@ python -m src.main \
   --top-k 10 \
   --vector-token mytoken \
   --base-url http://localhost:8080/api/v1 \
-  --sparse-mode bm25 \
+  --sparse-mode endee_bm25 \
   --sparse-scoring-model endee_bm25 \
   --validation-venv validation-env \
   --cache-dir model_cache

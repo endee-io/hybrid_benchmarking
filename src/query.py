@@ -256,6 +256,7 @@ def save_results(
         "min_latency_ms":     min(successful_latencies)                       if successful_latencies else 0,
         "max_latency_ms":     max(successful_latencies)                       if successful_latencies else 0,
         "total_time_seconds": total_time,
+        "qps":                round(len(successful_latencies) / total_time, 2) if total_time else 0,
     }
     with open(output_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
