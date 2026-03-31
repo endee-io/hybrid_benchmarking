@@ -12,7 +12,7 @@ End-to-end hybrid vector benchmark framework. A single command runs **indexing â
 # macOS
 brew install python@3.13
 
-# Debian / Ubuntu
+# Debian
 sudo apt install python3.13 python3.13-venv
 ```
 
