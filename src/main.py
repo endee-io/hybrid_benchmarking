@@ -79,7 +79,7 @@ def main():
     parser.add_argument("--dataset-name",  required=True,
                         help="Dataset name (e.g. beir_scifact, beir_quora)")
     parser.add_argument("--sparse-mode",   default="splade", choices=["endee_bm25", "bm25", "splade"],
-                        help="Sparse embedding type: endee_bm25 (Endee-only), bm25 (any DB), splade (default: endee_bm25)")
+                        help="Sparse embedding type: endee_bm25 (Endee-only), bm25 (any DB), splade (default: splade)")
     parser.add_argument("--data-dir",      default="data",
                         help="Root data directory (default: data)")
     parser.add_argument("--results",        required=True,
