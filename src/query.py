@@ -118,6 +118,7 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
                 sparse_indices=query["sparse_vector"]["indices"],
                 sparse_values=query["sparse_vector"]["values"],
                 top_k=top_k,
+                text=query.get("text", ""),
             )
             if search_results is None:
                 logger.error("Worker %d - Query %s returned None", worker_pid, query_id)
@@ -274,6 +275,7 @@ def run_query(
     results: str,
     concurrency: int,
     top_k: int,
+    query_texts: dict = None,
 ):
     """
     Full query pipeline entry point called from main.py.
@@ -291,6 +293,9 @@ def run_query(
     logger.info("  Output directory:  %s", output_dir)
 
     queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
+    if query_texts:
+        for q in queries:
+            q["text"] = query_texts.get(q["query_id"], "")
     batches = split_into_batches(queries, concurrency, top_k, index_name, db_name, db_config)
 
     logger.info("Starting parallel processing with %d workers", concurrency)
