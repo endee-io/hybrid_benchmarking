@@ -3,3 +3,5 @@ __pycache__/
 data/
 model_cache/
 results/
+*.xlsx
+vespa_schema_registry.json
