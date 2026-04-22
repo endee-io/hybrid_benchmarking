@@ -155,6 +155,7 @@ class QdrantDB(HybridDB):
         sparse_indices: List[int],
         sparse_values: List[float],
         top_k: int,
+        text: str = "",
     ) -> List[Dict]:
         try:
             if self.query_mode == "hybrid":

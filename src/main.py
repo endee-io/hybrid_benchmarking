@@ -97,13 +97,16 @@ def main():
     parser.add_argument("--create-index",  type=lambda x: x.lower() != "false", default=True,
                         help="Create index before indexing (default: true)")
     
-    parser.add_argument("--skip-indexing",   action="store_true", help="Skip the indexing step")
+    parser.add_argument("--skip-indexing",   action="store_true", help="Skip indexing and deploy entirely")
+    parser.add_argument("--deploy-only",     action="store_true", help="Deploy new schema but skip feeding data (useful for updating rerank_count etc.)")
     parser.add_argument("--skip-query",      action="store_true", help="Skip the query step")
     parser.add_argument("--skip-validation", action="store_true", help="Skip the validation step")
     parser.add_argument("--validation-venv",  default="validation-env",
                         help="Path to the validation virtual environment folder (e.g. validation-env)")
     parser.add_argument("--cache-dir",       default=None,
                         help="HuggingFace cache directory passed to endee_validation.py (default: HF default)")
+    parser.add_argument("--hf-dataset-id",   default=None,
+                        help="HuggingFace dataset ID (e.g. BeIR/scifact). Required for Vespa native BM25 text modes.")
 
     add_all_db_args(parser)
 
@@ -135,8 +138,26 @@ def main():
     logger.info("  Top-k:               %d", args.top_k)
     logger.info("  Output dir:          %s", output_dir)
     logger.info("  Skip indexing:       %s", args.skip_indexing)
+    logger.info("  Deploy only:         %s", args.deploy_only)
     logger.info("  Skip query:          %s", args.skip_query)
     logger.info("  Skip validation:     %s", args.skip_validation)
+
+    # ── Load raw texts from HuggingFace (optional, for Vespa native BM25) ────
+    corpus_texts = None
+    query_texts = None
+    if args.hf_dataset_id:
+        from datasets import load_dataset
+        logger.info("Loading corpus texts from HuggingFace: %s", args.hf_dataset_id)
+        corpus_ds = load_dataset(args.hf_dataset_id, "corpus", cache_dir=args.cache_dir)["corpus"]
+        corpus_texts = {
+            str(row["_id"]): (row.get("title", "") + " " + row.get("text", "")).strip()
+            for row in corpus_ds
+        }
+        logger.info("Loaded %d corpus texts", len(corpus_texts))
+        logger.info("Loading query texts from HuggingFace: %s", args.hf_dataset_id)
+        query_ds = load_dataset(args.hf_dataset_id, "queries", cache_dir=args.cache_dir)["queries"]
+        query_texts = {str(row["_id"]): row.get("text", "") for row in query_ds}
+        logger.info("Loaded %d query texts", len(query_texts))
 
     # ── Indexing ──────────────────────────────────────────────────────────────
     if not args.skip_indexing:
@@ -148,15 +169,17 @@ def main():
             space_type=args.space_type,
             create=args.create_index,
         )
-        index_from_npy(
-            db=db,
-            index_name=args.index_name,
-            data_dir=args.data_dir,
-            dataset_name=args.dataset_name,
-            output_base=str(db_output_base),
-            sparse_mode=args.sparse_mode,
-            batch_size=args.batch_size,
-        )
+        if not args.deploy_only:
+            index_from_npy(
+                db=db,
+                index_name=args.index_name,
+                data_dir=args.data_dir,
+                dataset_name=args.dataset_name,
+                output_base=str(db_output_base),
+                sparse_mode=args.sparse_mode,
+                batch_size=args.batch_size,
+                texts=corpus_texts,
+            )
         logger.info("--- Indexing Complete ---")
     else:
         logger.info("Skipping indexing")
@@ -175,6 +198,7 @@ def main():
             results=args.results,
             concurrency=args.concurrency,
             top_k=args.top_k,
+            query_texts=query_texts,
         )
         logger.info("--- Query Complete ---")
     else:

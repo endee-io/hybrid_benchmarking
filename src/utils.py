@@ -3,10 +3,12 @@ from typing import Dict
 from src.interface import HybridDB
 from src.dbs.endee.db import EndeeDB
 from src.dbs.qdrant.db import QdrantDB
+from src.dbs.vespa.db import VespaDB
 
 DB_REGISTRY: Dict[str, type] = {
     "endee":  EndeeDB,
     "qdrant": QdrantDB,
+    "vespa":  VespaDB,
 }
 
 

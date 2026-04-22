@@ -79,7 +79,8 @@ def index_from_npy(
     output_base: str,
     sparse_mode: str = "bm25",
     batch_size: int = 1000,
-): 
+    texts: dict = None,
+):
     """
     Load .npy embeddings and index them using the provided HybridDB instance.
 
@@ -123,13 +124,16 @@ def index_from_npy(
                 dense_ptr += 1
 
                 s, e = int(sp_indptr[j]), int(sp_indptr[j + 1])
-                points.append({
+                point = {
                     "id":             sp_doc_id,
                     "vector":         dv,
                     "sparse_indices": sp_indices[s:e].tolist(),
                     "sparse_values":  sp_values[s:e].tolist(),
                     "meta":           {"id": sp_doc_id},
-                })
+                }
+                if texts is not None:
+                    point["text"] = texts.get(sp_doc_id, "")
+                points.append(point)
 
             t0 = time.perf_counter()
             db.index_batch(points)

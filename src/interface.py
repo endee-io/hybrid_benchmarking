@@ -56,9 +56,15 @@ class HybridDB(ABC):
         sparse_indices: List[int],
         sparse_values: List[float],
         top_k: int,
+        text: str = "",
     ) -> List[Dict]:
         """
         Query the index and return top-k results.
+
+        Parameters
+        ----------
+        text : str  Optional raw query text. Used by DBs that support native
+                    text search (e.g. Vespa BM25). Ignored by others.
 
         Returns a list of dicts with at least { "id": str, "score": float }.
         """

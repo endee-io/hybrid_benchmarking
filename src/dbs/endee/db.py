@@ -75,6 +75,7 @@ class EndeeDB(HybridDB):
         sparse_indices: List[int],
         sparse_values: List[float],
         top_k: int,
+        text: str = "",
     ) -> List[Dict]:
         try:
             raw = self.index.query(
