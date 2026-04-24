@@ -250,3 +250,20 @@ python -m src.delete_insert_automation \
   --cache-dir         model_cache \
   --keep-results \
   --output-file       quora_di_results.json
+
+
+# ============================================================
+# MILVUS
+# ============================================================
+python -m src.main \
+  --db milvus \
+  --index-name scifact_milvus_builtin_bm25 \
+  --dataset-name beir_scifact \
+  --sparse-mode bm25 \
+  --milvus-sparse-mode builtin_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://148.113.58.83:19530 \
+  --hf-dataset-id BeIR/scifact \
+  --top-k 10 \
+  --results run1 \
+  --concurrency 16

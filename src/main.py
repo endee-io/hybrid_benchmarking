@@ -78,8 +78,18 @@ def main():
                         help="Index name")
     parser.add_argument("--dataset-name",  required=True,
                         help="Dataset name (e.g. beir_scifact, beir_quora)")
-    parser.add_argument("--sparse-mode",   default="splade", choices=["endee_bm25", "bm25", "splade"],
-                        help="Sparse embedding type: endee_bm25 (Endee-only), bm25 (any DB), splade (default: splade)")
+    parser.add_argument(
+        "--sparse-mode", default="splade",
+        choices=["endee_bm25", "bm25", "splade", "pymilvus_bm25", "milvus_splade"],
+        help=(
+            "Sparse embedding type:\n"
+            "  endee_bm25    – Endee BM25 (--db endee only)\n"
+            "  bm25          – rank_bm25 (any DB; also use with --milvus-sparse-mode builtin_bm25)\n"
+            "  splade        – prithivida/Splade_PP_en_v1 (default)\n"
+            "  pymilvus_bm25 – PyMilvus BM25EmbeddingFunction (--db milvus)\n"
+            "  milvus_splade – PyMilvus SpladeEmbeddingFunction (--db milvus)"
+        ),
+    )
     parser.add_argument("--data-dir",      default="data",
                         help="Root data directory (default: data)")
     parser.add_argument("--results",        required=True,
@@ -114,6 +124,9 @@ def main():
 
     if args.sparse_mode == "endee_bm25" and args.db != "endee":
         parser.error(f"--sparse-mode endee_bm25 is only supported with --db endee (got --db {args.db})")
+
+    if args.sparse_mode in ("pymilvus_bm25", "milvus_splade") and args.db != "milvus":
+        parser.error(f"--sparse-mode {args.sparse_mode} is only supported with --db milvus (got --db {args.db})")
 
     # Output paths — db-specific: results/{db}/{results}_concurrency{N}
     db_output_base = Path("results") / args.db

@@ -2,11 +2,13 @@ from typing import Dict
 
 from src.interface import HybridDB
 from src.dbs.endee.db import EndeeDB
+from src.dbs.milvus.db import MilvusDB
 from src.dbs.qdrant.db import QdrantDB
 from src.dbs.vespa.db import VespaDB
 
 DB_REGISTRY: Dict[str, type] = {
     "endee":  EndeeDB,
+    "milvus": MilvusDB,
     "qdrant": QdrantDB,
     "vespa":  VespaDB,
 }

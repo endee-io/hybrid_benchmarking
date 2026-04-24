@@ -278,6 +278,100 @@ def create_sparse_embeddings_bm25(
     return n_docs
 
 
+def create_sparse_embeddings_pymilvus_bm25(
+    dataset,
+    dataset_name: str,
+    split: str,
+    batch_size: int = 1000,
+):
+    """
+    Encode with PyMilvus BM25EmbeddingFunction (client-side BM25 from pymilvus.model.sparse).
+    Corpus pass: fits the BM25 model and saves it to disk for query encoding.
+    Query pass:  loads the saved model and encodes queries.
+
+    Output: data/<dataset_name>_sparse_<split>_pymilvus_bm25_*.npy
+    """
+    from pymilvus.model.sparse import BM25EmbeddingFunction
+
+    texts   = list(dataset["text"])
+    doc_ids = list(dataset["_id"])
+    n_docs  = len(texts)
+
+    out_dir    = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    model_path = str(out_dir / f"{dataset_name}_pymilvus_bm25_model.json")
+
+    ef = BM25EmbeddingFunction()
+
+    if split == "corpus":
+        logger.info("Fitting PyMilvus BM25 on %d corpus documents...", n_docs)
+        ef.fit(texts)
+        ef.save(model_path)
+        logger.info("Saved PyMilvus BM25 model → %s", model_path)
+        encode_fn = ef.encode_documents
+    else:
+        logger.info("Loading PyMilvus BM25 model from %s", model_path)
+        ef.load(model_path)
+        encode_fn = ef.encode_queries
+
+    def _pymilvus_bm25_iter():
+        for i in tqdm(range(0, n_docs, batch_size), desc=f"PyMilvus BM25 {split}"):
+            batch = texts[i : i + batch_size]
+            vecs  = encode_fn(batch)
+            # vecs is a scipy csr_array of shape (batch_size, vocab_size)
+            for j in range(len(batch)):
+                row = vecs[j]
+                yield row.indices.tolist(), row.data.tolist()
+            del vecs
+            gc.collect()
+
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_pymilvus_bm25"
+    _stream_sparse_to_npy(base_path, doc_ids, _pymilvus_bm25_iter())
+    return n_docs
+
+
+def create_sparse_embeddings_milvus_splade(
+    dataset,
+    dataset_name: str,
+    split: str,
+    batch_size: int = 32,
+    device: str = "cpu",
+    milvus_splade_model: str = "naver/splade-cocondenser-selfdistil",
+):
+    """
+    Encode with pymilvus SpladeEmbeddingFunction (naver/splade-cocondenser-* family).
+
+    Output: data/<dataset_name>_sparse_<split>_milvus_splade_*.npy
+    """
+    from pymilvus.model.sparse import SpladeEmbeddingFunction
+
+    logger.info("Loading Milvus SPLADE model: %s", milvus_splade_model)
+    ef = SpladeEmbeddingFunction(model_name=milvus_splade_model, device=device)
+
+    texts   = list(dataset["text"])
+    doc_ids = list(dataset["_id"])
+    n_docs  = len(texts)
+
+    encode_fn = ef.encode_documents if split == "corpus" else ef.encode_queries
+
+    def _milvus_splade_iter():
+        for i in tqdm(range(0, n_docs, batch_size), desc=f"Milvus SPLADE {split}"):
+            batch = texts[i : i + batch_size]
+            vecs  = encode_fn(batch)
+            # vecs is a scipy csr_array of shape (batch_size, vocab_size)
+            for j in range(len(batch)):
+                row = vecs[j]
+                yield row.indices.tolist(), row.data.tolist()
+            del vecs
+            gc.collect()
+
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_milvus_splade"
+    _stream_sparse_to_npy(base_path, doc_ids, _milvus_splade_iter())
+    return n_docs
+
+
 def create_sparse_embeddings_splade(
     dataset,
     dataset_name: str,
@@ -368,10 +462,23 @@ def main():
                         help=f"Dense model ID (default: {DENSE_MODEL_ID})")
     parser.add_argument("--dense",        action="store_true", default=False,
                         help="Generate dense embeddings")
-    parser.add_argument("--sparse-mode",  default=None, nargs="+", choices=["bm25", "endee_bm25", "splade"],
-                        help="Generate sparse embeddings: bm25 (rank_bm25, any DB), endee_bm25 (Endee-specific), splade, or any combination")
+    parser.add_argument(
+        "--sparse-mode", default=None, nargs="+",
+        choices=["bm25", "endee_bm25", "splade", "pymilvus_bm25", "milvus_splade"],
+        help=(
+            "Generate sparse embeddings (one or more):\n"
+            "  bm25           – rank_bm25 (any DB)\n"
+            "  endee_bm25     – Endee BM25 (Endee-specific)\n"
+            "  splade         – prithivida/Splade_PP_en_v1\n"
+            "  pymilvus_bm25  – PyMilvus BM25EmbeddingFunction (Milvus)\n"
+            "  milvus_splade  – PyMilvus SpladeEmbeddingFunction (Milvus)"
+        ),
+    )
     parser.add_argument("--splade-model", default=SPLADE_MODEL_ID,
                         help=f"SPLADE model ID (default: {SPLADE_MODEL_ID})")
+    parser.add_argument("--milvus-splade-model",
+                        default="naver/splade-cocondenser-selfdistil",
+                        help="Milvus SPLADE model ID (default: naver/splade-cocondenser-selfdistil)")
     parser.add_argument("--workers",      type=int, default=5,
                         help="Parallel CPU workers for dense + SPLADE encoding (default: 4)")
     parser.add_argument("--cache-dir",    default=None,
@@ -433,6 +540,26 @@ def main():
                 workers=args.workers,
             )
             logger.info("SPLADE sparse done — %s  %d vectors", split, count)
+
+        if "pymilvus_bm25" in sparse_modes:
+            count = create_sparse_embeddings_pymilvus_bm25(
+                dataset=dataset,
+                dataset_name=dataset_name,
+                split=split,
+                batch_size=args.batch_size,
+            )
+            logger.info("PyMilvus BM25 sparse done — %s  %d vectors", split, count)
+
+        if "milvus_splade" in sparse_modes:
+            count = create_sparse_embeddings_milvus_splade(
+                dataset=dataset,
+                dataset_name=dataset_name,
+                split=split,
+                batch_size=args.batch_size,
+                device=args.device,
+                milvus_splade_model=args.milvus_splade_model,
+            )
+            logger.info("Milvus SPLADE sparse done — %s  %d vectors", split, count)
 
 
 if __name__ == "__main__":
