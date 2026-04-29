@@ -255,6 +255,10 @@ python -m src.delete_insert_automation \
 # ============================================================
 # MILVUS
 # ============================================================
+pymilvus BM25 sparse embeddings 
+
+
+
 python -m src.main \
   --db milvus \
   --index-name scifact_milvus_builtin_bm25 \
@@ -262,8 +266,28 @@ python -m src.main \
   --sparse-mode bm25 \
   --milvus-sparse-mode builtin_bm25 \
   --milvus-query-mode hybrid \
-  --milvus-uri http://148.113.58.83:19530 \
+  --milvus-uri http://54.37.77.76:19530 \
   --hf-dataset-id BeIR/scifact \
+  --top-k 10 \
+  --results run1 \
+  --concurrency 16
+
+
+
+# embeddings
+python src/embedding_creation.py \
+  --dataset-id BeIR/msmarco \
+  --dense \
+  --sparse-mode splade
+
+# benchmark
+python -m src.main \
+  --db milvus \
+  --index-name msmarco_milvus_splade \
+  --dataset-name beir_msmarco \
+  --sparse-mode splade \
+  --milvus-sparse-mode splade \
+  --milvus-uri http://148.113.58.83:19530 \
   --top-k 10 \
   --results run1 \
   --concurrency 16
