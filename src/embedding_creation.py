@@ -319,9 +319,8 @@ def create_sparse_embeddings_pymilvus_bm25(
         for i in tqdm(range(0, n_docs, batch_size), desc=f"PyMilvus BM25 {split}"):
             batch = texts[i : i + batch_size]
             vecs  = encode_fn(batch)
-            # vecs is a scipy csr_array of shape (batch_size, vocab_size)
             for j in range(len(batch)):
-                row = vecs[j]
+                row = vecs[j].tocsr()
                 yield row.indices.tolist(), row.data.tolist()
             del vecs
             gc.collect()
@@ -359,9 +358,8 @@ def create_sparse_embeddings_milvus_splade(
         for i in tqdm(range(0, n_docs, batch_size), desc=f"Milvus SPLADE {split}"):
             batch = texts[i : i + batch_size]
             vecs  = encode_fn(batch)
-            # vecs is a scipy csr_array of shape (batch_size, vocab_size)
             for j in range(len(batch)):
-                row = vecs[j]
+                row = vecs[j].tocsr()
                 yield row.indices.tolist(), row.data.tolist()
             del vecs
             gc.collect()
