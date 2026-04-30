@@ -4,4 +4,5 @@ data/
 model_cache/
 results/
 *.xlsx
-vespa_schema_registry.json
+vespa_schema_registry.json]
+.DS_Store

@@ -21,6 +21,8 @@ SPLADE_MODEL_ID    = "prithivida/Splade_PP_en_v1"
 ENDEE_BM25_MODEL_ID = "endee/bm25"
 DATA_DIR           = Path("data")
 
+CHECKPOINT_INTERVAL = 1000  # save sparse checkpoint every N docs
+
 # ── rank_bm25 helpers ─────────────────────────────────────────────────────────
 _bm25_tokenizer = Bm25(ENDEE_BM25_MODEL_ID)
 
@@ -69,6 +71,32 @@ def load_hf_dataset(dataset_id: str, split: str, cache_dir: str = None):
     logger.info("Loaded %d records", len(dataset))
     return dataset
 
+
+# ── restart helpers ───────────────────────────────────────────────────────────
+
+def _sparse_output_complete(base_path: Path) -> bool:
+    return all(
+        Path(str(base_path) + s).exists()
+        for s in ("_values.npy", "_col_indices.npy", "_indptr.npy", "_ids.npy")
+    )
+
+
+def _load_sparse_checkpoint(base_path: Path):
+    """Returns (docs_done, resume_dict) or (0, None) if no checkpoint."""
+    ckpt  = Path(str(base_path) + ".ckpt.npz")
+    tmp_v = Path(str(base_path) + ".tmp_val")
+    tmp_i = Path(str(base_path) + ".tmp_idx")
+    if ckpt.exists() and tmp_v.exists() and tmp_i.exists():
+        d = np.load(str(ckpt), allow_pickle=True)
+        docs_done = int(d["docs_done"])
+        return docs_done, {
+            "docs_done": docs_done,
+            "indptr":    d["indptr"].tolist(),
+            "kept_ids":  d["kept_ids"].tolist(),
+        }
+    return 0, None
+
+
 def create_dense_embeddings(
     dataset,
     dataset_name: str,
@@ -81,51 +109,65 @@ def create_dense_embeddings(
 ):
     """
     Writes embeddings directly into the final .npy file via memmap — no temp files, no full RAM load.
-    Peak RAM = one batch of embeddings only.
-
-    The .npy header is written first (shape + dtype), then the data region is memory-mapped
-    and filled batch by batch. Result is a valid .npy loadable with mmap_mode='r'.
+    Supports restart: resumes from the last completed batch if interrupted.
 
     Output:
-      data/<dataset_name>_dense_<split>.npy      — float32 (N, dim), memory-mappable
+      data/<dataset_name>_dense_<split>.npy      — float64 (N, dim), memory-mappable
       data/<dataset_name>_dense_<split>_ids.npy  — str (N,)
     """
-    logger.info("Loading dense model: %s", dense_model_id)
-    model = SentenceTransformer(dense_model_id, device=device, cache_folder=cache_dir)
-
     texts   = list(dataset["text"])
     doc_ids = list(dataset["_id"])
     n_docs  = len(texts)
-    dim     = model.get_sentence_embedding_dimension()
 
     out_dir = DATA_DIR / dataset_name
     out_dir.mkdir(parents=True, exist_ok=True)
-    npy_path = out_dir / f"{dataset_name}_dense_{split}.npy"
-    ids_path = out_dir / f"{dataset_name}_dense_{split}_ids.npy"
+    npy_path      = out_dir / f"{dataset_name}_dense_{split}.npy"
+    ids_path      = out_dir / f"{dataset_name}_dense_{split}_ids.npy"
+    progress_path = out_dir / f"{dataset_name}_dense_{split}.npy.progress"
 
-    # Write .npy header then pre-extend file to full size (all zeros)
-    # This makes npy_path a valid .npy from the start — no temp file needed
-    with open(npy_path, "wb") as f:
-        nf.write_array_header_1_0(f, {
-            "descr": "<f8",
-            "fortran_order": False,
-            "shape": (n_docs, dim),
-        })
-        header_size = f.tell()
-        f.seek(header_size + n_docs * dim * 8 - 1)
-        f.write(b"\x00")
+    if ids_path.exists():
+        logger.info("Dense %s already complete — skipping", split)
+        existing = np.load(str(npy_path), mmap_mode="r")
+        return (existing.shape[0], existing.shape[1])
 
-    # Memory-map the data region and fill batch by batch
+    logger.info("Loading dense model: %s", dense_model_id)
+    model = SentenceTransformer(dense_model_id, device=device, cache_folder=cache_dir)
+    dim   = model.get_sentence_embedding_dimension()
+
+    start_i = 0
+    if progress_path.exists() and npy_path.exists():
+        try:
+            start_i = int(progress_path.read_text().strip())
+            logger.info("Resuming dense %s from doc %d/%d", split, start_i, n_docs)
+        except ValueError:
+            start_i = 0
+
+    if start_i == 0 or not npy_path.exists():
+        with open(npy_path, "wb") as f:
+            nf.write_array_header_1_0(f, {
+                "descr": "<f8",
+                "fortran_order": False,
+                "shape": (n_docs, dim),
+            })
+            header_size = f.tell()
+            f.seek(header_size + n_docs * dim * 8 - 1)
+            f.write(b"\x00")
+    else:
+        import io
+        buf = io.BytesIO()
+        nf.write_array_header_1_0(buf, {"descr": "<f8", "fortran_order": False, "shape": (n_docs, dim)})
+        header_size = buf.tell()
+
     mmap = np.memmap(npy_path, dtype="float64", mode="r+", offset=header_size, shape=(n_docs, dim))
-
     pool = model.start_multi_process_pool(target_devices=["cpu"] * workers)
-    logger.info("Encoding %d texts (dim=%d) using %d workers ...", n_docs, dim, workers)
+    logger.info("Encoding %d texts (dim=%d) using %d workers, starting at doc %d ...", n_docs, dim, workers, start_i)
 
-    for i in tqdm(range(0, n_docs, batch_size), desc=f"Dense {split}"):
+    for i in tqdm(range(start_i, n_docs, batch_size), desc=f"Dense {split}"):
         batch = texts[i : i + batch_size]
         vecs  = model.encode(batch, pool=pool, show_progress_bar=False)
         mmap[i : i + len(batch)] = vecs
         mmap.flush()
+        progress_path.write_text(str(i + batch_size))
         del vecs
         gc.collect()
 
@@ -133,46 +175,49 @@ def create_dense_embeddings(
     del mmap
 
     np.save(ids_path, np.array(doc_ids))
+    progress_path.unlink(missing_ok=True)
 
     logger.info("Saved dense (%d × %d) → %s", n_docs, dim, npy_path)
     logger.info("Saved IDs → %s", ids_path)
     return (n_docs, dim)
 
 
-def _stream_sparse_to_npy(base_path: Path, doc_ids: list, encode_iter):
+def _stream_sparse_to_npy(base_path: Path, doc_ids: list, encode_iter, _resume=None):
     """
     Streams (indices, values) one doc at a time directly into temp binary files,
-    then writes final .npy files with proper headers. Peak RAM = one batch at a time.
+    then writes final .npy files with proper headers. Supports restart via _resume.
 
-    Why temp files?
-      np.save / .npy format requires the total array shape in the file header, which
-      must be written BEFORE any data. We don't know total_nnz until all docs are
-      processed. So we first stream raw bytes into .tmp files (no header needed),
-      then once total_nnz is known we write the .npy header and chunk-copy the data.
-      This way the full values/indices arrays are never loaded into RAM simultaneously.
+    _resume = None (fresh start) or dict with keys:
+      docs_done  — number of original docs already processed
+      indptr     — accumulated indptr list so far
+      kept_ids   — accumulated kept_ids list so far
+    Tmp files are opened in append mode when resuming.
 
     Output files (base_path = e.g. data/scifact_sparse_corpus_bm25):
-      <base_path>_values.npy       — float32 (total_nnz,)
+      <base_path>_values.npy       — float64 (total_nnz,)
       <base_path>_col_indices.npy  — int32   (total_nnz,)
-      <base_path>_indptr.npy       — int64   (n_docs+1,)  start offset of each doc in flat arrays
+      <base_path>_indptr.npy       — int64   (n_docs+1,)
       <base_path>_ids.npy          — str     (n_docs,)
-
-    Load:
-      values  = np.load("..._values.npy")
-      indices = np.load("..._col_indices.npy")
-      indptr  = np.load("..._indptr.npy")
-      # doc i: values[indptr[i]:indptr[i+1]], indices[indptr[i]:indptr[i+1]]
     """
-    tmp_val = str(base_path) + ".tmp_val"
-    tmp_idx = str(base_path) + ".tmp_idx"
-    indptr    = [0]
-    kept_ids  = []
-    skipped   = 0
+    tmp_val   = str(base_path) + ".tmp_val"
+    tmp_idx   = str(base_path) + ".tmp_idx"
+    ckpt_path = str(base_path) + ".ckpt.npz"
 
-    # Pass 1: write each doc's bytes to disk immediately — nothing accumulates in RAM
-    # Docs with empty sparse vectors are skipped entirely (not stored, not in ids)
-    with open(tmp_val, "wb") as fv, open(tmp_idx, "wb") as fi:
-        for (indices, values), doc_id in zip(encode_iter, doc_ids):
+    if _resume is not None:
+        indptr      = _resume["indptr"]
+        kept_ids    = _resume["kept_ids"]
+        docs_offset = _resume["docs_done"]
+        mode        = "ab"
+    else:
+        indptr      = [0]
+        kept_ids    = []
+        docs_offset = 0
+        mode        = "wb"
+
+    skipped = 0
+
+    with open(tmp_val, mode) as fv, open(tmp_idx, mode) as fi:
+        for n, ((indices, values), doc_id) in enumerate(zip(encode_iter, doc_ids)):
             if len(indices) == 0:
                 skipped += 1
                 continue
@@ -181,12 +226,19 @@ def _stream_sparse_to_npy(base_path: Path, doc_ids: list, encode_iter):
             indptr.append(indptr[-1] + len(indices))
             kept_ids.append(doc_id)
 
+            if (n + 1) % CHECKPOINT_INTERVAL == 0:
+                np.savez(
+                    ckpt_path,
+                    docs_done=np.array(docs_offset + n + 1, dtype=np.int64),
+                    indptr=np.array(indptr, dtype=np.int64),
+                    kept_ids=np.array(kept_ids),
+                )
+
     if skipped:
         logger.info("Skipped %d docs with empty sparse vectors", skipped)
 
     total_nnz = indptr[-1]
 
-    # Pass 2: prepend .npy header then chunk-copy from temp — still no full RAM load
     for path, tmp, descr in [
         (str(base_path) + "_values.npy",     tmp_val, "<f8"),
         (str(base_path) + "_col_indices.npy", tmp_idx, "<i4"),
@@ -202,6 +254,7 @@ def _stream_sparse_to_npy(base_path: Path, doc_ids: list, encode_iter):
 
     Path(tmp_val).unlink()
     Path(tmp_idx).unlink()
+    Path(ckpt_path).unlink(missing_ok=True)
 
     np.save(str(base_path) + "_indptr.npy", np.array(indptr,   dtype=np.int64))
     np.save(str(base_path) + "_ids.npy",    np.array(kept_ids))
@@ -217,31 +270,40 @@ def create_sparse_embeddings_endee_bm25(
 ):
     """
     Encode with Endee BM25 model batch by batch (Endee-specific, requires Endee server).
-      corpus  → model.embed()
-      queries → model.query_embed()
+    Supports restart: resumes from last checkpoint if interrupted.
 
     Output: data/<dataset_name>_sparse_<split>_endee_bm25_*.npy
     """
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_endee_bm25"
+
+    if _sparse_output_complete(base_path):
+        logger.info("Endee BM25 sparse %s already complete — skipping", split)
+        return len(dataset["text"])
+
+    docs_done, resume = _load_sparse_checkpoint(base_path)
+
+    texts   = list(dataset["text"])[docs_done:]
+    doc_ids = list(dataset["_id"])[docs_done:]
+    n_docs  = len(dataset["text"])
+
+    if docs_done > 0:
+        logger.info("Resuming Endee BM25 sparse %s from doc %d/%d", split, docs_done, n_docs)
+
     logger.info("Loading Endee BM25 model: %s", ENDEE_BM25_MODEL_ID)
     model    = SparseModel(model_name=ENDEE_BM25_MODEL_ID)
     embed_fn = model.embed if split == "corpus" else model.query_embed
 
-    texts   = list(dataset["text"])
-    doc_ids = list(dataset["_id"])
-    n_docs  = len(texts)
-
     def _endee_bm25_iter():
-        for i in tqdm(range(0, n_docs, batch_size), desc=f"Endee BM25 {split}"):
+        for i in tqdm(range(0, len(texts), batch_size), desc=f"Endee BM25 {split}"):
             batch_vecs = list(embed_fn(texts[i : i + batch_size]))
             for sv in batch_vecs:
                 yield sv.indices.tolist(), sv.values.tolist()
             del batch_vecs
             gc.collect()
 
-    out_dir = DATA_DIR / dataset_name
-    out_dir.mkdir(parents=True, exist_ok=True)
-    base_path = out_dir / f"{dataset_name}_sparse_{split}_endee_bm25"
-    _stream_sparse_to_npy(base_path, doc_ids, _endee_bm25_iter())
+    _stream_sparse_to_npy(base_path, doc_ids, _endee_bm25_iter(), _resume=resume)
     return n_docs
 
 
@@ -251,31 +313,41 @@ def create_sparse_embeddings_bm25(
     split: str,
 ):
     """
-    Encode with rank_bm25 (BM25L). Builds IDF over the full split upfront,
-    then extracts sparse TF*IDF vectors. Works with any DB.
+    Encode with rank_bm25 (BM25L). Always builds full IDF index, then resumes
+    vector extraction from checkpoint if interrupted.
 
     Output: data/<dataset_name>_sparse_<split>_bm25_*.npy
     """
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_bm25"
+
+    if _sparse_output_complete(base_path):
+        logger.info("BM25 sparse %s already complete — skipping", split)
+        return len(dataset["text"])
+
+    docs_done, resume = _load_sparse_checkpoint(base_path)
+
     texts   = list(dataset["text"])
     doc_ids = list(dataset["_id"])
     n_docs  = len(texts)
 
+    # Always build the full BM25L index — IDF requires the full corpus
     logger.info("Tokenizing %d documents for BM25L index...", n_docs)
     tokenized = [_tokenize(t) for t in tqdm(texts, desc=f"Tokenizing {split}")]
-
     logger.info("Building BM25L index...")
     bm25 = BM25L(tokenized)
     del tokenized
     gc.collect()
 
-    def _bm25_iter():
-        for i in range(n_docs):
+    if docs_done > 0:
+        logger.info("Resuming BM25 sparse %s from doc %d/%d", split, docs_done, n_docs)
+
+    def _bm25_iter(start: int):
+        for i in range(start, n_docs):
             yield _sparse_vector_bm25l(bm25, i)
 
-    out_dir = DATA_DIR / dataset_name
-    out_dir.mkdir(parents=True, exist_ok=True)
-    base_path = out_dir / f"{dataset_name}_sparse_{split}_bm25"
-    _stream_sparse_to_npy(base_path, doc_ids, _bm25_iter())
+    _stream_sparse_to_npy(base_path, doc_ids[docs_done:], _bm25_iter(docs_done), _resume=resume)
     return n_docs
 
 
@@ -287,24 +359,31 @@ def create_sparse_embeddings_pymilvus_bm25(
 ):
     """
     Encode with PyMilvus BM25EmbeddingFunction (client-side BM25 from pymilvus.model.sparse).
-    Corpus pass: fits the BM25 model and saves it to disk for query encoding.
-    Query pass:  loads the saved model and encodes queries.
+    Supports restart: resumes from last checkpoint if interrupted.
 
     Output: data/<dataset_name>_sparse_<split>_pymilvus_bm25_*.npy
     """
     from pymilvus.model.sparse import BM25EmbeddingFunction
 
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path  = out_dir / f"{dataset_name}_sparse_{split}_pymilvus_bm25"
+    model_path = str(out_dir / f"{dataset_name}_pymilvus_bm25_model.json")
+
+    if _sparse_output_complete(base_path):
+        logger.info("PyMilvus BM25 sparse %s already complete — skipping", split)
+        return len(dataset["text"])
+
+    docs_done, resume = _load_sparse_checkpoint(base_path)
+
     texts   = list(dataset["text"])
     doc_ids = list(dataset["_id"])
     n_docs  = len(texts)
 
-    out_dir    = DATA_DIR / dataset_name
-    out_dir.mkdir(parents=True, exist_ok=True)
-    model_path = str(out_dir / f"{dataset_name}_pymilvus_bm25_model.json")
-
     ef = BM25EmbeddingFunction()
 
     if split == "corpus":
+        # Always fit on full corpus — IDF requires all documents
         logger.info("Fitting PyMilvus BM25 on %d corpus documents...", n_docs)
         ef.fit(texts)
         ef.save(model_path)
@@ -315,9 +394,14 @@ def create_sparse_embeddings_pymilvus_bm25(
         ef.load(model_path)
         encode_fn = ef.encode_queries
 
+    if docs_done > 0:
+        logger.info("Resuming PyMilvus BM25 sparse %s from doc %d/%d", split, docs_done, n_docs)
+
+    remaining_texts = texts[docs_done:]
+
     def _pymilvus_bm25_iter():
-        for i in tqdm(range(0, n_docs, batch_size), desc=f"PyMilvus BM25 {split}"):
-            batch = texts[i : i + batch_size]
+        for i in tqdm(range(0, len(remaining_texts), batch_size), desc=f"PyMilvus BM25 {split}"):
+            batch = remaining_texts[i : i + batch_size]
             vecs  = encode_fn(batch)
             for j in range(len(batch)):
                 row = vecs[j].tocsr()
@@ -325,8 +409,7 @@ def create_sparse_embeddings_pymilvus_bm25(
             del vecs
             gc.collect()
 
-    base_path = out_dir / f"{dataset_name}_sparse_{split}_pymilvus_bm25"
-    _stream_sparse_to_npy(base_path, doc_ids, _pymilvus_bm25_iter())
+    _stream_sparse_to_npy(base_path, doc_ids[docs_done:], _pymilvus_bm25_iter(), _resume=resume)
     return n_docs
 
 
@@ -340,23 +423,38 @@ def create_sparse_embeddings_milvus_splade(
 ):
     """
     Encode with pymilvus SpladeEmbeddingFunction (naver/splade-cocondenser-* family).
+    Supports restart: resumes from last checkpoint if interrupted.
 
     Output: data/<dataset_name>_sparse_<split>_milvus_splade_*.npy
     """
     from pymilvus.model.sparse import SpladeEmbeddingFunction
 
-    logger.info("Loading Milvus SPLADE model: %s", milvus_splade_model)
-    ef = SpladeEmbeddingFunction(model_name=milvus_splade_model, device=device)
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_milvus_splade"
+
+    if _sparse_output_complete(base_path):
+        logger.info("Milvus SPLADE sparse %s already complete — skipping", split)
+        return len(dataset["text"])
+
+    docs_done, resume = _load_sparse_checkpoint(base_path)
 
     texts   = list(dataset["text"])
     doc_ids = list(dataset["_id"])
     n_docs  = len(texts)
 
+    logger.info("Loading Milvus SPLADE model: %s", milvus_splade_model)
+    ef        = SpladeEmbeddingFunction(model_name=milvus_splade_model, device=device)
     encode_fn = ef.encode_documents if split == "corpus" else ef.encode_queries
 
+    if docs_done > 0:
+        logger.info("Resuming Milvus SPLADE sparse %s from doc %d/%d", split, docs_done, n_docs)
+
+    remaining_texts = texts[docs_done:]
+
     def _milvus_splade_iter():
-        for i in tqdm(range(0, n_docs, batch_size), desc=f"Milvus SPLADE {split}"):
-            batch = texts[i : i + batch_size]
+        for i in tqdm(range(0, len(remaining_texts), batch_size), desc=f"Milvus SPLADE {split}"):
+            batch = remaining_texts[i : i + batch_size]
             vecs  = encode_fn(batch)
             for j in range(len(batch)):
                 row = vecs[j].tocsr()
@@ -364,10 +462,7 @@ def create_sparse_embeddings_milvus_splade(
             del vecs
             gc.collect()
 
-    out_dir = DATA_DIR / dataset_name
-    out_dir.mkdir(parents=True, exist_ok=True)
-    base_path = out_dir / f"{dataset_name}_sparse_{split}_milvus_splade"
-    _stream_sparse_to_npy(base_path, doc_ids, _milvus_splade_iter())
+    _stream_sparse_to_npy(base_path, doc_ids[docs_done:], _milvus_splade_iter(), _resume=resume)
     return n_docs
 
 
@@ -383,24 +478,38 @@ def create_sparse_embeddings_splade(
 ):
     """
     Encode with SPLADE batch by batch using multi-process pool.
-    Peak RAM = one batch of sparse tensors at a time.
+    Supports restart: resumes from last checkpoint if interrupted.
 
-    Output: data/<dataset_name>_sparse_<split>_splade.npz
+    Output: data/<dataset_name>_sparse_<split>_splade_*.npy
     """
-    logger.info("Loading SPLADE model: %s", sparse_model_id)
-    model = SparseEncoder(sparse_model_id, device=device, cache_folder=cache_dir)
+    out_dir = DATA_DIR / dataset_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    base_path = out_dir / f"{dataset_name}_sparse_{split}_splade"
+
+    if _sparse_output_complete(base_path):
+        logger.info("SPLADE sparse %s already complete — skipping", split)
+        return len(dataset["text"])
+
+    docs_done, resume = _load_sparse_checkpoint(base_path)
 
     texts   = list(dataset["text"])
     doc_ids = list(dataset["_id"])
     n_docs  = len(texts)
 
-    pool = model.start_multi_process_pool(target_devices=["cpu"] * workers)
-    logger.info("Encoding %d texts (SPLADE) using %d workers …", n_docs, workers)
+    logger.info("Loading SPLADE model: %s", sparse_model_id)
+    model = SparseEncoder(sparse_model_id, device=device, cache_folder=cache_dir)
+    pool  = model.start_multi_process_pool(target_devices=["cpu"] * workers)
+
+    if docs_done > 0:
+        logger.info("Resuming SPLADE sparse %s from doc %d/%d", split, docs_done, n_docs)
+
+    remaining_texts = texts[docs_done:]
+    logger.info("Encoding %d texts (SPLADE) using %d workers …", len(remaining_texts), workers)
 
     def _splade_iter():
-        for i in tqdm(range(0, n_docs, batch_size), desc=f"SPLADE {split}"):
+        for i in tqdm(range(0, len(remaining_texts), batch_size), desc=f"SPLADE {split}"):
             batch_vecs = model.encode(
-                texts[i : i + batch_size], pool=pool, show_progress_bar=False
+                remaining_texts[i : i + batch_size], pool=pool, show_progress_bar=False
             )
             for sv in batch_vecs:
                 sv = sv.coalesce()
@@ -410,10 +519,7 @@ def create_sparse_embeddings_splade(
             del batch_vecs
             gc.collect()
 
-    out_dir = DATA_DIR / dataset_name
-    out_dir.mkdir(parents=True, exist_ok=True)
-    base_path = out_dir / f"{dataset_name}_sparse_{split}_splade"
-    _stream_sparse_to_npy(base_path, doc_ids, _splade_iter())
+    _stream_sparse_to_npy(base_path, doc_ids[docs_done:], _splade_iter(), _resume=resume)
 
     model.stop_multi_process_pool(pool)
     return n_docs
