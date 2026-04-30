@@ -126,7 +126,7 @@ class MilvusDB(HybridDB):
             schema.add_field(
                 "text",
                 DataType.VARCHAR,
-                max_length=8192,
+                max_length=65535,
                 enable_analyzer=True,
             )
             schema.add_field("sparse_vector", DataType.SPARSE_FLOAT_VECTOR)

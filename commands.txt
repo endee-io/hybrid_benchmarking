@@ -266,11 +266,11 @@ python -m src.main \
   --sparse-mode bm25 \
   --milvus-sparse-mode builtin_bm25 \
   --milvus-query-mode hybrid \
-  --milvus-uri http://54.37.77.76:19530 \
+  --milvus-uri http://148.113.58.83:19530 \
   --hf-dataset-id BeIR/scifact \
   --top-k 10 \
   --results run1 \
-  --concurrency 16
+  --concurrency 8
 
 
 
@@ -291,3 +291,26 @@ python -m src.main \
   --top-k 10 \
   --results run1 \
   --concurrency 16
+
+
+python src/embedding_creation.py \
+  --dataset-id BeIR/msmarco \
+  --dense \
+  --sparse-mode pymilvus_bm25
+
+embeddings (sparse only, dense already exists):
+python src/embedding_creation.py \
+  --dataset-id BeIR/scifact \
+  --sparse-mode pymilvus_bm25
+
+python -m src.main \
+  --db milvus \
+  --index-name scifact_milvus_pymilvus_bm25 \
+  --dataset-name beir_scifact \
+  --sparse-mode pymilvus_bm25 \
+  --milvus-sparse-mode pymilvus_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://148.113.58.83:19530 \
+  --top-k 10 \
+  --results run1 \
+  --concurrency 8
