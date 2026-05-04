@@ -125,8 +125,8 @@ def main():
     if args.sparse_mode == "endee_bm25" and args.db != "endee":
         parser.error(f"--sparse-mode endee_bm25 is only supported with --db endee (got --db {args.db})")
 
-    if args.sparse_mode in ("pymilvus_bm25", "milvus_splade") and args.db != "milvus":
-        parser.error(f"--sparse-mode {args.sparse_mode} is only supported with --db milvus (got --db {args.db})")
+    if args.sparse_mode == "milvus_splade" and args.db != "milvus":
+        parser.error(f"--sparse-mode milvus_splade is only supported with --db milvus (got --db {args.db})")
 
     # Output paths — db-specific: results/{db}/{results}_concurrency{N}
     db_output_base = Path("results") / args.db
