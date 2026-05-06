@@ -6,3 +6,4 @@ results/
 *.xlsx
 vespa_schema_registry.json]
 .DS_Store
+check.py

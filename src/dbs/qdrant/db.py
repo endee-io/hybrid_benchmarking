@@ -5,14 +5,16 @@ from typing import Dict, List
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
+    Datatype,
     Distance,
     Fusion,
     FusionQuery,
+    HnswConfigDiff,
     Modifier,
-    NamedSparseVector,
     OptimizersConfigDiff,
     PointStruct,
     Prefetch,
+    SearchParams,
     SparseIndexParams,
     SparseVector,
     SparseVectorParams,
@@ -53,6 +55,10 @@ class QdrantDB(HybridDB):
         modifier: str = "none",
         on_disk_index: bool = False,
         segment_number: int = 8,
+        datatype: str = "float32",
+        ef_construction: int = 128,
+        ef_search: int = 128,
+        hnsw_m: int = 16,
     ):
         self.client             = QdrantClient(host=host, port=port, prefer_grpc=False)
         self.sparse_vector_name = sparse_vector_name
@@ -61,8 +67,12 @@ class QdrantDB(HybridDB):
         self.modifier           = Modifier.IDF if modifier.lower() == "idf" else Modifier.NONE
         self.on_disk_index      = on_disk_index
         self.segment_number     = segment_number
+        self.datatype           = {"float32": Datatype.FLOAT32, "float16": Datatype.FLOAT16, "uint8": Datatype.UINT8}.get(datatype.lower(), Datatype.FLOAT32)
+        self.ef_construction    = ef_construction
+        self.ef_search          = ef_search
+        self.hnsw_m             = hnsw_m
         self.collection         = None
-        logger.info("QdrantDB connected to %s:%d", host, port)
+        logger.info("QdrantDB connected to %s:%d (datatype=%s, ef_construction=%d, ef_search=%d)", host, port, datatype, ef_construction, ef_search)
 
     def init(
         self,
@@ -86,6 +96,9 @@ class QdrantDB(HybridDB):
                             self.dense_vector_name: VectorParams(
                                 size=dimension,
                                 distance=distance,
+                                datatype=self.datatype,
+                                on_disk=self.on_disk_index,
+                                hnsw_config=HnswConfigDiff(ef_construct=self.ef_construction, m=self.hnsw_m, on_disk=self.on_disk_index),
                             )
                         },
                         sparse_vectors_config={
@@ -166,6 +179,7 @@ class QdrantDB(HybridDB):
                             query=dense_vector,
                             using=self.dense_vector_name,
                             limit=top_k,
+                            params=SearchParams(hnsw_ef=self.ef_search),
                         ),
                         Prefetch(
                             query=SparseVector(indices=sparse_indices, values=sparse_values),
@@ -179,16 +193,14 @@ class QdrantDB(HybridDB):
                     with_vectors=False,
                 ).points
             else:
-                results = self.client.search(
+                results = self.client.query_points(
                     collection_name=self.collection,
-                    query_vector=NamedSparseVector(
-                        name=self.sparse_vector_name,
-                        vector=SparseVector(indices=sparse_indices, values=sparse_values),
-                    ),
+                    query=SparseVector(indices=sparse_indices, values=sparse_values),
+                    using=self.sparse_vector_name,
                     limit=top_k,
                     with_payload=True,
                     with_vectors=False,
-                )
+                ).points
             return [{"id": str(r.payload.get("original_id")), "score": r.score} for r in results]
         except Exception as e:
             logger.error("search failed: %s", e)
@@ -216,10 +228,18 @@ class QdrantDB(HybridDB):
                        help="[Qdrant] Query mode: hybrid (RRF) or sparse (default: hybrid)")
         g.add_argument("--modifier",           default="none", choices=["none", "idf"],
                        help="[Qdrant] Sparse vector modifier (default: none)")
-        g.add_argument("--on-disk-index",      action="store_true", default=True,
-                       help="[Qdrant] Store sparse index on disk (default: in-memory)")
+        g.add_argument("--on-disk-index",      action="store_true", default=False,
+                       help="[Qdrant] Store vectors, HNSW graph, and sparse index on disk (default: False, in-memory)")
         g.add_argument("--segment-number",     type=int, default=8,
                        help="[Qdrant] Number of collection segments (default: 8)")
+        g.add_argument("--datatype",           default="float32", choices=["float32", "float16", "uint8"],
+                       help="[Qdrant] Vector storage datatype (default: float32)")
+        g.add_argument("--ef-construction",    type=int, default=128,
+                       help="[Qdrant] HNSW ef_construct during indexing (default: 128)")
+        g.add_argument("--ef-search",          type=int, default=128,
+                       help="[Qdrant] HNSW ef during search (default: 128)")
+        g.add_argument("--hnsw-m",             type=int, default=16,
+                       help="[Qdrant] HNSW m — links per node (default: 16)")
 
     @staticmethod
     def build_config(args) -> dict:
@@ -232,4 +252,8 @@ class QdrantDB(HybridDB):
             "modifier":           args.modifier,
             "on_disk_index":      args.on_disk_index,
             "segment_number":     args.segment_number,
+            "datatype":           args.datatype,
+            "ef_construction":    args.ef_construction,
+            "ef_search":          args.ef_search,
+            "hnsw_m":             args.hnsw_m,
         }

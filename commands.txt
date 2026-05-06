@@ -298,6 +298,10 @@ python src/embedding_creation.py \
   --dense \
   --sparse-mode pymilvus_bm25
 
+python src/embedding_creation.py \
+  --dataset-id BeIR/quora \
+  --sparse-mode pymilvus_bm25
+
 embeddings (sparse only, dense already exists):
 python src/embedding_creation.py \
   --dataset-id BeIR/scifact \
@@ -314,3 +318,34 @@ python -m src.main \
   --top-k 10 \
   --results run1 \
   --concurrency 8
+
+
+python -m src.main \
+  --db milvus \
+  --index-name msmarco_milvus_pymilvus_bm25 \
+  --dataset-name beir_msmarco \
+  --sparse-mode pymilvus_bm25 \
+  --milvus-sparse-mode pymilvus_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://51.89.137.73:19530 \
+  --top-k 10 \
+  --results run1 \
+  --concurrency 8
+
+http://51.89.137.73:19530/
+
+
+# Full run — index + query + validate
+python -m src.main \
+  --db endee \
+  --index-name scifact_bench \
+  --dataset-name beir_scifact \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://148.113.54.173:8080/api/v1 \
+  --sparse-mode pymilvus_bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-venv validation-env \
+  --cache-dir model_cache

@@ -52,7 +52,7 @@ def _sparse_vector_bm25l(bm25: BM25L, doc_idx: int) -> tuple[list[int], list[flo
 DATASET_CONFIG = {
     "beir_scifact": {"hf_name": "BeIR/scifact-qrels", "split": "train"},
     "beir_quora":   {"hf_name": "BeIR/quora-qrels",   "split": "test"},
-    "beir_msmarco": {"hf_name": "BeIR/msmarco-qrels", "split": "dev"},
+    "beir_msmarco": {"hf_name": "BeIR/msmarco-qrels", "split": "validation"},
 }
 
 
