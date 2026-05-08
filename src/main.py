@@ -293,14 +293,10 @@ def print_summary(
         summary_path = output_dir / "summary.json"
         if summary_path.exists():
             s = json.loads(summary_path.read_text())
-            total_time = s.get("total_time_seconds")
-            successful = s.get("successful_queries")
-            total_queries=s.get("total_queries")
-            lines.append(f"Total Queries:{total_queries}")
-            lines.append(f"Successful Queries:{successful}")
-            qps = round(successful / total_time, 2) if total_time and successful else "N/A"
+            lines.append(f"  Total Queries     : {s.get('total_queries')}")
+            lines.append(f"  Successful Queries: {s.get('successful_queries')}")
             lines.append(f"  p99 latency       : {s.get('p99_latency_ms', 'N/A')} ms")
-            lines.append(f"  QPS               : {qps}")
+            lines.append(f"  QPS               : {s.get('qps', 'N/A')}")
         else:
             lines.append("  Query stats       : (file not found)")
 
