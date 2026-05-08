@@ -160,6 +160,7 @@ def calculate_p99_latency(latencies: List[Dict]) -> float:
 
 
 def qps_worker(
+    worker_id: int,
     duration: int,
     queries: List[Dict],
     q,
@@ -198,15 +199,15 @@ def qps_worker(
             latencies_ms.append((time.perf_counter() - s) * 1000)
         except Exception as e:
             failed_count += 1
-            logger.warning("QPS worker query failed: %s", e)
+            logger.warning("Worker-%d query failed: %s", worker_id, e)
 
         idx = idx + 1 if idx < num - 1 else 0
 
     total_dur = time.perf_counter() - start_time
+    per_process_qps = round(success_count / total_dur, 4) if total_dur else 0
     logger.info(
-        "QPS worker pid=%d: duration=%.2fs, success=%d, failed=%d, per-process qps=%.2f",
-        os.getpid(), total_dur, success_count, failed_count,
-        round(success_count / total_dur, 4) if total_dur else 0,
+        "Worker-%d search %ds: actual_dur=%.4fs, count=%d, qps in this process: %.4f",
+        worker_id, duration, total_dur, success_count, per_process_qps,
     )
     return success_count, failed_count, latencies_ms
 
@@ -237,10 +238,10 @@ def run_qps_benchmark(
         ) as executor:
             future_iter = [
                 executor.submit(
-                    qps_worker, duration, queries, q, cond,
+                    qps_worker, i + 1, duration, queries, q, cond,
                     db_name, db_config, index_name, top_k,
                 )
-                for _ in range(concurrency)
+                for i in range(concurrency)
             ]
 
             # Wait until all workers signal ready
@@ -267,8 +268,8 @@ def run_qps_benchmark(
     avg = float(np.mean(all_latencies))            if all_latencies else 0.0
 
     logger.info(
-        "QPS benchmark done: qps=%.2f, p99=%.2fms, success=%d, failed=%d, cost=%.2fs",
-        qps, p99, total_success, total_failed, cost,
+        "End search in concurrency %d: dur=%.4fs, total_count=%d, qps=%.4f",
+        concurrency, cost, total_success, qps,
     )
     return {
         "qps":            qps,
