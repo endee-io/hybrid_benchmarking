@@ -105,6 +105,20 @@ fi
 
 # ── Step 2: Clone repo ───────────────────────────────────────────────────────
 
+# ── Step 2a: Ensure git is available ─────────────────────────────────────────
+
+if ! command -v git &>/dev/null; then
+    log "git not found — installing..."
+    sudo apt-get update -qq
+    sudo apt-get install -y git
+fi
+
+if ! "$PYTHON_BIN" -m ensurepip --version &>/dev/null 2>&1; then
+    log "python3-venv not available — installing python3.13-venv..."
+    sudo apt-get update -qq
+    sudo apt-get install -y python3.13-venv
+fi
+
 # Detect if this script is already inside the repo
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR=""
@@ -117,8 +131,8 @@ else
     if [[ -d "$TARGET_DIR" ]]; then
         warn "Directory '$TARGET_DIR' already exists — skipping clone."
     else
-        log "Cloning $REPO_URL..."
-        git clone "$REPO_URL" "$TARGET_DIR"
+        log "Cloning $REPO_URL (branch: qps_calculation_correction)..."
+        git clone --branch qps_calculation_correction "$REPO_URL" "$TARGET_DIR"
     fi
     REPO_DIR="$TARGET_DIR"
 fi
@@ -129,7 +143,7 @@ log "Working in: $REPO_DIR"
 # ── Step 3: Virtual environments ─────────────────────────────────────────────
 
 for env in index-env validation-env; do
-    if [[ -d "$env" ]]; then
+    if [[ -f "$env/bin/activate" ]]; then
         warn "Virtual environment '$env' already exists — skipping creation."
     else
         log "Creating $env with $($PYTHON_BIN --version)..."
