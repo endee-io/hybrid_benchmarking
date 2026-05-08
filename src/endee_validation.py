@@ -34,9 +34,15 @@ def calculate_metrics(qrels: Qrels, run_file: str, testcycle_dir: str, top_k: in
     with open(run_file_path, "r") as f:
         run_dict = json.load(f)
 
+    run_query_ids = set(run_dict.keys())
+    filtered_qrels = Qrels(
+        {qid: docs for qid, docs in qrels.qrels.items() if qid in run_query_ids}
+    )
+    logger.info("Evaluating on %d queries (run) out of %d qrel queries", len(run_query_ids), len(qrels.qrels))
+
     metrics = [f"ndcg@{top_k}", f"map@{top_k}", f"recall@{top_k}"]
     run = Run(run_dict, name=run_file_path.stem)
-    results = evaluate(qrels, run, metrics, make_comparable=True)
+    results = evaluate(filtered_qrels, run, metrics)
 
     out_dir = Path(testcycle_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
