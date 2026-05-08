@@ -225,7 +225,7 @@ def main():
             sparse_mode=args.sparse_mode,
             output_dir=output_dir,
             results=args.results,
-            concurrency=args.concurrency,
+           concurrency=args.concurrency, 
             top_k=args.top_k,
             query_texts=query_texts,
             qps_duration=args.qps_duration,
@@ -239,9 +239,8 @@ def main():
     if not args.skip_validation:
         logger.info("--- Starting Validation ---")
         python = str(get_validation_python(args.validation_venv)) if args.validation_venv else sys.executable
-        validation_script = str(Path(__file__).parent / "endee_validation.py")
         cmd = [
-            python, validation_script,
+            python, "-m", "src.endee_validation",
             "--dataset-name", args.dataset_name,
             "--output-base",  str(db_output_base),
             "--results",      args.results,
@@ -251,7 +250,7 @@ def main():
         if args.cache_dir:
             cmd += ["--cache-dir", args.cache_dir]
         logger.info("Running validation: %s", " ".join(cmd))
-        result = subprocess.run(cmd)
+        result = subprocess.run(cmd, cwd=Path(__file__).parent.parent)
         if result.returncode != 0:
             logger.error("Validation failed with return code %d", result.returncode)
             raise SystemExit(result.returncode)
