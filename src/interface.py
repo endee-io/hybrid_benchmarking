@@ -72,3 +72,6 @@ class HybridDB(ABC):
     @abstractmethod
     def list_indices(self) -> List[str]:
         """Return names of all indices available on this backend."""
+
+    def wait_for_index(self) -> None:
+        """Block until the index is fully built. No-op for most DBs; override where needed (e.g. Qdrant)."""

@@ -140,6 +140,7 @@ def index_from_npy(
             upsert_times.append((time.perf_counter() - t0) * 1000)
             total_inserted += len(points)
 
+        db.wait_for_index()
         total_time_sec = time.perf_counter() - start_time
         logger.info("Indexing complete: %d vectors in %.2f seconds", total_inserted, total_time_sec)
         save_index_performance(output_base, index_name, upsert_times, total_inserted, total_time_sec, batch_size)

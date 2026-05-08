@@ -1,11 +1,12 @@
 import os
 import json
 import time
+import random
 import logging
-import math
+import concurrent.futures
+import multiprocessing as mp
 from pathlib import Path
-from multiprocessing import Pool
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Optional, Tuple, Any
 
 import numpy as np
 
@@ -95,23 +96,38 @@ def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str) ->
     return queries
 
 
-def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
-    """Process a batch of queries synchronously inside a worker process."""
-    batch_id, queries, top_k, index_name, db_name, db_config = batch_data
-    worker_pid = os.getpid()
-    db = get_or_init_db(db_name, db_config, index_name)
+def run_serial_correctness(
+    queries: List[Dict],
+    db_name: str,
+    db_config: dict,
+    index_name: str,
+    top_k: int,
+    max_queries: int = 1000,
+    qrel_query_ids: Optional[set] = None,
+) -> Tuple[Dict[str, Dict], List[Dict]]:
+    """Run queries serially for correctness evaluation (VectorDBBench-style).
 
-    results    = {}
-    latencies  = []
-    query_logs = []
-    total      = len(queries)
-    completed  = 0
+    Filters to qrel_query_ids first (ensures every query has ground truth),
+    then caps at max_queries to match VectorDBBench's recommended test set size.
+    Uses perf_counter per query for accurate individual latency measurement.
+    """
+    if qrel_query_ids is not None:
+        queries = [q for q in queries if q["query_id"] in qrel_query_ids]
+        logger.info("Filtered to %d queries with qrel ground truth", len(queries))
 
-    logger.info("Worker %d - Batch %d: Processing %d queries", worker_pid, batch_id, total)
+    queries_to_run = queries[:max_queries] if len(queries) > max_queries else queries
+    logger.info("Serial correctness run: %d / %d queries (cap=%d)",
+                len(queries_to_run), len(queries), max_queries)
 
-    for query in queries:
-        query_id   = query["query_id"]
-        start_time = time.time()
+    db = create_db(db_name, db_config)
+    db.init(index_name, create=False)
+
+    results:   Dict[str, Dict] = {}
+    latencies: List[Dict]      = []
+
+    for i, query in enumerate(queries_to_run):
+        query_id = query["query_id"]
+        s = time.perf_counter()
         try:
             search_results = db.search(
                 dense_vector=query["dense_vector"],
@@ -120,100 +136,159 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
                 top_k=top_k,
                 text=query.get("text", ""),
             )
-            if search_results is None:
-                logger.error("Worker %d - Query %s returned None", worker_pid, query_id)
-                err = {"query_id": query_id, "latency_ms": 0, "worker_id": worker_pid, "batch_id": batch_id, "error": "None result"}
-                latencies.append(err)
-                query_logs.append({**err, "status": "error"})
-                results[query_id] = {}
-                continue
-
-            elapsed_ms    = (time.time() - start_time) * 1000
-            query_results = {p["id"]: p["score"] for p in search_results}
-            results[query_id] = query_results
-            latencies.append({
-                "query_id":    query_id,
-                "latency_ms":  elapsed_ms,
-                "worker_id":   worker_pid,
-                "batch_id":    batch_id,
-                "num_results": len(query_results),
-            })
-            query_logs.append({
-                "query_id":    query_id,
-                "status":      "success",
-                "latency_ms":  elapsed_ms,
-                "num_results": len(query_results),
-                "worker_id":   worker_pid,
-                "batch_id":    batch_id,
-            })
-            logger.debug("Worker %d - Query %s: %.2fms, %d results", worker_pid, query_id, elapsed_ms, len(query_results))
-
+            elapsed_ms = (time.perf_counter() - s) * 1000
+            results[query_id] = {p["id"]: p["score"] for p in search_results} if search_results else {}
+            latencies.append({"query_id": query_id, "latency_ms": elapsed_ms})
         except Exception as e:
-            elapsed_ms = (time.time() - start_time) * 1000
-            logger.error("Worker %d - Query %s failed: %s", worker_pid, query_id, e)
-            latencies.append({"query_id": query_id, "latency_ms": elapsed_ms, "worker_id": worker_pid, "batch_id": batch_id, "error": str(e)})
-            query_logs.append({"query_id": query_id, "status": "error", "latency_ms": elapsed_ms, "error": str(e), "worker_id": worker_pid, "batch_id": batch_id})
+            elapsed_ms = (time.perf_counter() - s) * 1000
+            logger.error("Serial query %s failed: %s", query_id, e)
             results[query_id] = {}
+            latencies.append({"query_id": query_id, "latency_ms": elapsed_ms, "error": str(e)})
 
-        completed += 1
-        if completed % 100 == 0:
-            logger.info("Worker %d - Batch %d: %d/%d completed", worker_pid, batch_id, completed, total)
+        if (i + 1) % 100 == 0:
+            logger.info("Serial correctness: %d / %d completed", i + 1, len(queries_to_run))
 
-    logger.info("Worker %d - Batch %d: completed %d queries", worker_pid, batch_id, total)
-    return {
-        "batch_id":    batch_id,
-        "worker_id":   worker_pid,
-        "results":     results,
-        "latencies":   latencies,
-        "query_logs":  query_logs,
-        "num_queries": len(queries),
-    }
-
-
-def split_into_batches(
-    queries: List[Dict],
-    concurrency: int,
-    top_k: int,
-    index_name: str,
-    db_name: str,
-    db_config: dict,
-) -> List[Tuple]:
-    """Split queries into batches for parallel processing."""
-    total_queries = len(queries)
-    if total_queries == 0:
-        return []
-
-    batch_size = math.ceil(total_queries / concurrency)
-    batches = [
-        (batch_id, queries[i : i + batch_size], top_k, index_name, db_name, db_config)
-        for batch_id, i in enumerate(range(0, total_queries, batch_size))
-        if queries[i : i + batch_size]
-    ]
-
-    total_in_batches = sum(len(b[1]) for b in batches)
-    if total_in_batches != total_queries:
-        logger.warning("Batch split mismatch: %d total, %d in batches", total_queries, total_in_batches)
-
-    logger.info("Split %d queries into %d batches (concurrency=%d, batch_size=%d)",
-                total_queries, len(batches), concurrency, batch_size)
-    return batches
+    logger.info("Serial correctness complete: %d queries", len(queries_to_run))
+    return results, latencies
 
 
 def calculate_p99_latency(latencies: List[Dict]) -> float:
-    values = sorted(l["latency_ms"] for l in latencies if "error" not in l)
+    values = [l["latency_ms"] for l in latencies if "error" not in l]
     if not values:
         return 0.0
-    return values[min(int(len(values) * 0.99), len(values) - 1)]
+    return float(np.percentile(values, 99))
+
+
+def qps_worker(
+    duration: int,
+    queries: List[Dict],
+    q,
+    cond,
+    db_name: str,
+    db_config: dict,
+    index_name: str,
+    top_k: int,
+) -> Tuple[int, int, List[float]]:
+    """Duration-based QPS worker (VectorDBBench-style). Cycles through queries for `duration` seconds."""
+    q.put(1)
+    with cond:
+        cond.wait()
+
+    db = get_or_init_db(db_name, db_config, index_name)
+    num = len(queries)
+    idx = random.randint(0, num - 1)
+
+    start_time = time.perf_counter()
+    success_count = 0
+    failed_count = 0
+    latencies_ms: List[float] = []
+
+    while time.perf_counter() < start_time + duration:
+        query = queries[idx]
+        s = time.perf_counter()
+        try:
+            db.search(
+                dense_vector=query["dense_vector"],
+                sparse_indices=query["sparse_vector"]["indices"],
+                sparse_values=query["sparse_vector"]["values"],
+                top_k=top_k,
+                text=query.get("text", ""),
+            )
+            success_count += 1
+            latencies_ms.append((time.perf_counter() - s) * 1000)
+        except Exception as e:
+            failed_count += 1
+            logger.warning("QPS worker query failed: %s", e)
+
+        idx = idx + 1 if idx < num - 1 else 0
+
+    total_dur = time.perf_counter() - start_time
+    logger.info(
+        "QPS worker pid=%d: duration=%.2fs, success=%d, failed=%d, per-process qps=%.2f",
+        os.getpid(), total_dur, success_count, failed_count,
+        round(success_count / total_dur, 4) if total_dur else 0,
+    )
+    return success_count, failed_count, latencies_ms
+
+
+def run_qps_benchmark(
+    queries: List[Dict],
+    concurrency: int,
+    duration: int,
+    db_name: str,
+    db_config: dict,
+    index_name: str,
+    top_k: int,
+) -> Dict:
+    """Run VectorDBBench-style duration-based QPS benchmark.
+
+    All workers start simultaneously via Queue+Condition synchronization,
+    fire queries for `duration` seconds, then report aggregate QPS.
+    """
+    logger.info("Starting QPS benchmark: concurrency=%d, duration=%ds", concurrency, duration)
+
+    with mp.Manager() as manager:
+        q    = manager.Queue()
+        cond = manager.Condition()
+
+        with concurrent.futures.ProcessPoolExecutor(
+            mp_context=mp.get_context("spawn"),
+            max_workers=concurrency,
+        ) as executor:
+            future_iter = [
+                executor.submit(
+                    qps_worker, duration, queries, q, cond,
+                    db_name, db_config, index_name, top_k,
+                )
+                for _ in range(concurrency)
+            ]
+
+            # Wait until all workers signal ready
+            while q.qsize() < concurrency:
+                time.sleep(1)
+
+            # Release all workers simultaneously
+            with cond:
+                cond.notify_all()
+            logger.info("All %d workers synchronized and released", concurrency)
+
+            # Collect results — cost ≈ duration since all workers run for the same window
+            start = time.perf_counter()
+            results = [f.result() for f in future_iter]
+            cost = time.perf_counter() - start
+
+    total_success  = sum(r[0] for r in results)
+    total_failed   = sum(r[1] for r in results)
+    all_latencies  = [lat for r in results for lat in r[2]]
+
+    qps = round(total_success / cost, 4) if cost else 0.0
+    p99 = float(np.percentile(all_latencies, 99)) if all_latencies else 0.0
+    p95 = float(np.percentile(all_latencies, 95)) if all_latencies else 0.0
+    avg = float(np.mean(all_latencies))            if all_latencies else 0.0
+
+    logger.info(
+        "QPS benchmark done: qps=%.2f, p99=%.2fms, success=%d, failed=%d, cost=%.2fs",
+        qps, p99, total_success, total_failed, cost,
+    )
+    return {
+        "qps":            qps,
+        "total_success":  total_success,
+        "total_failed":   total_failed,
+        "p99_latency_ms": p99,
+        "p95_latency_ms": p95,
+        "avg_latency_ms": avg,
+        "cost_seconds":   cost,
+    }
 
 
 def save_results(
     all_results: Dict[str, Dict],
     all_latencies: List[Dict],
-    all_logs: List[Dict],
     output_dir: Path,
     results: str,
     concurrency: int,
     total_time: float,
+    qps_override: Optional[float] = None,
 ):
     """Save all query results, latencies, and summary to output_dir."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -240,7 +315,7 @@ def save_results(
     logger.info("P99 latency: %.2fms", p99_latency)
 
     with open(output_dir / "detailed_logs.json", "w") as f:
-        json.dump(all_logs, f, indent=2)
+        json.dump(sorted_latencies, f, indent=2)
 
     successful_latencies = [l["latency_ms"] for l in all_latencies if "error" not in l]
     summary = {
@@ -257,7 +332,7 @@ def save_results(
         "min_latency_ms":     min(successful_latencies)                       if successful_latencies else 0,
         "max_latency_ms":     max(successful_latencies)                       if successful_latencies else 0,
         "total_time_seconds": total_time,
-        "qps":                round(len(successful_latencies) / total_time, 2) if total_time else 0,
+        "qps":                qps_override if qps_override is not None else (round(len(successful_latencies) / total_time, 2) if total_time else 0),
     }
     with open(output_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -276,6 +351,8 @@ def run_query(
     concurrency: int,
     top_k: int,
     query_texts: dict = None,
+    qps_duration: int = 30,
+    qrel_query_ids: Optional[set] = None,
 ):
     """
     Full query pipeline entry point called from main.py.
@@ -296,21 +373,32 @@ def run_query(
     if query_texts:
         for q in queries:
             q["text"] = query_texts.get(q["query_id"], "")
-    batches = split_into_batches(queries, concurrency, top_k, index_name, db_name, db_config)
 
-    logger.info("Starting parallel processing with %d workers", concurrency)
-    start_time = time.time()
-    with Pool(processes=concurrency) as pool:
-        batch_results = pool.map(process_query_batch, batches)
-    total_time = time.time() - start_time
-    logger.info("Completed all queries in %.2f seconds", total_time)
+    logger.info("--- Starting QPS benchmark (duration=%ds) ---", qps_duration)
+    qps_result = run_qps_benchmark(
+        queries=queries,
+        concurrency=concurrency,
+        duration=qps_duration,
+        db_name=db_name,
+        db_config=db_config,
+        index_name=index_name,
+        top_k=top_k,
+    )
+    logger.info("--- QPS benchmark complete: qps=%.2f ---", qps_result["qps"])
 
-    all_results, all_latencies, all_logs = {}, [], []
-    for br in batch_results:
-        all_results.update(br["results"])
-        all_latencies.extend(br["latencies"])
-        all_logs.extend(br["query_logs"])
+    logger.info("--- Starting serial correctness run ---")
+    start_time = time.perf_counter()
+    all_results, all_latencies = run_serial_correctness(
+        queries=queries,
+        db_name=db_name,
+        db_config=db_config,
+        index_name=index_name,
+        top_k=top_k,
+        qrel_query_ids=qrel_query_ids,
+    )
+    total_time = time.perf_counter() - start_time
+    logger.info("--- Serial correctness complete in %.2fs ---", total_time)
 
-    logger.info("Merged results: %d queries, %d latency entries", len(all_results), len(all_latencies))
-    save_results(all_results, all_latencies, all_logs, output_dir, results, concurrency, total_time)
+    save_results(all_results, all_latencies, output_dir, results, concurrency, total_time,
+                 qps_override=qps_result["qps"])
     logger.info("All results saved to %s", output_dir)

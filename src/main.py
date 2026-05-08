@@ -5,6 +5,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+from datasets import load_dataset as hf_load_dataset
+
+from src.dataset_config import DATASET_CONFIG
 from src.indexing import index_from_npy
 from src.query import run_query
 from src.utils import create_db, DB_REGISTRY, add_all_db_args, build_db_config
@@ -96,6 +99,8 @@ def main():
                         help="Results folder label (e.g. run1)")
     parser.add_argument("--concurrency",   type=int, required=True,
                         help="Number of parallel worker processes")
+    parser.add_argument("--qps-duration",  type=int, default=30,
+                        help="Duration in seconds for the QPS benchmark (default: 30)")
     parser.add_argument("--top-k",         type=int, default=10,
                         help="Top-k results per query (default: 10)")
     parser.add_argument("--batch-size",    type=int, default=1000,
@@ -197,6 +202,17 @@ def main():
     else:
         logger.info("Skipping indexing")
 
+    # ── Qrel query IDs (for correctness filtering) ────────────────────────────
+    qrel_query_ids = None
+    if args.dataset_name in DATASET_CONFIG:
+        cfg = DATASET_CONFIG[args.dataset_name]
+        logger.info("Loading qrel query IDs from %s (split=%s)", cfg["hf_name"], cfg["split"])
+        qrel_ds = hf_load_dataset(cfg["hf_name"], split=cfg["split"], cache_dir=args.cache_dir)
+        qrel_query_ids = {str(entry["query-id"]) for entry in qrel_ds}
+        logger.info("Loaded %d qrel query IDs", len(qrel_query_ids))
+    else:
+        logger.warning("Dataset %s not in DATASET_CONFIG — skipping qrel filtering", args.dataset_name)
+
     # ── Query ─────────────────────────────────────────────────────────────────
     if not args.skip_query:
         logger.info("--- Starting Query ---")
@@ -212,6 +228,8 @@ def main():
             concurrency=args.concurrency,
             top_k=args.top_k,
             query_texts=query_texts,
+            qps_duration=args.qps_duration,
+            qrel_query_ids=qrel_query_ids,
         )
         logger.info("--- Query Complete ---")
     else:

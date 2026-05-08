@@ -5,6 +5,7 @@ from typing import Dict, List
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
+    CollectionStatus,
     Datatype,
     Distance,
     Fusion,
@@ -161,6 +162,17 @@ class QdrantDB(HybridDB):
         except Exception as e:
             logger.error("index_batch failed after %d retries (%d points): %s", MAX_RETRIES, len(points), e)
             raise
+
+    def wait_for_index(self) -> None:
+        """Poll until Qdrant reports CollectionStatus.GREEN (HNSW graph fully built)."""
+        logger.info("Waiting for Qdrant collection '%s' to reach GREEN status...", self.collection)
+        while True:
+            info = self.client.get_collection(self.collection)
+            if info.status == CollectionStatus.GREEN:
+                logger.info("Collection '%s' is GREEN — index fully built", self.collection)
+                return
+            logger.debug("Collection status: %s — waiting...", info.status)
+            time.sleep(5)
 
     def search(
         self,

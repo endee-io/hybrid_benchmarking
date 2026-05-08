@@ -7,14 +7,10 @@ from pathlib import Path
 from datasets import load_dataset as hf_load_dataset
 from ranx import Qrels, Run, evaluate
 
+from src.dataset_config import DATASET_CONFIG
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
-
-DATASET_CONFIG = {
-    "beir_scifact": {"hf_name": "BeIR/scifact-qrels", "split": "train", "out_dir": "beir_scifact"},
-    "beir_quora":   {"hf_name": "BeIR/quora-qrels",   "split": "test",  "out_dir": "beir_quora"},
-    "beir_msmarco": {"hf_name": "BeIR/msmarco-qrels", "split": "validation",   "out_dir": "beir_msmarco"},
-}
 
 
 def load_dataset(dataset_name: str, cache_dir: str = None):
