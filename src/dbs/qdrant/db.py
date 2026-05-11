@@ -50,6 +50,8 @@ class QdrantDB(HybridDB):
         self,
         host: str = "localhost",
         port: int = 6333,
+        grpc_port: int = 6334,
+        prefer_grpc: bool = False,
         sparse_vector_name: str = "sparse",
         dense_vector_name: str = "dense",
         query_mode: str = "hybrid",
@@ -61,7 +63,7 @@ class QdrantDB(HybridDB):
         ef_search: int = 128,
         hnsw_m: int = 16,
     ):
-        self.client             = QdrantClient(host=host, port=port, prefer_grpc=False)
+        self.client             = QdrantClient(host=host, port=port, grpc_port=grpc_port, prefer_grpc=prefer_grpc)
         self.sparse_vector_name = sparse_vector_name
         self.dense_vector_name  = dense_vector_name
         self.query_mode         = query_mode
@@ -231,7 +233,11 @@ class QdrantDB(HybridDB):
         g.add_argument("--host",               default="localhost",
                        help="[Qdrant] Host (default: localhost)")
         g.add_argument("--port",               type=int, default=6333,
-                       help="[Qdrant] Port (default: 6333)")
+                       help="[Qdrant] REST port (default: 6333)")
+        g.add_argument("--grpc-port",          type=int, default=6334,
+                       help="[Qdrant] gRPC port (default: 6334)")
+        g.add_argument("--prefer-grpc",        action="store_true", default=False,
+                       help="[Qdrant] Use gRPC instead of HTTP (default: False)")
         g.add_argument("--sparse-vector-name", default="sparse",
                        help="[Qdrant] Sparse vector field name (default: sparse)")
         g.add_argument("--dense-vector-name",  default="dense",
@@ -258,6 +264,8 @@ class QdrantDB(HybridDB):
         return {
             "host":               args.host,
             "port":               args.port,
+            "grpc_port":          args.grpc_port,
+            "prefer_grpc":        args.prefer_grpc,
             "sparse_vector_name": args.sparse_vector_name,
             "dense_vector_name":  args.dense_vector_name,
             "query_mode":         args.query_mode,
