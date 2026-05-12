@@ -102,22 +102,19 @@ def run_serial_correctness(
     db_config: dict,
     index_name: str,
     top_k: int,
-    max_queries: int = 1000,
     qrel_query_ids: Optional[set] = None,
 ) -> Tuple[Dict[str, Dict], List[Dict]]:
-    """Run queries serially for correctness evaluation (VectorDBBench-style).
+    """Run queries serially for correctness evaluation.
 
-    Filters to qrel_query_ids first (ensures every query has ground truth),
-    then caps at max_queries to match VectorDBBench's recommended test set size.
+    Filters to qrel_query_ids to ensure every query has ground truth.
     Uses perf_counter per query for accurate individual latency measurement.
     """
     if qrel_query_ids is not None:
         queries = [q for q in queries if q["query_id"] in qrel_query_ids]
         logger.info("Filtered to %d queries with qrel ground truth", len(queries))
 
-    queries_to_run = queries[:max_queries] if len(queries) > max_queries else queries
-    logger.info("Serial correctness run: %d / %d queries (cap=%d)",
-                len(queries_to_run), len(queries), max_queries)
+    queries_to_run = queries
+    logger.info("Serial correctness run: %d queries", len(queries_to_run))
 
     db = create_db(db_name, db_config)
     db.init(index_name, create=False)
