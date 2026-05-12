@@ -15,6 +15,9 @@ from qdrant_client.models import (
     OptimizersConfigDiff,
     PointStruct,
     Prefetch,
+    ScalarQuantization,
+    ScalarQuantizationConfig,
+    ScalarType,
     SearchParams,
     SparseIndexParams,
     SparseVector,
@@ -74,13 +77,15 @@ class QdrantDB(HybridDB):
         self.modifier           = Modifier.IDF if modifier.lower() == "idf" else Modifier.NONE
         self.on_disk_index      = on_disk_index
         self.segment_number     = segment_number
-        self.datatype           = {"float32": Datatype.FLOAT32, "float16": Datatype.FLOAT16, "uint8": Datatype.UINT8}.get(datatype.lower(), Datatype.FLOAT32)
+        self.use_scalar_quantization = datatype.lower() == "int8"
+        self.datatype                = Datatype.FLOAT16 if datatype.lower() == "float16" else Datatype.FLOAT32
         self.ef_construction    = ef_construction
         self.ef_search          = ef_search
         self.hnsw_m             = hnsw_m
         self.collection         = None
         active_port = grpc_port if prefer_grpc else port
-        logger.info("QdrantDB connected to %s:%d (%s, datatype=%s, ef_construction=%d, ef_search=%d)", host, active_port, "grpc" if prefer_grpc else "http", datatype, ef_construction, ef_search)
+        effective_datatype = "int8(scalar_quantization)" if self.use_scalar_quantization else datatype
+        logger.info("QdrantDB connected to %s:%d (%s, datatype=%s, ef_construction=%d, ef_search=%d)", host, active_port, "grpc" if prefer_grpc else "http", effective_datatype, ef_construction, ef_search)
 
     def init(
         self,
@@ -98,6 +103,14 @@ class QdrantDB(HybridDB):
                 if index_name in existing:
                     logger.info("Collection '%s' already exists — skipping creation", index_name)
                 else:
+                    quantization_config = ScalarQuantization(
+                        scalar=ScalarQuantizationConfig(
+                            type=ScalarType.INT8,
+                            quantile=0.99,
+                            always_ram=True,
+                        )
+                    ) if self.use_scalar_quantization else None
+
                     self.client.create_collection(
                         collection_name=index_name,
                         vectors_config={
@@ -118,10 +131,11 @@ class QdrantDB(HybridDB):
                         optimizers_config=OptimizersConfigDiff(
                             default_segment_number=self.segment_number,
                         ),
+                        quantization_config=quantization_config,
                     )
                     logger.info(
-                        "Created collection '%s' (dim=%d, space=%s, modifier=%s)",
-                        index_name, dimension, space_type, self.modifier,
+                        "Created collection '%s' (dim=%d, space=%s, modifier=%s, scalar_quantization=%s)",
+                        index_name, dimension, space_type, self.modifier, self.use_scalar_quantization,
                     )
             logger.info("Connected to collection '%s'", index_name)
         except Exception as e:
@@ -255,7 +269,7 @@ class QdrantDB(HybridDB):
                        help="[Qdrant] Store vectors, HNSW graph, and sparse index on disk (default: False, in-memory)")
         g.add_argument("--segment-number",     type=int, default=8,
                        help="[Qdrant] Number of collection segments (default: 8)")
-        g.add_argument("--datatype",           default="float32", choices=["float32", "float16", "uint8"],
+        g.add_argument("--datatype",           default="float32", choices=["float32", "float16", "int8"],
                        help="[Qdrant] Vector storage datatype (default: float32)")
         g.add_argument("--ef-construction",    type=int, default=128,
                        help="[Qdrant] HNSW ef_construct during indexing (default: 128)")
