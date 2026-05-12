@@ -26,6 +26,10 @@ from src.interface import HybridDB
 
 logger = logging.getLogger(__name__)
 
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+logging.getLogger("qdrant_client").setLevel(logging.WARNING)
+
 MAX_RETRIES = 10
 
 _DISTANCE_MAP = {
@@ -75,7 +79,8 @@ class QdrantDB(HybridDB):
         self.ef_search          = ef_search
         self.hnsw_m             = hnsw_m
         self.collection         = None
-        logger.info("QdrantDB connected to %s:%d (datatype=%s, ef_construction=%d, ef_search=%d)", host, port, datatype, ef_construction, ef_search)
+        active_port = grpc_port if prefer_grpc else port
+        logger.info("QdrantDB connected to %s:%d (%s, datatype=%s, ef_construction=%d, ef_search=%d)", host, active_port, "grpc" if prefer_grpc else "http", datatype, ef_construction, ef_search)
 
     def init(
         self,
