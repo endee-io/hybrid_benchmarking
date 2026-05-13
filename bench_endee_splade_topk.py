@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Qdrant Hybrid Benchmark Script — Concurrency Sweep
-Runs query-only benchmarks across concurrency values: 2, 4, 8, 16, 24
-Each concurrency is run 3 times; best QPS result is recorded.
-Output: Excel file with QPS, recall, latency, ndcg, map per concurrency.
+Endee Hybrid Benchmark Script — Splade, Top-K Sweep
+Runs query-only benchmarks across top-k values.
+Each top-k is run 3 times; best QPS result is recorded.
+Output: Excel file with QPS, recall, latency, ndcg, map per top-k.
 """
 
 import json
@@ -18,29 +18,28 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 # ============================================================
 # CONFIGURATION
 # ============================================================
-HOST             = "148.113.58.83"
-INDEX_NAME       = "beir_quora_float32_2"
+BASE_URL         = "http://148.113.58.83:8080/api/v1"
+INDEX_NAME       = "beir_quora_splade_float16"
 DATASET_NAME     = "beir_quora"
-SPARSE_MODE      = "pymilvus_bm25"
+SPARSE_MODE      = "splade"
 DATA_DIR         = "data"
-TOP_K            = 30
+CONCURRENCY      = 16
 CACHE_DIR        = "model_cache"
 VALIDATION_VENV  = "validation-env"
-DATATYPE         = "float32"   # float32, float16, int8
-PREFER_GRPC      = True
+PRECISION        = "float16"
 DENSE_MODEL      = "sentence-transformers/all-MiniLM-L6-v2 (384 dim)"
-SPARSE_MODEL     = "PyMilvus BM25EmbeddingFunction"
+SPARSE_MODEL     = "Splade_PP_en_v1"
 
-CONCURRENCY_VALUES    = [2, 4, 8, 16, 24]
-RUNS_PER_CONCURRENCY  = 3
-WAIT_BETWEEN_RUNS     = 20   # seconds
-WAIT_BETWEEN_CONFIGS  = 20   # seconds
+TOP_K_VALUES      = [10, 30, 60, 100, 500, 1000]
+RUNS_PER_TOP_K    = 3
+WAIT_BETWEEN_RUNS = 20   # seconds
+WAIT_BETWEEN_TOPK = 20   # seconds
 
 WORK_DIR = os.path.dirname(os.path.abspath(__file__))
 
 OUTPUT_EXCEL = os.path.join(
     WORK_DIR,
-    f"bench_qdrant_concurrency_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    f"bench_endee_splade_topk_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
 )
 
 
@@ -48,41 +47,39 @@ OUTPUT_EXCEL = os.path.join(
 # BENCHMARK RUNNER
 # ============================================================
 
-def results_label(concurrency: int, iteration: int) -> str:
-    return f"{INDEX_NAME}_c{concurrency}_it{iteration}"
+def results_label(top_k: int, iteration: int) -> str:
+    return f"{INDEX_NAME}_t{top_k}_it{iteration}"
 
 
-def results_dir(concurrency: int, iteration: int) -> str:
-    label = results_label(concurrency, iteration)
-    return os.path.join(WORK_DIR, "results", "qdrant", f"{label}_concurrency{concurrency}")
+def results_dir(top_k: int, iteration: int) -> str:
+    label = results_label(top_k, iteration)
+    return os.path.join(WORK_DIR, "results", "endee", f"{label}_concurrency{CONCURRENCY}")
 
 
-def run_once(concurrency: int, iteration: int) -> dict:
-    label = results_label(concurrency, iteration)
+def run_once(top_k: int, iteration: int) -> dict:
+    label = results_label(top_k, iteration)
     cmd = [
         "python3", "-m", "src.main",
-        "--db", "qdrant",
-        "--host", HOST,
+        "--db", "endee",
+        "--base-url", BASE_URL,
         "--index-name", INDEX_NAME,
         "--dataset-name", DATASET_NAME,
         "--sparse-mode", SPARSE_MODE,
         "--data-dir", DATA_DIR,
-        "--concurrency", str(concurrency),
-        "--top-k", str(TOP_K),
+        "--concurrency", str(CONCURRENCY),
+        "--top-k", str(top_k),
         "--results", label,
+        "--precision", PRECISION,
         "--cache-dir", CACHE_DIR,
         "--validation-venv", VALIDATION_VENV,
-        "--datatype", DATATYPE,
         "--skip-indexing",
     ]
-    if PREFER_GRPC:
-        cmd.append("--prefer-grpc")
 
     proc = subprocess.run(cmd, text=True, cwd=WORK_DIR)
     if proc.returncode != 0:
         print(f"  [WARN] Command exited with code {proc.returncode}")
 
-    rdir             = results_dir(concurrency, iteration)
+    rdir             = results_dir(top_k, iteration)
     summary_path     = os.path.join(rdir, "summary.json")
     correctness_path = os.path.join(rdir, "correctness.json")
     p99_path         = os.path.join(rdir, "p99_latency.json")
@@ -106,21 +103,21 @@ def run_once(concurrency: int, iteration: int) -> dict:
 
     qps    = summary.get("qps")
     p99    = p99_data.get("p99_latency_ms")
-    ndcg   = correctness.get(f"ndcg@{TOP_K}")
-    recall = correctness.get(f"recall@{TOP_K}")
-    map_   = correctness.get(f"map@{TOP_K}")
+    ndcg   = correctness.get(f"ndcg@{top_k}")
+    recall = correctness.get(f"recall@{top_k}")
+    map_   = correctness.get(f"map@{top_k}")
 
     print(f"  [METRICS] qps={qps}, p99={p99}ms, ndcg={ndcg}, recall={recall}, map={map_}")
     return {"qps": qps, "p99_latency_ms": p99, "ndcg": ndcg, "recall": recall, "map": map_}
 
 
-def run_best_of_n(concurrency: int) -> dict:
+def run_best_of_n(top_k: int) -> dict:
     results = []
-    for iteration in range(1, RUNS_PER_CONCURRENCY + 1):
-        print(f"\n  [ITERATION {iteration}/{RUNS_PER_CONCURRENCY}] concurrency={concurrency}")
-        result = run_once(concurrency, iteration)
+    for iteration in range(1, RUNS_PER_TOP_K + 1):
+        print(f"\n  [ITERATION {iteration}/{RUNS_PER_TOP_K}] top_k={top_k}")
+        result = run_once(top_k, iteration)
         results.append(result)
-        if iteration < RUNS_PER_CONCURRENCY:
+        if iteration < RUNS_PER_TOP_K:
             print(f"  [WAIT] {WAIT_BETWEEN_RUNS}s before next iteration ...")
             time.sleep(WAIT_BETWEEN_RUNS)
 
@@ -137,7 +134,7 @@ def run_best_of_n(concurrency: int) -> dict:
 def write_excel(rows: list, output_path: str):
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "Qdrant Concurrency Sweep"
+    ws.title = "Endee Splade Top-K"
 
     thin   = Side(style="thin", color="000000")
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
@@ -154,8 +151,8 @@ def write_excel(rows: list, output_path: str):
         ("Dense Model",          30),
         ("Sparse Model",         28),
         ("Precision",            12),
-        ("top-k",                 8),
         ("Concurrency",          14),
+        ("top-k",                 8),
         ("Recall (%)",           12),
         ("QPS",                  14),
         ("Latency p99 (ms)",     18),
@@ -170,10 +167,9 @@ def write_excel(rows: list, output_path: str):
 
     current_row = 1
 
-    # Title
     title_cell = ws.cell(
         row=current_row, column=1,
-        value=f"Qdrant Hybrid Benchmark — {INDEX_NAME} (best of {RUNS_PER_CONCURRENCY} runs, top-k={TOP_K})"
+        value=f"Endee Splade Benchmark — {INDEX_NAME} (best of {RUNS_PER_TOP_K} runs)"
     )
     title_cell.font      = Font(bold=True, size=12)
     title_cell.alignment = left
@@ -182,7 +178,6 @@ def write_excel(rows: list, output_path: str):
     ws.row_dimensions[current_row].height = 22
     current_row += 1
 
-    # Header
     ws.row_dimensions[current_row].height = 28
     for col_idx, (header, _) in enumerate(columns, start=1):
         c = ws.cell(row=current_row, column=col_idx, value=header)
@@ -192,7 +187,6 @@ def write_excel(rows: list, output_path: str):
         c.border    = border
     current_row += 1
 
-    # Data rows
     for i, r in enumerate(rows):
         ws.row_dimensions[current_row].height = 22
         bg = ROW_ODD if i % 2 == 0 else ROW_EVEN
@@ -208,9 +202,9 @@ def write_excel(rows: list, output_path: str):
             DATASET_NAME,
             DENSE_MODEL,
             SPARSE_MODEL,
-            DATATYPE,
-            TOP_K,
-            r["concurrency"],
+            PRECISION,
+            CONCURRENCY,
+            r["top_k"],
             round(recall * 100, 3) if recall is not None else "N/A",
             round(qps,    4)       if qps    is not None else "N/A",
             round(p99,    4)       if p99    is not None else "N/A",
@@ -236,26 +230,24 @@ def write_excel(rows: list, output_path: str):
 
 def main():
     print("=" * 60)
-    print("Qdrant Hybrid Benchmark — Concurrency Sweep")
-    print(f"Index        : {INDEX_NAME}")
-    print(f"Precision    : {DATATYPE}")
-    print(f"gRPC         : {PREFER_GRPC}")
-    print(f"top-k        : {TOP_K}")
-    print(f"Concurrency  : {CONCURRENCY_VALUES}")
-    print(f"Runs/config  : {RUNS_PER_CONCURRENCY}")
-    print(f"Output       : {OUTPUT_EXCEL}")
+    print("Endee Splade Benchmark — Top-K Sweep")
+    print(f"Index      : {INDEX_NAME}")
+    print(f"Precision  : {PRECISION}")
+    print(f"Top-K      : {TOP_K_VALUES}")
+    print(f"Runs/top-k : {RUNS_PER_TOP_K}")
+    print(f"Output     : {OUTPUT_EXCEL}")
     print("=" * 60)
 
     rows = []
 
-    for concurrency in CONCURRENCY_VALUES:
+    for top_k in TOP_K_VALUES:
         print(f"\n{'='*40}")
-        print(f"  concurrency = {concurrency}")
+        print(f"  top_k = {top_k}")
         print(f"{'='*40}")
-        metrics = run_best_of_n(concurrency)
-        rows.append({"concurrency": concurrency, **metrics})
-        print(f"\n  [WAIT] {WAIT_BETWEEN_CONFIGS}s before next concurrency ...")
-        time.sleep(WAIT_BETWEEN_CONFIGS)
+        metrics = run_best_of_n(top_k)
+        rows.append({"top_k": top_k, **metrics})
+        print(f"\n  [WAIT] {WAIT_BETWEEN_TOPK}s before next top-k ...")
+        time.sleep(WAIT_BETWEEN_TOPK)
 
     write_excel(rows, OUTPUT_EXCEL)
 

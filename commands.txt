@@ -349,3 +349,125 @@ python -m src.main \
   --sparse-scoring-model endee_bm25 \
   --validation-venv validation-env \
   --cache-dir model_cache
+
+
+  python -m src.main \
+  --db endee \
+  --index-name beir_quora_float32 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float32_t30 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1
+
+
+python -m src.main \
+  --db endee \
+  --index-name beir_quora_float32 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float32_t30_try1 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1 \
+  --skip-indexing
+
+python -m src.main \
+  --db endee \
+  --index-name beir_quora_int8 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --precision int8 \
+  --results beir_quora_int8_t30_qrel1 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1 \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_float32 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float32_t30_qrel1 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --skip-indexing
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_float16 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float16_t30 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --datatype float16
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_float32_2 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float32_t30_qrel_re5 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --prefer-grpc \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_float16_4 \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_float16_t30_qrel2 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --datatype float16 \
+  --prefer-grpc \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_int8_sq \
+  --dataset-name beir_quora \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_quora_int8_t30_sq_today1 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --datatype int8 \
+  --prefer-grpc \
+  --skip-indexing
+
+
+python -m src.main \
+  --db endee \
+  --index-name beir_quora_splade_float32 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_float32_t30 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1
+
+python -m src.main \
+  --db endee \
+  --index-name beir_quora_splade_float16 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_float16_t30 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1 \
+  --precision float16 \
+  --skip-indexing
