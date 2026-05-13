@@ -26,7 +26,7 @@ DATA_DIR         = "data"
 CONCURRENCY      = 16
 CACHE_DIR        = "model_cache"
 VALIDATION_VENV  = "validation-env"
-PRECISION        = "float32"
+DATATYPE         = "float32"   # float32, float16, int8
 PREFER_GRPC      = True
 DENSE_MODEL      = "sentence-transformers/all-MiniLM-L6-v2 (384 dim)"
 SPARSE_MODEL     = "PyMilvus BM25EmbeddingFunction"
@@ -72,6 +72,7 @@ def run_once(top_k: int, iteration: int) -> dict:
         "--results", label,
         "--cache-dir", CACHE_DIR,
         "--validation-venv", VALIDATION_VENV,
+        "--datatype", DATATYPE,
         "--skip-indexing",
     ]
     if PREFER_GRPC:
@@ -207,7 +208,7 @@ def write_excel(rows: list, output_path: str):
             DATASET_NAME,
             DENSE_MODEL,
             SPARSE_MODEL,
-            PRECISION,
+            DATATYPE,
             CONCURRENCY,
             r["top_k"],
             round(recall * 100, 3) if recall is not None else "N/A",
@@ -237,7 +238,7 @@ def main():
     print("=" * 60)
     print("Qdrant Hybrid Benchmark — Top-K Sweep")
     print(f"Index      : {INDEX_NAME}")
-    print(f"Precision  : {PRECISION}")
+    print(f"Datatype   : {DATATYPE}")
     print(f"gRPC       : {PREFER_GRPC}")
     print(f"Top-K      : {TOP_K_VALUES}")
     print(f"Runs/top-k : {RUNS_PER_TOP_K}")
