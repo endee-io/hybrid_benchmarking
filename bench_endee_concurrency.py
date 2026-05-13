@@ -69,6 +69,7 @@ def run_once(concurrency: int, iteration: int) -> dict:
         "--concurrency", str(concurrency),
         "--top-k", str(TOP_K),
         "--results", label,
+        "--precision", PRECISION,
         "--cache-dir", CACHE_DIR,
         "--validation-venv", VALIDATION_VENV,
         "--skip-indexing",
