@@ -548,7 +548,8 @@ python -m src.main \
   --results beir_msmarco_int8 \
   --concurrency 16 \
   --base-url http://148.113.58.83:8080/api/v1 \
-  --precision int8
+  --precision int8 \
+  --skip-indexing
 
 
 python -m src.main \
@@ -557,8 +558,9 @@ python -m src.main \
   --dataset-name beir_msmarco \
   --sparse-mode pymilvus_bm25 \
   --top-k 30 \
-  --results beir_msmarco_int8_t30 \
+  --results beir_msmarco_int8_t30_today1 \
   --concurrency 16 \
   --host 148.113.58.83 \
   --prefer-grpc \
-  --datatype int8
+  --datatype int8 \
+  --skip-indexing

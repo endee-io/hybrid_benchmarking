@@ -33,7 +33,7 @@ def get_or_init_db(db_name: str, db_config: dict, index_name: str) -> HybridDB:
     return _worker_db_cache[worker_pid]
 
 
-def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str, max_queries: Optional[int] = None) -> List[Dict]:
+def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str, max_queries: Optional[int] = None, allowed_ids: Optional[set] = None) -> List[Dict]:
     """
     Load query embeddings from .npy files.
 
@@ -73,6 +73,9 @@ def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str, ma
             break
 
         sp_qid = str(sp_ids[j])
+
+        if allowed_ids is not None and sp_qid not in allowed_ids:
+            continue
 
         while dense_ptr < n_dense and str(dense_ids[dense_ptr]) != sp_qid:
             dense_ptr += 1
@@ -390,13 +393,8 @@ def run_query(
     logger.info("--- QPS benchmark complete: qps=%.2f ---", qps_result["qps"])
 
     logger.info("--- Starting serial correctness run ---")
-    all_npy_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
-    if qrel_query_ids is not None:
-        correctness_queries = [q for q in all_npy_queries if q["query_id"] in qrel_query_ids]
-        logger.info("Correctness: filtered to %d qrel-matched queries (loaded %d total)", len(correctness_queries), len(all_npy_queries))
-    else:
-        correctness_queries = all_npy_queries
-    del all_npy_queries
+    correctness_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode, allowed_ids=qrel_query_ids)
+    logger.info("Correctness: loaded %d qrel-matched queries", len(correctness_queries))
     if query_texts:
         for q in correctness_queries:
             q["text"] = query_texts.get(q["query_id"], "")
