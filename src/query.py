@@ -297,6 +297,9 @@ def save_results(
     """Save all query results, latencies, and summary to output_dir."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    with open(output_dir / "execution_order_latencies.json", "w") as f:
+        json.dump(all_latencies, f, indent=2)
+
     sorted_latencies = sorted(all_latencies, key=lambda x: x["latency_ms"])
     merged_results   = {l["query_id"]: all_results[l["query_id"]] for l in sorted_latencies if l["query_id"] in all_results}
 
