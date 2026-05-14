@@ -21,13 +21,15 @@ class EndeeDB(HybridDB):
         base_url: str = DEV_PATH,
         sparse_scoring_model: str = "default",
         precision: str = "float32",
+        query_mode: str = "hybrid",
     ):
         self.vx = Endee(token=vector_token)
         self.vx.set_base_url(base_url)
         self.sparse_scoring_model = sparse_scoring_model
         self.precision = precision
+        self.query_mode = query_mode
         self.index = None
-        logger.info("EndeeDB connected to %s", base_url)
+        logger.info("EndeeDB connected to %s (query_mode=%s)", base_url, query_mode)
 
     def init(
         self,
@@ -78,12 +80,19 @@ class EndeeDB(HybridDB):
         text: str = "",
     ) -> List[Dict]:
         try:
-            raw = self.index.query(
-                vector=dense_vector,
-                sparse_indices=sparse_indices,
-                sparse_values=sparse_values,
-                top_k=top_k,
-            )
+            if self.query_mode == "sparse":
+                raw = self.index.query(
+                    sparse_indices=sparse_indices,
+                    sparse_values=sparse_values,
+                    top_k=top_k,
+                )
+            else:
+                raw = self.index.query(
+                    vector=dense_vector,
+                    sparse_indices=sparse_indices,
+                    sparse_values=sparse_values,
+                    top_k=top_k,
+                )
             return [{"id": str(p["meta"]["id"]), "score": p["similarity"]} for p in raw]
         except Exception as e:
             logger.error("search failed: %s", e)
@@ -107,6 +116,8 @@ class EndeeDB(HybridDB):
                        help="[Endee] Sparse scoring model (default: default) or for bm25 use endee_bm25")
         g.add_argument("--precision",            default="float32",
                        help="[Endee] Vector precision (default: float32)")
+        g.add_argument("--query-mode",           default="hybrid", choices=["hybrid", "sparse"],
+                       help="[Endee] Query mode: hybrid (dense+sparse) or sparse only (default: hybrid)")
 
     @staticmethod
     def build_config(args) -> dict:
@@ -115,4 +126,5 @@ class EndeeDB(HybridDB):
             "base_url":             args.base_url,
             "sparse_scoring_model": args.sparse_scoring_model,
             "precision":            args.precision,
+            "query_mode":           args.query_mode,
         }

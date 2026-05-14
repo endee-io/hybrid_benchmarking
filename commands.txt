@@ -462,12 +462,103 @@ python -m src.main \
 
 python -m src.main \
   --db endee \
+  --index-name beir_quora_splade_int16 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_int16_t30 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1 \
+  --precision int16 \
+  --skip-indexing
+
+
+python -m src.main \
+  --db endee \
+  --index-name beir_quora_splade_int8 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_int8_t30_today1 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1 \
+  --precision int8 \
+  --cache-dir model_cache \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_splade_float32 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_float32_t30_today1 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --prefer-grpc \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
   --index-name beir_quora_splade_float16 \
   --dataset-name beir_quora \
   --sparse-mode splade \
   --top-k 30 \
-  --results beir_quora_splade_float16_t30 \
+  --results beir_quora_splade_float16_t30_todayres1 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --prefer-grpc \
+  --datatype float16 \
+  --skip-indexing
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_quora_splade_int8 \
+  --dataset-name beir_quora \
+  --sparse-mode splade \
+  --top-k 30 \
+  --results beir_quora_splade_int8_t30_todayres1 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --prefer-grpc \
+  --datatype int8 \
+  --skip-indexing
+
+
+python -m src.main \
+  --db endee \
+  --index-name beir_msmarco_float32 \
+  --dataset-name beir_msmarco \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_msmarco_float32 \
+  --concurrency 16 \
+  --base-url http://148.113.58.83:8080/api/v1
+
+
+python -m src.main \
+  --db endee \
+  --index-name beir_msmarco_int8 \
+  --dataset-name beir_msmarco \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_msmarco_int8 \
   --concurrency 16 \
   --base-url http://148.113.58.83:8080/api/v1 \
-  --precision float16 \
-  --skip-indexing
+  --precision int8
+
+
+python -m src.main \
+  --db qdrant \
+  --index-name beir_msmarco_int8 \
+  --dataset-name beir_msmarco \
+  --sparse-mode pymilvus_bm25 \
+  --top-k 30 \
+  --results beir_msmarco_int8_t30 \
+  --concurrency 16 \
+  --host 148.113.58.83 \
+  --prefer-grpc \
+  --datatype int8
