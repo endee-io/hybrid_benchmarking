@@ -372,9 +372,14 @@ def run_query(
         for q in queries:
             q["text"] = query_texts.get(q["query_id"], "")
 
+    QPS_QUERY_CAP = 16_000
+    qps_queries = queries[:QPS_QUERY_CAP] if len(queries) > QPS_QUERY_CAP else queries
+    if len(queries) > QPS_QUERY_CAP:
+        logger.info("QPS benchmark: capping queries to %d (total loaded: %d)", QPS_QUERY_CAP, len(queries))
+
     logger.info("--- Starting QPS benchmark (duration=%ds) ---", qps_duration)
     qps_result = run_qps_benchmark(
-        queries=queries,
+        queries=qps_queries,
         concurrency=concurrency,
         duration=qps_duration,
         db_name=db_name,
