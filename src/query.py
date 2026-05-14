@@ -33,7 +33,7 @@ def get_or_init_db(db_name: str, db_config: dict, index_name: str) -> HybridDB:
     return _worker_db_cache[worker_pid]
 
 
-def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str) -> List[Dict]:
+def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str, max_queries: Optional[int] = None) -> List[Dict]:
     """
     Load query embeddings from .npy files.
 
@@ -69,6 +69,9 @@ def load_queries_from_npy(data_dir: str, dataset_name: str, sparse_mode: str) ->
     skipped   = 0
 
     for j in range(n_sparse):
+        if max_queries is not None and len(queries) >= max_queries:
+            break
+
         sp_qid = str(sp_ids[j])
 
         while dense_ptr < n_dense and str(dense_ids[dense_ptr]) != sp_qid:
@@ -367,15 +370,12 @@ def run_query(
     logger.info("  Results:           %s", results)
     logger.info("  Output directory:  %s", output_dir)
 
-    queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
-    if query_texts:
-        for q in queries:
-            q["text"] = query_texts.get(q["query_id"], "")
-
     QPS_QUERY_CAP = 16_000
-    qps_queries = queries[:QPS_QUERY_CAP] if len(queries) > QPS_QUERY_CAP else queries
-    if len(queries) > QPS_QUERY_CAP:
-        logger.info("QPS benchmark: capping queries to %d (total loaded: %d)", QPS_QUERY_CAP, len(queries))
+    qps_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode, max_queries=QPS_QUERY_CAP)
+    if query_texts:
+        for q in qps_queries:
+            q["text"] = query_texts.get(q["query_id"], "")
+    logger.info("QPS benchmark: loaded %d queries (cap=%d)", len(qps_queries), QPS_QUERY_CAP)
 
     logger.info("--- Starting QPS benchmark (duration=%ds) ---", qps_duration)
     qps_result = run_qps_benchmark(
@@ -390,9 +390,14 @@ def run_query(
     logger.info("--- QPS benchmark complete: qps=%.2f ---", qps_result["qps"])
 
     logger.info("--- Starting serial correctness run ---")
+    correctness_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
+    if query_texts:
+        for q in correctness_queries:
+            q["text"] = query_texts.get(q["query_id"], "")
+
     start_time = time.perf_counter()
     all_results, all_latencies = run_serial_correctness(
-        queries=queries,
+        queries=correctness_queries,
         db_name=db_name,
         db_config=db_config,
         index_name=index_name,
