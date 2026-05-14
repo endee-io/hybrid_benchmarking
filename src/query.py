@@ -370,7 +370,7 @@ def run_query(
     logger.info("  Results:           %s", results)
     logger.info("  Output directory:  %s", output_dir)
 
-    QPS_QUERY_CAP = 16_000
+    QPS_QUERY_CAP = 5_000
     qps_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode, max_queries=QPS_QUERY_CAP)
     if query_texts:
         for q in qps_queries:
@@ -390,7 +390,13 @@ def run_query(
     logger.info("--- QPS benchmark complete: qps=%.2f ---", qps_result["qps"])
 
     logger.info("--- Starting serial correctness run ---")
-    correctness_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
+    all_npy_queries = load_queries_from_npy(data_dir, dataset_name, sparse_mode)
+    if qrel_query_ids is not None:
+        correctness_queries = [q for q in all_npy_queries if q["query_id"] in qrel_query_ids]
+        logger.info("Correctness: filtered to %d qrel-matched queries (loaded %d total)", len(correctness_queries), len(all_npy_queries))
+    else:
+        correctness_queries = all_npy_queries
+    del all_npy_queries
     if query_texts:
         for q in correctness_queries:
             q["text"] = query_texts.get(q["query_id"], "")
