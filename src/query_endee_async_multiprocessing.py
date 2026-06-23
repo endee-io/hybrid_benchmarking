@@ -132,6 +132,7 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
                     },
                 },
                 limit=top_k,
+                reranker="rrf",
             )
             search_results = raw.get("results") if raw else None
             if search_results is None:

@@ -110,12 +110,13 @@ class EndeeDB(HybridDB):
             sparse_query = {"indices": sparse_indices, "values": sparse_values}
             if self.query_mode == "sparse":
                 fields = {SPARSE_FIELD: sparse_query}
+                raw = self.collection.search(fields=fields, limit=top_k)
             else:
                 fields = {
                     DENSE_FIELD:  dense_vector,
                     SPARSE_FIELD: sparse_query,
                 }
-            raw = self.collection.search(fields=fields, limit=top_k)
+                raw = self.collection.search(fields=fields, limit=top_k, reranker="rrf")
             return [{"id": str(p["id"]), "score": p["similarity"]} for p in raw["results"]]
         except Exception as e:
             logger.error("search failed: %s", e)
