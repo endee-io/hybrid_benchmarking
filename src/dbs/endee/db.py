@@ -141,8 +141,8 @@ class EndeeDB(HybridDB):
                        help="[Endee] Sparse scoring model (default: default) or for bm25 use endee_bm25")
         g.add_argument("--precision",            default="float32",
                        help="[Endee] Vector precision (default: float32)")
-        # g.add_argument("--query-mode",           default="hybrid", choices=["hybrid", "sparse"],
-        #                help="[Endee] Query mode: hybrid (dense+sparse) or sparse only (default: hybrid)")
+        g.add_argument("--query-mode",           default="hybrid", choices=["hybrid", "sparse"],
+                       help="[Endee] Query mode: hybrid (dense+sparse) or sparse only (default: hybrid)")
 
     @staticmethod
     def build_config(args) -> dict:

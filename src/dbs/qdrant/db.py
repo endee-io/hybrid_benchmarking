@@ -261,8 +261,8 @@ class QdrantDB(HybridDB):
                        help="[Qdrant] Sparse vector field name (default: sparse)")
         g.add_argument("--dense-vector-name",  default="dense",
                        help="[Qdrant] Dense vector field name (default: dense)")
-        g.add_argument("--query-mode",         default="hybrid", choices=["hybrid", "sparse"],
-                       help="[Qdrant] Query mode: hybrid (RRF) or sparse (default: hybrid)")
+        # g.add_argument("--query-mode",         default="hybrid", choices=["hybrid", "sparse"],
+        #                help="[Qdrant] Query mode: hybrid (RRF) or sparse (default: hybrid)")
         g.add_argument("--modifier",           default="none", choices=["none", "idf"],
                        help="[Qdrant] Sparse vector modifier (default: none)")
         g.add_argument("--on-disk-index",      action="store_true", default=False,
