@@ -564,3 +564,33 @@ python -m src.main \
   --prefer-grpc \
   --datatype int8 \
   --skip-indexing
+
+
+python -m src.main \
+  --db endee \
+  --index-name quora_bench \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mydb:dTbELLZEWfLJ5XLAQFFj5lDstfP5IOIU \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode endee_bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --validation-venv validation-env
+
+
+
+python -m src.main \
+  --db endee \
+  --index-name quora_bench_endeebm25 \
+  --dataset-name beir_quora \
+  --results quora_bench_endeebm25run1 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mydb:dTbELLZEWfLJ5XLAQFFj5lDstfP5IOIU \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode endee_bm25 \
+  --sparse-scoring-model endee_bm25 \
+  --skip-indexing \
+  --validation-venv validation-env

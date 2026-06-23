@@ -8,12 +8,15 @@ from src.interface import HybridDB
 
 logger = logging.getLogger(__name__)
 
-DEV_PATH = "https://dev.endee.io/api/v1"
+DEV_PATH = "https://dev.endee.io/api/v2"
 MAX_RETRIES = 10
+
+DENSE_FIELD = "embedding"
+SPARSE_FIELD = "keywords"
 
 
 class EndeeDB(HybridDB):
-    """Endee implementation of HybridDB."""
+    """Endee implementation of HybridDB (v2 Collections API)."""
 
     def __init__(
         self,
@@ -28,7 +31,7 @@ class EndeeDB(HybridDB):
         self.sparse_scoring_model = sparse_scoring_model
         self.precision = precision
         self.query_mode = query_mode
-        self.index = None
+        self.collection = None
         logger.info("EndeeDB connected to %s (query_mode=%s)", base_url, query_mode)
 
     def init(
@@ -41,25 +44,49 @@ class EndeeDB(HybridDB):
     ) -> None:
         try:
             if create:
-                self.vx.create_index(
-                    name=index_name,
-                    dimension=dimension,
-                    space_type=space_type,
-                    sparse_model=self.sparse_scoring_model,
-                    precision=self.precision,
-                )
-                logger.info("Created index '%s' (dim=%d, space=%s)", index_name, dimension, space_type)
-            self.index = self.vx.get_index(index_name)
-            logger.info("Connected to index '%s'", index_name)
+                fields = [
+                    {
+                        "name": DENSE_FIELD,
+                        "type": "vector",
+                        "params": {
+                            "dimension": dimension,
+                            "space_type": space_type,
+                            "precision": self.precision,
+                        },
+                    },
+                    {
+                        "name": SPARSE_FIELD,
+                        "type": "sparse",
+                        "sparse_model": self.sparse_scoring_model,
+                    },
+                ]
+                self.vx.create_collection(name=index_name, fields=fields)
+                logger.info("Created collection '%s' (dim=%d, space=%s)", index_name, dimension, space_type)
+            self.collection = self.vx.get_collection(index_name)
+            logger.info("Connected to collection '%s'", index_name)
         except Exception as e:
-            logger.error("init failed for index '%s': %s", index_name, e)
+            logger.error("init failed for collection '%s': %s", index_name, e)
             raise
 
     def index_batch(self, points: List[Dict]) -> None:
+        objects = [
+            {
+                "id": p["id"],
+                "meta": p.get("meta", {}),
+                "fields": {
+                    DENSE_FIELD: p["vector"],
+                    SPARSE_FIELD: {
+                        "indices": p["sparse_indices"],
+                        "values":  p["sparse_values"],
+                    },
+                },
+            }
+            for p in points
+        ]
         try:
             for attempt in range(MAX_RETRIES):
                 try:
-                    self.index.upsert(points)
+                    self.collection.upsert(objects)
                     return
                 except Exception as e:
                     logger.warning("index_batch attempt %d/%d failed: %s", attempt + 1, MAX_RETRIES, e)
@@ -80,27 +107,24 @@ class EndeeDB(HybridDB):
         text: str = "",
     ) -> List[Dict]:
         try:
+            sparse_query = {"indices": sparse_indices, "values": sparse_values}
             if self.query_mode == "sparse":
-                raw = self.index.query(
-                    sparse_indices=sparse_indices,
-                    sparse_values=sparse_values,
-                    top_k=top_k,
-                )
+                fields = {SPARSE_FIELD: sparse_query}
             else:
-                raw = self.index.query(
-                    vector=dense_vector,
-                    sparse_indices=sparse_indices,
-                    sparse_values=sparse_values,
-                    top_k=top_k,
-                )
-            return [{"id": str(p["meta"]["id"]), "score": p["similarity"]} for p in raw]
+                fields = {
+                    DENSE_FIELD:  dense_vector,
+                    SPARSE_FIELD: sparse_query,
+                }
+            raw = self.collection.search(fields=fields, limit=top_k)
+            return [{"id": str(p["id"]), "score": p["similarity"]} for p in raw["results"]]
         except Exception as e:
             logger.error("search failed: %s", e)
             raise
 
     def list_indices(self) -> List[str]:
         try:
-            return self.vx.list_indices()
+            collections = self.vx.list_collections()
+            return [c["name"] for c in collections if isinstance(c, dict)]
         except Exception as e:
             logger.error("list_indices failed: %s", e)
             raise

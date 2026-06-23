@@ -12,7 +12,10 @@ from endee import Endee
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-DEV_PATH = "https://dev.endee.io/api/v1"
+DEV_PATH = "https://dev.endee.io/api/v2"
+
+DENSE_FIELD = "embedding"
+SPARSE_FIELD = "keywords"
 
 
 class EndeeIndexing:
@@ -31,22 +34,32 @@ class EndeeIndexing:
         sparse_model: str = "default",
         precision: str = "float32",
     ):
-        result = self.vx.create_index(
-            name=name,
-            dimension=dimension,
-            space_type=space_type,
-            sparse_model=sparse_model,
-            precision=precision,
-        )
-        logger.info("Index '%s' created", name)
+        fields = [
+            {
+                "name": DENSE_FIELD,
+                "type": "vector",
+                "params": {
+                    "dimension": dimension,
+                    "space_type": space_type,
+                    "precision": precision,
+                },
+            },
+            {
+                "name": SPARSE_FIELD,
+                "type": "sparse",
+                "sparse_model": sparse_model,
+            },
+        ]
+        result = self.vx.create_collection(name=name, fields=fields)
+        logger.info("Collection '%s' created", name)
         return result
 
     def get_index(self, name: str):
-        return self.vx.get_index(name)
+        return self.vx.get_collection(name)
 
     def delete_index(self, name: str):
-        result = self.vx.delete_index(name)
-        logger.info("Index '%s' deleted", name)
+        result = self.vx.delete_collection(name)
+        logger.info("Collection '%s' deleted", name)
         return result
 
     @staticmethod
@@ -137,10 +150,14 @@ class EndeeIndexing:
 
                     points.append({
                         "id": sp_doc_id,
-                        "vector": dv,
-                        "sparse_indices": raw_idxs[mask].tolist(),
-                        "sparse_values":  raw_vals[mask].tolist(),
                         "meta": {"id": sp_doc_id},
+                        "fields": {
+                            DENSE_FIELD: dv,
+                            SPARSE_FIELD: {
+                                "indices": raw_idxs[mask].tolist(),
+                                "values":  raw_vals[mask].tolist(),
+                            },
+                        },
                     })
 
                 t0 = time.perf_counter()

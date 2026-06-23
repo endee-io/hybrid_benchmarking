@@ -17,21 +17,24 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DEV_PATH = "https://dev.endee.io/api/v1"
+DEV_PATH = "https://dev.endee.io/api/v2"
+
+DENSE_FIELD = "embedding"
+SPARSE_FIELD = "keywords"
 
 # Module-level variables for worker initialization (per process)
 _worker_index_cache = {}
 
 
 def get_or_init_index(index_name: str, vector_token: str, base_url: str):
-    """Get or initialize index for current worker process."""
+    """Get or initialize collection for current worker process."""
     worker_id = os.getpid()
     if worker_id not in _worker_index_cache:
         vx = Endee(token=vector_token)
         vx.set_base_url(base_url)
-        index = vx.get_index(index_name)
-        _worker_index_cache[worker_id] = index
-        print(f"Worker {worker_id} initialized with index {index_name}")
+        collection = vx.get_collection(index_name)
+        _worker_index_cache[worker_id] = collection
+        print(f"Worker {worker_id} initialized with collection {index_name}")
     return _worker_index_cache[worker_id]
 
 
@@ -106,7 +109,7 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
     """Process a batch of queries synchronously inside a worker process."""
     batch_id, queries, top_k, index_name, vector_token, base_url = batch_data
     worker_pid = os.getpid()
-    index = get_or_init_index(index_name, vector_token, base_url)
+    collection = get_or_init_index(index_name, vector_token, base_url)
 
     results    = {}
     latencies  = []
@@ -120,12 +123,17 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
         query_id   = query["query_id"]
         start_time = time.time()
         try:
-            search_results = index.query(
-                vector=query["dense_vector"],
-                sparse_indices=query["sparse_vector"]["indices"],
-                sparse_values=query["sparse_vector"]["values"],
-                top_k=top_k,
+            raw = collection.search(
+                fields={
+                    DENSE_FIELD:  query["dense_vector"],
+                    SPARSE_FIELD: {
+                        "indices": query["sparse_vector"]["indices"],
+                        "values":  query["sparse_vector"]["values"],
+                    },
+                },
+                limit=top_k,
             )
+            search_results = raw.get("results") if raw else None
             if search_results is None:
                 logger.error("Worker %d - Query %s returned None", worker_pid, query_id)
                 err = {"query_id": query_id, "latency_ms": 0, "worker_id": worker_pid, "batch_id": batch_id, "error": "None result"}
@@ -135,7 +143,7 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
                 continue
 
             elapsed_ms    = (time.time() - start_time) * 1000
-            query_results = {str(point['meta']['id']): point['similarity'] for point in search_results}
+            query_results = {str(point['id']): point['similarity'] for point in search_results}
             results[query_id] = query_results
             latencies.append({
                 "query_id":    query_id,
