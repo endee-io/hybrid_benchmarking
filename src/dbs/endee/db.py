@@ -2,7 +2,7 @@ import logging
 import time
 from typing import Dict, List
 
-from endee import Endee
+from endee import Endee, rerank
 
 from src.interface import HybridDB
 
@@ -109,15 +109,17 @@ class EndeeDB(HybridDB):
         try:
             sparse_query = {"indices": sparse_indices, "values": sparse_values}
             if self.query_mode == "sparse":
-                fields = {SPARSE_FIELD: sparse_query}
-                raw = self.collection.search(fields=fields, limit=top_k)
+                fields = {SPARSE_FIELD: {"query": sparse_query, "limit": top_k}}
+                raw = self.collection.search(fields=fields)
+                hits = raw["results"][SPARSE_FIELD]
             else:
                 fields = {
-                    DENSE_FIELD:  dense_vector,
-                    SPARSE_FIELD: sparse_query,
+                    DENSE_FIELD:  {"query": dense_vector,  "limit": top_k},
+                    SPARSE_FIELD: {"query": sparse_query,  "limit": top_k},
                 }
-                raw = self.collection.search(fields=fields, limit=top_k, reranker="rrf")
-            return [{"id": str(p["id"]), "score": p["similarity"]} for p in raw["results"]]
+                raw = self.collection.search(fields=fields)
+                hits = rerank(raw, name="rrf", limit=top_k)["results"]
+            return [{"id": str(p["id"]), "score": p["similarity"]} for p in hits]
         except Exception as e:
             logger.error("search failed: %s", e)
             raise

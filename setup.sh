@@ -131,8 +131,8 @@ else
     if [[ -d "$TARGET_DIR" ]]; then
         warn "Directory '$TARGET_DIR' already exists — skipping clone."
     else
-        log "Cloning $REPO_URL (branch: qps_calculation_correction)..."
-        git clone --branch qps_calculation_correction "$REPO_URL" "$TARGET_DIR"
+        log "Cloning $REPO_URL (branch: main)..."
+        git clone --branch main "$REPO_URL" "$TARGET_DIR"
     fi
     REPO_DIR="$TARGET_DIR"
 fi
@@ -177,7 +177,9 @@ echo ""
 echo "  Repo:          $REPO_DIR"
 echo "  Python:        $($PYTHON_BIN --version)"
 echo ""
-echo "  Activate envs:"
+echo "  Activate index-env before running benchmarks:"
 echo "    source $REPO_DIR/index-env/bin/activate      # indexing + querying (main.py)"
-echo "    source $REPO_DIR/validation-env/bin/activate # metrics / validation"
+echo ""
+echo "  Note: validation-env does not need to be manually activated."
+echo "        It is invoked automatically by the benchmark pipeline via --validation-venv."
 echo ""

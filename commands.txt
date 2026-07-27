@@ -1,69 +1,45 @@
 # ============================================================
-# Hybrid Vector Benchmark — Example Commands
-# Environment: source index-env/bin/activate
+# Hybrid Vector Benchmark — Command Reference
+# Activate before running: source index-env/bin/activate
 # ============================================================
 
 
 # ============================================================
 # EMBEDDING CREATION
-# Environment: source index-env/bin/activate
 # Output: data/<dataset>/*.npy
 # ============================================================
 
-# Scifact (5k) — dense + endee_bm25 sparse (Endee-specific)
-python src/embedding_creation.py \
+# Scifact — dense only
+python3 src/embedding_creation.py \
   --dataset-id BeIR/scifact \
   --dense \
-  --sparse-mode endee_bm25 \
   --cache-dir model_cache
 
-# Scifact (5k) — dense + bm25 sparse (rank_bm25, any DB)
-python src/embedding_creation.py \
+# Scifact — dense + sparse (multiple modes in one run)
+python3 src/embedding_creation.py \
   --dataset-id BeIR/scifact \
   --dense \
-  --sparse-mode bm25 \
+  --sparse-mode pymilvus_bm25 endee_bm25 splade \
   --cache-dir model_cache
 
-# Scifact (5k) — dense + splade sparse
-python src/embedding_creation.py \
-  --dataset-id BeIR/scifact \
-  --dense \
-  --sparse-mode splade \
-  --cache-dir model_cache
-
-# Scifact (5k) — dense + endee_bm25 + splade
-python src/embedding_creation.py \
-  --dataset-id BeIR/scifact \
-  --dense \
-  --sparse-mode endee_bm25 splade \
-  --cache-dir model_cache
-
-# Quora (500k) — dense + endee_bm25 sparse (Endee-specific)
-python src/embedding_creation.py \
+# Quora — dense + sparse
+python3 src/embedding_creation.py \
   --dataset-id BeIR/quora \
   --dense \
-  --sparse-mode endee_bm25 \
+  --sparse-mode pymilvus_bm25 endee_bm25 splade \
   --cache-dir model_cache
 
-# Quora (500k) — dense + bm25 sparse (rank_bm25, any DB)
-python src/embedding_creation.py \
-  --dataset-id BeIR/quora \
+# MSMARCO — dense + sparse
+python3 src/embedding_creation.py \
+  --dataset-id BeIR/msmarco \
   --dense \
-  --sparse-mode bm25 \
+  --sparse-mode pymilvus_bm25 endee_bm25 splade \
   --cache-dir model_cache
 
-# Quora (500k) — dense + splade sparse
-python src/embedding_creation.py \
+# Sparse only (dense already exists)
+python3 src/embedding_creation.py \
   --dataset-id BeIR/quora \
-  --dense \
-  --sparse-mode splade \
-  --cache-dir model_cache
-
-# Quora (500k) — dense + endee_bm25 + splade
-python src/embedding_creation.py \
-  --dataset-id BeIR/quora \
-  --dense \
-  --sparse-mode endee_bm25 splade \
+  --sparse-mode pymilvus_bm25 \
   --cache-dir model_cache
 
 
@@ -71,134 +47,300 @@ python src/embedding_creation.py \
 # ENDEE
 # ============================================================
 
-# Full run — index + query + validate
-python -m src.main \
+# --- Quora / hybrid / pymilvus_bm25 / float32 ---
+python3 -m src.main \
   --db endee \
-  --index-name quora_bench \
+  --index-name beir_quora_float32 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_hybrid_pmbm25_float32 \
   --concurrency 16 \
   --top-k 10 \
   --vector-token mytoken \
-  --base-url http://localhost:8080/api/v1 \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode pymilvus_bm25 \
+  --precision float32 \
+  --query-mode hybrid \
+  --validation-venv validation-env
+
+# --- Quora / hybrid / endee_bm25 / float32 ---
+python3 -m src.main \
+  --db endee \
+  --index-name beir_quora_endeebm25_float32 \
+  --dataset-name beir_quora \
+  --results run1_quora_hybrid_endeebm25_float32 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v2 \
   --sparse-mode endee_bm25 \
   --sparse-scoring-model endee_bm25 \
-  --validation-venv validation-env \
-  --cache-dir model_cache
+  --precision float32 \
+  --query-mode hybrid \
+  --validation-venv validation-env
 
-# Skip indexing — query + validate only
-python -m src.main \
+# --- Quora / hybrid / splade / float32 ---
+python3 -m src.main \
   --db endee \
-  --index-name quora_bench \
+  --index-name beir_quora_splade_float32 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_hybrid_splade_float32 \
   --concurrency 16 \
   --top-k 10 \
   --vector-token mytoken \
-  --base-url http://localhost:8080/api/v1 \
+  --base-url http://localhost:8080/api/v2 \
   --sparse-mode splade \
-  --sparse-scoring-model default \
-  --skip-indexing \
-  --validation-venv validation-env \
-  --cache-dir model_cache
+  --precision float32 \
+  --query-mode hybrid \
+  --validation-venv validation-env
 
-# Query only — no validation
-python -m src.main \
+# --- Quora / hybrid / splade / int16 ---
+python3 -m src.main \
   --db endee \
-  --index-name quora_bench \
+  --index-name beir_quora_splade_int16 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_hybrid_splade_int16 \
   --concurrency 16 \
   --top-k 10 \
   --vector-token mytoken \
-  --base-url http://localhost:8080/api/v1 \
-  --sparse-mode bm25 \
-  --sparse-scoring-model default \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode splade \
+  --precision int16 \
+  --query-mode hybrid \
   --skip-indexing \
-  --skip-validation
+  --validation-venv validation-env
 
-# Ingest into existing index — skip creation
-python -m src.main \
+# --- Quora / sparse-only / pymilvus_bm25 / float32 ---
+python3 -m src.main \
   --db endee \
-  --index-name quora_bench \
+  --index-name beir_quora_float32 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_sparse_pmbm25_float32 \
   --concurrency 16 \
+  --top-k 10 \
   --vector-token mytoken \
-  --base-url http://localhost:8080/api/v1 \
-  --sparse-mode endee_bm25 \
-  --sparse-scoring-model endee_bm25 \
-  --create-index false \
-  --skip-query \
-  --skip-validation
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode pymilvus_bm25 \
+  --precision float32 \
+  --query-mode sparse \
+  --skip-indexing \
+  --validation-venv validation-env
 
-# Scifact dataset (5k)
-python -m src.main \
+# --- MSMARCO / hybrid / pymilvus_bm25 / float32 ---
+python3 -m src.main \
   --db endee \
-  --index-name scifact_bench \
+  --index-name beir_msmarco_float32 \
+  --dataset-name beir_msmarco \
+  --results run1_msmarco_hybrid_pmbm25_float32 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode pymilvus_bm25 \
+  --precision float32 \
+  --query-mode hybrid \
+  --validation-venv validation-env
+
+# --- Scifact / hybrid / endee_bm25 / float32 ---
+python3 -m src.main \
+  --db endee \
+  --index-name beir_scifact_endeebm25_float32 \
   --dataset-name beir_scifact \
-  --results run1 \
+  --results run1_scifact_hybrid_endeebm25_float32 \
   --concurrency 8 \
   --top-k 10 \
   --vector-token mytoken \
-  --base-url http://localhost:8080/api/v1 \
+  --base-url http://localhost:8080/api/v2 \
   --sparse-mode endee_bm25 \
   --sparse-scoring-model endee_bm25 \
-  --validation-venv validation-env \
-  --cache-dir model_cache
+  --precision float32 \
+  --query-mode hybrid \
+  --validation-venv validation-env
+
+# --- Skip indexing (query + validate only) ---
+python3 -m src.main \
+  --db endee \
+  --index-name beir_quora_float32 \
+  --dataset-name beir_quora \
+  --results run2_quora_hybrid_pmbm25_float32 \
+  --concurrency 16 \
+  --top-k 10 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode pymilvus_bm25 \
+  --precision float32 \
+  --query-mode hybrid \
+  --skip-indexing \
+  --validation-venv validation-env
+
+# --- Indexing only (no query, no validation) ---
+python3 -m src.main \
+  --db endee \
+  --index-name beir_quora_float32 \
+  --dataset-name beir_quora \
+  --results run1 \
+  --concurrency 16 \
+  --vector-token mytoken \
+  --base-url http://localhost:8080/api/v2 \
+  --sparse-mode pymilvus_bm25 \
+  --precision float32 \
+  --skip-query \
+  --skip-validation
 
 
 # ============================================================
 # QDRANT
 # ============================================================
 
-# Full run — hybrid mode (index + query + validate)
-python -m src.main \
+# --- Quora / hybrid / pymilvus_bm25 / float32 ---
+python3 -m src.main \
   --db qdrant \
-  --index-name quora_bench \
+  --index-name beir_quora_float32 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_hybrid_pmbm25_float32 \
   --concurrency 16 \
   --top-k 10 \
   --host localhost \
+  --sparse-mode pymilvus_bm25 \
   --query-mode hybrid \
   --modifier hybrid \
-  --sparse-mode splade \
-  --validation-venv validation-env \
-  --cache-dir model_cache
+  --validation-venv validation-env
 
-# Full run — sparse-only mode (index + query + validate)
-python -m src.main \
+# --- Quora / hybrid / splade / float32 ---
+python3 -m src.main \
   --db qdrant \
-  --index-name quora_bench \
+  --index-name beir_quora_splade_float32 \
   --dataset-name beir_quora \
-  --results run1 \
+  --results run1_quora_hybrid_splade_float32 \
   --concurrency 16 \
   --top-k 10 \
   --host localhost \
-  --query-mode sparse \
-  --modifier hybrid \
   --sparse-mode splade \
-  --validation-venv validation-env \
-  --cache-dir model_cache
+  --query-mode hybrid \
+  --modifier hybrid \
+  --validation-venv validation-env
+
+# --- Quora / hybrid / splade / float16 ---
+python3 -m src.main \
+  --db qdrant \
+  --index-name beir_quora_splade_float16 \
+  --dataset-name beir_quora \
+  --results run1_quora_hybrid_splade_float16 \
+  --concurrency 16 \
+  --top-k 10 \
+  --host localhost \
+  --sparse-mode splade \
+  --query-mode hybrid \
+  --modifier hybrid \
+  --datatype float16 \
+  --prefer-grpc \
+  --skip-indexing \
+  --validation-venv validation-env
+
+# --- Quora / hybrid / splade / int8 ---
+python3 -m src.main \
+  --db qdrant \
+  --index-name beir_quora_splade_int8 \
+  --dataset-name beir_quora \
+  --results run1_quora_hybrid_splade_int8 \
+  --concurrency 16 \
+  --top-k 10 \
+  --host localhost \
+  --sparse-mode splade \
+  --query-mode hybrid \
+  --modifier hybrid \
+  --datatype int8 \
+  --prefer-grpc \
+  --skip-indexing \
+  --validation-venv validation-env
+
+# --- MSMARCO / hybrid / pymilvus_bm25 / int8 ---
+python3 -m src.main \
+  --db qdrant \
+  --index-name beir_msmarco_int8 \
+  --dataset-name beir_msmarco \
+  --results run1_msmarco_hybrid_pmbm25_int8 \
+  --concurrency 16 \
+  --top-k 10 \
+  --host localhost \
+  --sparse-mode pymilvus_bm25 \
+  --query-mode hybrid \
+  --datatype int8 \
+  --prefer-grpc \
+  --skip-indexing \
+  --validation-venv validation-env
+
+
+# ============================================================
+# MILVUS
+# ============================================================
+
+# --- Scifact / hybrid / builtin_bm25 ---
+python3 -m src.main \
+  --db milvus \
+  --index-name scifact_milvus_builtin_bm25 \
+  --dataset-name beir_scifact \
+  --sparse-mode bm25 \
+  --milvus-sparse-mode builtin_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://localhost:19530 \
+  --hf-dataset-id BeIR/scifact \
+  --top-k 10 \
+  --results run1_scifact_hybrid_builtinbm25 \
+  --concurrency 8
+
+# --- Scifact / hybrid / pymilvus_bm25 ---
+python3 -m src.main \
+  --db milvus \
+  --index-name scifact_milvus_pymilvus_bm25 \
+  --dataset-name beir_scifact \
+  --sparse-mode pymilvus_bm25 \
+  --milvus-sparse-mode pymilvus_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://localhost:19530 \
+  --top-k 10 \
+  --results run1_scifact_hybrid_pmbm25 \
+  --concurrency 8
+
+# --- MSMARCO / hybrid / splade ---
+python3 -m src.main \
+  --db milvus \
+  --index-name msmarco_milvus_splade \
+  --dataset-name beir_msmarco \
+  --sparse-mode splade \
+  --milvus-sparse-mode splade \
+  --milvus-uri http://localhost:19530 \
+  --top-k 10 \
+  --results run1_msmarco_hybrid_splade \
+  --concurrency 16
+
+# --- MSMARCO / hybrid / pymilvus_bm25 ---
+python3 -m src.main \
+  --db milvus \
+  --index-name msmarco_milvus_pymilvus_bm25 \
+  --dataset-name beir_msmarco \
+  --sparse-mode pymilvus_bm25 \
+  --milvus-sparse-mode pymilvus_bm25 \
+  --milvus-query-mode hybrid \
+  --milvus-uri http://localhost:19530 \
+  --top-k 10 \
+  --results run1_msmarco_hybrid_pmbm25 \
+  --concurrency 8
+
 
 # ============================================================
 # DELETE / INSERT AUTOMATION
 # Runs all combinations of delete_percentage × delete_pick ×
 # delete_order × gt_filter × insert_scenario automatically.
-# For each combo: re-indexes, deletes, reinserts, queries,
-# validates, and saves results to JSON + Excel.
-# Environment: source ~/index-env/bin/activate
 # ============================================================
 
-# Quora (500k) — full automation, splade sparse
-python -m src.delete_insert_automation \
+# Quora — full automation, splade
+python3 -m src.delete_insert_automation \
   --index-name        quora_di_bench \
   --data-dir          data \
   --dataset-name      beir_quora \
   --sparse-mode       splade \
   --token             12345678 \
-  --base-url          http://localhost:8080/api/v1 \
+  --base-url          http://localhost:8080/api/v2 \
   --space-type        cosine \
   --precision         float32 \
   --dimension         384 \
@@ -208,14 +350,14 @@ python -m src.delete_insert_automation \
   --cache-dir         model_cache \
   --output-file       quora_delete_insert_results.json
 
-# Scifact (5k) — full automation, splade sparse
-python -m src.delete_insert_automation \
+# Scifact — full automation, splade
+python3 -m src.delete_insert_automation \
   --index-name        scifact_di_bench \
   --data-dir          data \
   --dataset-name      beir_scifact \
   --sparse-mode       splade \
   --token             12345678 \
-  --base-url          http://localhost:8080/api/v1 \
+  --base-url          http://localhost:8080/api/v2 \
   --space-type        cosine \
   --precision         float32 \
   --dimension         384 \
@@ -225,372 +367,28 @@ python -m src.delete_insert_automation \
   --cache-dir         model_cache \
   --output-file       scifact_delete_insert_results.json
 
-# With ground-truth filter enabled (loads GT IDs from HuggingFace dataset)
-python -m src.delete_insert_automation \
+# With ground-truth filter enabled
+python3 -m src.delete_insert_automation \
   --index-name        quora_di_bench \
   --data-dir          data \
   --dataset-name      beir_quora \
   --sparse-mode       splade \
   --token             12345678 \
-  --base-url          http://localhost:8080/api/v1 \
+  --base-url          http://localhost:8080/api/v2 \
   --gt-corpus-ids \
   --validation-venv   validation-env \
   --cache-dir         model_cache \
   --output-file       quora_di_gt_results.json
 
-# Keep testcycle folders on disk (default: deleted after each combo)
-python -m src.delete_insert_automation \
+# Keep result folders on disk (default: deleted after each combo)
+python3 -m src.delete_insert_automation \
   --index-name        quora_di_bench \
   --data-dir          data \
   --dataset-name      beir_quora \
   --sparse-mode       splade \
   --token             12345678 \
-  --base-url          http://localhost:8080/api/v1 \
+  --base-url          http://localhost:8080/api/v2 \
   --validation-venv   validation-env \
   --cache-dir         model_cache \
   --keep-results \
   --output-file       quora_di_results.json
-
-
-# ============================================================
-# MILVUS
-# ============================================================
-pymilvus BM25 sparse embeddings 
-
-
-
-python -m src.main \
-  --db milvus \
-  --index-name scifact_milvus_builtin_bm25 \
-  --dataset-name beir_scifact \
-  --sparse-mode bm25 \
-  --milvus-sparse-mode builtin_bm25 \
-  --milvus-query-mode hybrid \
-  --milvus-uri http://148.113.58.83:19530 \
-  --hf-dataset-id BeIR/scifact \
-  --top-k 10 \
-  --results run1 \
-  --concurrency 8
-
-
-
-# embeddings
-python src/embedding_creation.py \
-  --dataset-id BeIR/msmarco \
-  --dense \
-  --sparse-mode splade
-
-# benchmark
-python -m src.main \
-  --db milvus \
-  --index-name msmarco_milvus_splade \
-  --dataset-name beir_msmarco \
-  --sparse-mode splade \
-  --milvus-sparse-mode splade \
-  --milvus-uri http://148.113.58.83:19530 \
-  --top-k 10 \
-  --results run1 \
-  --concurrency 16
-
-
-python src/embedding_creation.py \
-  --dataset-id BeIR/msmarco \
-  --dense \
-  --sparse-mode pymilvus_bm25
-
-python src/embedding_creation.py \
-  --dataset-id BeIR/quora \
-  --sparse-mode pymilvus_bm25
-
-embeddings (sparse only, dense already exists):
-python src/embedding_creation.py \
-  --dataset-id BeIR/scifact \
-  --sparse-mode pymilvus_bm25
-
-python -m src.main \
-  --db milvus \
-  --index-name scifact_milvus_pymilvus_bm25 \
-  --dataset-name beir_scifact \
-  --sparse-mode pymilvus_bm25 \
-  --milvus-sparse-mode pymilvus_bm25 \
-  --milvus-query-mode hybrid \
-  --milvus-uri http://148.113.58.83:19530 \
-  --top-k 10 \
-  --results run1 \
-  --concurrency 8
-
-
-python -m src.main \
-  --db milvus \
-  --index-name msmarco_milvus_pymilvus_bm25 \
-  --dataset-name beir_msmarco \
-  --sparse-mode pymilvus_bm25 \
-  --milvus-sparse-mode pymilvus_bm25 \
-  --milvus-query-mode hybrid \
-  --milvus-uri http://51.89.137.73:19530 \
-  --top-k 10 \
-  --results run1 \
-  --concurrency 8
-
-http://51.89.137.73:19530/
-
-
-# Full run — index + query + validate
-python -m src.main \
-  --db endee \
-  --index-name scifact_bench \
-  --dataset-name beir_scifact \
-  --results run1 \
-  --concurrency 16 \
-  --top-k 10 \
-  --vector-token mytoken \
-  --base-url http://148.113.54.173:8080/api/v1 \
-  --sparse-mode pymilvus_bm25 \
-  --sparse-scoring-model endee_bm25 \
-  --validation-venv validation-env \
-  --cache-dir model_cache
-
-
-  python -m src.main \
-  --db endee \
-  --index-name beir_quora_float32 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float32_t30 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1
-
-
-python -m src.main \
-  --db endee \
-  --index-name beir_quora_float32 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float32_t30_try1 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1 \
-  --skip-indexing
-
-python -m src.main \
-  --db endee \
-  --index-name beir_quora_int8 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --precision int8 \
-  --results beir_quora_int8_t30_qrel1 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_float32 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float32_t30_qrel1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --skip-indexing
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_float16 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float16_t30 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --datatype float16
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_float32_2 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float32_t30_qrel_re5 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --prefer-grpc \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_float16_4 \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_float16_t30_qrel2 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --datatype float16 \
-  --prefer-grpc \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_int8_sq \
-  --dataset-name beir_quora \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_quora_int8_t30_sq_today1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --datatype int8 \
-  --prefer-grpc \
-  --skip-indexing
-
-
-python -m src.main \
-  --db endee \
-  --index-name beir_quora_splade_float32 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_float32_t30 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1
-
-python -m src.main \
-  --db endee \
-  --index-name beir_quora_splade_int16 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_int16_t30 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1 \
-  --precision int16 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db endee \
-  --index-name beir_quora_splade_int8 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_int8_t30_today1 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1 \
-  --precision int8 \
-  --cache-dir model_cache \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_splade_float32 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_float32_t30_today1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --prefer-grpc \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_splade_float16 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_float16_t30_todayres1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --prefer-grpc \
-  --datatype float16 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_quora_splade_int8 \
-  --dataset-name beir_quora \
-  --sparse-mode splade \
-  --top-k 30 \
-  --results beir_quora_splade_int8_t30_todayres1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --prefer-grpc \
-  --datatype int8 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db endee \
-  --index-name beir_msmarco_float32 \
-  --dataset-name beir_msmarco \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_msmarco_float32 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1
-
-
-python -m src.main \
-  --db endee \
-  --index-name beir_msmarco_int8 \
-  --dataset-name beir_msmarco \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_msmarco_int8 \
-  --concurrency 16 \
-  --base-url http://148.113.58.83:8080/api/v1 \
-  --precision int8 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db qdrant \
-  --index-name beir_msmarco_int8 \
-  --dataset-name beir_msmarco \
-  --sparse-mode pymilvus_bm25 \
-  --top-k 30 \
-  --results beir_msmarco_int8_t30_today1 \
-  --concurrency 16 \
-  --host 148.113.58.83 \
-  --prefer-grpc \
-  --datatype int8 \
-  --skip-indexing
-
-
-python -m src.main \
-  --db endee \
-  --index-name quora_bench \
-  --dataset-name beir_quora \
-  --results run1 \
-  --concurrency 16 \
-  --top-k 10 \
-  --vector-token mydb:dTbELLZEWfLJ5XLAQFFj5lDstfP5IOIU \
-  --base-url http://localhost:8080/api/v2 \
-  --sparse-mode endee_bm25 \
-  --sparse-scoring-model endee_bm25 \
-  --validation-venv validation-env
-
-
-
-python -m src.main \
-  --db endee \
-  --index-name quora_bench_endeebm25 \
-  --dataset-name beir_quora \
-  --results quora_bench_endeebm25run1 \
-  --concurrency 16 \
-  --top-k 10 \
-  --vector-token mydb:dTbELLZEWfLJ5XLAQFFj5lDstfP5IOIU \
-  --base-url http://localhost:8080/api/v2 \
-  --sparse-mode endee_bm25 \
-  --sparse-scoring-model endee_bm25 \
-  --skip-indexing \
-  --validation-venv validation-env

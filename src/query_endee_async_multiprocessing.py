@@ -9,7 +9,7 @@ from multiprocessing import Pool
 from typing import Dict, List, Tuple, Any
 
 import numpy as np
-from endee import Endee
+from endee import Endee, rerank
 
 logging.basicConfig(
     level=logging.INFO,
@@ -125,16 +125,15 @@ def process_query_batch(batch_data: Tuple) -> Dict[str, Any]:
         try:
             raw = collection.search(
                 fields={
-                    DENSE_FIELD:  query["dense_vector"],
-                    SPARSE_FIELD: {
+                    DENSE_FIELD:  {"query": query["dense_vector"], "limit": top_k},
+                    SPARSE_FIELD: {"query": {
                         "indices": query["sparse_vector"]["indices"],
                         "values":  query["sparse_vector"]["values"],
-                    },
+                    }, "limit": top_k},
                 },
-                limit=top_k,
-                reranker="rrf",
             )
-            search_results = raw.get("results") if raw else None
+            reranked = rerank(raw, name="rrf", limit=top_k) if raw else None
+            search_results = reranked.get("results") if reranked else None
             if search_results is None:
                 logger.error("Worker %d - Query %s returned None", worker_pid, query_id)
                 err = {"query_id": query_id, "latency_ms": 0, "worker_id": worker_pid, "batch_id": batch_id, "error": "None result"}
