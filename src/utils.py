@@ -27,6 +27,14 @@ def add_all_db_args(parser) -> None:
         cls.add_args(parser)
 
 
+def add_db_args(parser, db_name: str) -> None:
+    """Register argparse arguments for a single DB only."""
+    cls = DB_REGISTRY.get(db_name)
+    if cls is None:
+        raise ValueError(f"Unknown DB: '{db_name}'. Available: {list(DB_REGISTRY)}")
+    cls.add_args(parser)
+
+
 def build_db_config(db_name: str, args) -> dict:
     """Build the DB-specific config dict from parsed args."""
     cls = DB_REGISTRY.get(db_name)

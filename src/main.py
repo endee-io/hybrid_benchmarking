@@ -10,7 +10,7 @@ from datasets import load_dataset as hf_load_dataset
 from src.dataset_config import DATASET_CONFIG
 from src.indexing import index_from_npy
 from src.query import run_query
-from src.utils import create_db, DB_REGISTRY, add_all_db_args, build_db_config
+from src.utils import create_db, DB_REGISTRY, add_db_args, build_db_config
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -123,7 +123,9 @@ def main():
     parser.add_argument("--hf-dataset-id",   default=None,
                         help="HuggingFace dataset ID (e.g. BeIR/scifact). Required for Vespa native BM25 text modes.")
 
-    add_all_db_args(parser)
+    # Pre-parse --db so we only register that DB's flags (avoids cross-DB arg conflicts)
+    pre, _ = parser.parse_known_args()
+    add_db_args(parser, pre.db)
 
     args = parser.parse_args()
 

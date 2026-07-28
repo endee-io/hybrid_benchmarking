@@ -274,6 +274,9 @@ These flags apply to all DBs.
 | `--sparse-scoring-model` | No | `default` | Sparse scoring model used by the collection: `default` (pymilvus BM25) or `endee_bm25`. Only required for `endee_bm25` mode; all other modes use the default |
 | `--precision` | No | `float32` | Dense vector storage precision: `float32`, `float16`, `int16`, `int8`, `int8e`, `binary` |
 | `--query-mode` | No | `hybrid` | Query mode: `hybrid` (dense + sparse with RRF fusion) or `sparse` (sparse field only, no fusion) |
+| `--m` | No | `16` | HNSW M — number of bi-directional links per node; higher = better recall, more memory. Applied at collection creation |
+| `--ef-con` | No | `128` | HNSW ef_construction — candidate pool size during index build; higher = better index quality, slower indexing. Applied at collection creation |
+| `--ef-search` | No | `128` | HNSW ef_search — candidate pool size during query; higher = better recall, lower QPS. Applied at query time |
 
 > **Important:** The base URL must always include `/api/v2`. Example: `http://148.113.37.113:8080/api/v2`.
 

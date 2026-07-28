@@ -25,14 +25,21 @@ class EndeeDB(HybridDB):
         sparse_scoring_model: str = "default",
         precision: str = "float32",
         query_mode: str = "hybrid",
+        m: int = 16,
+        ef_con: int = 128,
+        ef_search: int = 128,
     ):
         self.vx = Endee(token=vector_token)
         self.vx.set_base_url(base_url)
         self.sparse_scoring_model = sparse_scoring_model
         self.precision = precision
         self.query_mode = query_mode
+        self.m = m
+        self.ef_con = ef_con
+        self.ef_search = ef_search
         self.collection = None
-        logger.info("EndeeDB connected to %s (query_mode=%s)", base_url, query_mode)
+        logger.info("EndeeDB connected to %s (query_mode=%s, M=%d, ef_con=%d, ef_search=%d)",
+                    base_url, query_mode, m, ef_con, ef_search)
 
     def init(
         self,
@@ -52,6 +59,8 @@ class EndeeDB(HybridDB):
                             "dimension": dimension,
                             "space_type": space_type,
                             "precision": self.precision,
+                            "M": self.m,
+                            "ef_con": self.ef_con,
                         },
                     },
                     {
@@ -110,14 +119,14 @@ class EndeeDB(HybridDB):
             sparse_query = {"indices": sparse_indices, "values": sparse_values}
             if self.query_mode == "sparse":
                 fields = {SPARSE_FIELD: {"query": sparse_query, "limit": top_k}}
-                raw = self.collection.search(fields=fields)
+                raw = self.collection.search(fields=fields, ef_search=self.ef_search)
                 hits = raw["results"][SPARSE_FIELD]
             else:
                 fields = {
                     DENSE_FIELD:  {"query": dense_vector,  "limit": top_k},
                     SPARSE_FIELD: {"query": sparse_query,  "limit": top_k},
                 }
-                raw = self.collection.search(fields=fields)
+                raw = self.collection.search(fields=fields, ef_search=self.ef_search)
                 hits = rerank(raw, name="rrf", limit=top_k)["results"]
             return [{"id": str(p["id"]), "score": p["similarity"]} for p in hits]
         except Exception as e:
@@ -145,6 +154,12 @@ class EndeeDB(HybridDB):
                        help="[Endee] Vector precision (default: float32)")
         g.add_argument("--query-mode",           default="hybrid", choices=["hybrid", "sparse"],
                        help="[Endee] Query mode: hybrid (dense+sparse) or sparse only (default: hybrid)")
+        g.add_argument("--m",                    type=int, default=16,
+                       help="[Endee] HNSW M — number of bi-directional links per node (default: 16)")
+        g.add_argument("--ef-con",               type=int, default=128,
+                       help="[Endee] HNSW ef_construction — candidates during index build (default: 128)")
+        g.add_argument("--ef-search",            type=int, default=128,
+                       help="[Endee] HNSW ef_search — candidates during query (default: 128)")
 
     @staticmethod
     def build_config(args) -> dict:
@@ -154,4 +169,7 @@ class EndeeDB(HybridDB):
             "sparse_scoring_model": args.sparse_scoring_model,
             "precision":            args.precision,
             "query_mode":           args.query_mode,
+            "m":                    args.m,
+            "ef_con":               args.ef_con,
+            "ef_search":            args.ef_search,
         }
