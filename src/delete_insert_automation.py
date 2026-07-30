@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.endee_delete_insert import EndeeDeleteInsert
 from endee import Endee
 
-DEV_PATH = "https://dev.endee.io/api/v1"
+DEV_PATH = "https://dev.endee.io/api/v2"
 DELETE_PERCENTAGES = [10, 20]
 DELETE_PICKS       = ["random", "begin", "end"]
 DELETE_ORDERS      = ["seq", "random"]
@@ -98,7 +98,7 @@ def _run_indexing(
 ) -> Dict[str, Any]:
     """Delete old index then run endee_indexing.py via subprocess to create + upload."""
     try:
-        vx.delete_index(index_name)
+        vx.delete_collection(index_name)
         print(f"  Deleted existing index '{index_name}'")
     except Exception:
         pass
