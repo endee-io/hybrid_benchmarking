@@ -18,8 +18,9 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 # ============================================================
 # CONFIGURATION
 # ============================================================
-BASE_URL         = "http://148.113.58.83:8080/api/v1"
-INDEX_NAME       = "beir_msmarco_splade_int8"
+BASE_URL         = "http://148.113.58.83:8080/api/v2"
+VECTOR_TOKEN     = "mytoken"
+COLLECTION_NAME  = "beir_msmarco_splade_int8"
 DATASET_NAME     = "beir_msmarco"
 SPARSE_MODE      = "splade"
 DATA_DIR         = "data"
@@ -48,7 +49,7 @@ OUTPUT_EXCEL = os.path.join(
 # ============================================================
 
 def results_label(concurrency: int, iteration: int) -> str:
-    return f"{INDEX_NAME}_c{concurrency}_it{iteration}"
+    return f"{COLLECTION_NAME}_c{concurrency}_it{iteration}"
 
 
 def results_dir(concurrency: int, iteration: int) -> str:
@@ -62,7 +63,8 @@ def run_once(concurrency: int, iteration: int) -> dict:
         "python3", "-m", "src.main",
         "--db", "endee",
         "--base-url", BASE_URL,
-        "--index-name", INDEX_NAME,
+        "--vector-token", VECTOR_TOKEN,
+        "--index-name", COLLECTION_NAME,
         "--dataset-name", DATASET_NAME,
         "--sparse-mode", SPARSE_MODE,
         "--data-dir", DATA_DIR,
@@ -169,7 +171,7 @@ def write_excel(rows: list, output_path: str):
 
     title_cell = ws.cell(
         row=current_row, column=1,
-        value=f"Endee Splade Benchmark — {INDEX_NAME} (best of {RUNS_PER_CONCURRENCY} runs, top-k={TOP_K})"
+        value=f"Endee Splade Benchmark — {COLLECTION_NAME} (best of {RUNS_PER_CONCURRENCY} runs, top-k={TOP_K})"
     )
     title_cell.font      = Font(bold=True, size=12)
     title_cell.alignment = left
@@ -231,7 +233,7 @@ def write_excel(rows: list, output_path: str):
 def main():
     print("=" * 60)
     print("Endee Splade Benchmark — MSMARCO Concurrency Sweep")
-    print(f"Index        : {INDEX_NAME}")
+    print(f"Collection: {COLLECTION_NAME}")
     print(f"Precision    : {PRECISION}")
     print(f"top-k        : {TOP_K}")
     print(f"Concurrency  : {CONCURRENCY_VALUES}")
