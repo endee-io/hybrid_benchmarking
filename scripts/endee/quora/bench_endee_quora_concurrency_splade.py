@@ -36,10 +36,11 @@ RUNS_PER_CONCURRENCY  = 3
 WAIT_BETWEEN_RUNS     = 20   # seconds
 WAIT_BETWEEN_CONFIGS  = 20   # seconds
 
-WORK_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../../.."))
 
 OUTPUT_EXCEL = os.path.join(
-    WORK_DIR,
+    SCRIPT_DIR,
     f"bench_endee_splade_concurrency_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
 )
 
@@ -54,7 +55,7 @@ def results_label(concurrency: int, iteration: int) -> str:
 
 def results_dir(concurrency: int, iteration: int) -> str:
     label = results_label(concurrency, iteration)
-    return os.path.join(WORK_DIR, "results", "endee", f"{label}_concurrency{concurrency}")
+    return os.path.join(PROJECT_ROOT, "results", "endee", f"{label}_concurrency{concurrency}")
 
 
 def run_once(concurrency: int, iteration: int) -> dict:
@@ -77,7 +78,7 @@ def run_once(concurrency: int, iteration: int) -> dict:
         "--skip-indexing",
     ]
 
-    proc = subprocess.run(cmd, text=True, cwd=WORK_DIR)
+    proc = subprocess.run(cmd, text=True, cwd=PROJECT_ROOT)
     if proc.returncode != 0:
         print(f"  [WARN] Command exited with code {proc.returncode}")
 
