@@ -19,7 +19,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 # CONFIGURATION
 # ============================================================
 BASE_URL         = "http://172.31.18.136:8080/api/v2"
-VECTOR_TOKEN     = "mytoken"
+VECTOR_TOKEN     = "hybriddb:CuJs9SE21Qadp148LRy4Wyd2jtBIEY54"
 COLLECTION_NAME  = "beir_msmarco_int16"
 DATASET_NAME     = "beir_msmarco"
 SPARSE_MODE      = "pymilvus_bm25"
