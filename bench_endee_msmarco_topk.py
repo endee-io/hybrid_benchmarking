@@ -18,20 +18,20 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 # ============================================================
 # CONFIGURATION
 # ============================================================
-BASE_URL         = "http://148.113.58.83:8080/api/v1"
-INDEX_NAME       = "beir_msmarco_int8"
+BASE_URL         = "http://172.31.18.136:8080/api/v1"
+INDEX_NAME       = "beir_msmarco_int16_4a63ccb"
 DATASET_NAME     = "beir_msmarco"
 SPARSE_MODE      = "pymilvus_bm25"
 DATA_DIR         = "data"
 CONCURRENCY      = 16
 CACHE_DIR        = "model_cache"
 VALIDATION_VENV  = "validation-env"
-PRECISION        = "int8"
+PRECISION        = "int16"
 DENSE_MODEL      = "sentence-transformers/all-MiniLM-L6-v2 (384 dim)"
 SPARSE_MODEL     = "PyMilvus BM25EmbeddingFunction"
 
 TOP_K_VALUES      = [10, 30, 60, 100, 500, 1000]
-RUNS_PER_TOP_K    = 3
+RUNS_PER_TOP_K    = 4
 WAIT_BETWEEN_RUNS = 20   # seconds
 WAIT_BETWEEN_TOPK = 20   # seconds
 
